@@ -18,7 +18,7 @@ public class LevelGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //CreateGrid();
+        CallCreateGrid(levelObject.transform);
     }
 
     // Update is called once per frame
@@ -26,6 +26,7 @@ public class LevelGrid : MonoBehaviour
     {
         
     }
+    
     private void CallCreateGrid(Transform transform) {
         int numChild = transform.childCount;
         if (numChild <= 0) {
