@@ -6,6 +6,15 @@ public class GridCell : MonoBehaviour
 {
     [SerializeField]
     private GameObject objectInThisGridSpace = null;
+
+    public GridCellPositionEnum PositionE {
+        get;
+        set;
+    }
+    public GridCellPosition Position {
+        get;
+        set;
+    }
     private bool IsOccupied {
         get;
         set;

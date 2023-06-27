@@ -36,8 +36,11 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Grid\GridCellPosition.cs" />
+     <Compile Include="Assets\Scripts\Grid\LevelGridScenePreview.cs" />
      <Compile Include="Assets\Scripts\Grid\LevelGrid.cs" />
      <Compile Include="Assets\Scripts\Grid\GridCell.cs" />
+     <Compile Include="Assets\Scripts\Grid\GridCellPositionEnum.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.15f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
