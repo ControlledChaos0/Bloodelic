@@ -4,5 +4,6 @@ public enum GridCellPositionEnum
     FRONT,
     BACK,
     RIGHT,
-    LEFT
+    LEFT,
+    ERROR
 }

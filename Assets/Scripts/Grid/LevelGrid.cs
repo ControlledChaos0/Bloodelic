@@ -60,7 +60,7 @@ public class LevelGrid : MonoBehaviour
             for (float y = cornerPos2.y; y <= cornerPos1.y; y += gridSpaceSize) {
                 Vector3 start = new Vector3(x, y, cornerPos2.z);
                 Vector3 end = new Vector3(x, y, cornerPos1.z);
-                Gizmos.color = new Color(0, 0, 1, 0.3f);
+                Gizmos.color = new Color(0, 0, 1, 0.5f);
                 Gizmos.DrawLine(start, end);
             }
         }
@@ -68,7 +68,7 @@ public class LevelGrid : MonoBehaviour
             for (float z = cornerPos2.z; z <= cornerPos1.z; z += gridSpaceSize) {
                 Vector3 start = new Vector3(x, cornerPos2.y, z);
                 Vector3 end = new Vector3(x, cornerPos1.y, z);
-                Gizmos.color = new Color(0, 1, 0, 0.3f);
+                Gizmos.color = new Color(0, 1, 0, 0.5f);
                 Gizmos.DrawLine(start, end);
             }
         }
@@ -76,7 +76,7 @@ public class LevelGrid : MonoBehaviour
             for (float z = cornerPos2.z; z <= cornerPos1.z; z += gridSpaceSize) {
                 Vector3 start = new Vector3(cornerPos2.x, y, z);
                 Vector3 end = new Vector3(cornerPos1.x, y, z);
-                Gizmos.color = new Color(1, 0, 0, 0.3f);
+                Gizmos.color = new Color(1, 0, 0, 0.5f);
                 Gizmos.DrawLine(start, end);
             }
         }
@@ -127,7 +127,7 @@ public class LevelGrid : MonoBehaviour
                 foreach (RaycastHit hit in hits)
                 {
                     Vector3 pos = hit.point;
-                    float yf = Mathf.Round(pos.y * 100f) / 100f;
+                    float yf = RoundToNearest(pos.y);
                     CreateGridCell(new Vector3(x + offset, yf, z + offset), Quaternion.identity, GridCellPositionEnum.BOTTOM);
                 }
             }
@@ -144,7 +144,7 @@ public class LevelGrid : MonoBehaviour
                 foreach (RaycastHit hit in hits)
                 {
                     Vector3 pos = hit.point;
-                    float zf = Mathf.Round(pos.z * 100f) / 100f;
+                    float zf = RoundToNearest(pos.z);
                     CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, 0), GridCellPositionEnum.FRONT);
                 }
             }
@@ -161,7 +161,7 @@ public class LevelGrid : MonoBehaviour
                 foreach (RaycastHit hit in hits)
                 {
                     Vector3 pos = hit.point;
-                    float zf = Mathf.Round(pos.z * 100f) / 100f;
+                    float zf = RoundToNearest(pos.z);
                     CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, -180), GridCellPositionEnum.BACK);
                 }
             }
@@ -178,7 +178,7 @@ public class LevelGrid : MonoBehaviour
                 foreach (RaycastHit hit in hits)
                 {
                     Vector3 pos = hit.point;
-                    float xf = Mathf.Round(pos.x * 100f) / 100f;
+                    float xf = RoundToNearest(pos.x);
                     CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, 90), GridCellPositionEnum.RIGHT);
                 }
             }
@@ -198,7 +198,7 @@ public class LevelGrid : MonoBehaviour
                         Debug.Log(hit.collider.gameObject.name);
                     }
                     Vector3 pos = hit.point;
-                    float xf = Mathf.Round(pos.x * 100f) / 100f;
+                    float xf = RoundToNearest(pos.x);
                     CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, -90), GridCellPositionEnum.LEFT);
                 }
             }
@@ -236,8 +236,23 @@ public class LevelGrid : MonoBehaviour
         // = Color.blue;
     }
 
+    private void ConnectGraph(GridCell gridCell) {
+        Vector3 position = gridCell.Position.Position;
+        Quaternion rotation = gridCell.gameObject.transform.rotation;
+        Vector3 rotVec = rotation * Vector3.forward;
+
+        Collider[] colliders = Physics.OverlapSphere(position, gridSpaceSize, 1 << 3);
+        foreach (Collider collider in colliders) {
+            if (collider.Equals(gridCell.Collider)) {
+                continue;
+            }
+        }
+
+    }
+
     private void CheckBottomGraph(GridCell gridCell) {
         Vector3 position = gridCell.Position.Position;
+        Quaternion rotation = gridCell.gameObject.transform.rotation;
         // Vector3 topEdge = new Vector3(position.x, position.y, position.z + gridSpaceSize);
         // Vector3 bottomEdge = position;
         // Vector3 leftEdge = position;
@@ -262,5 +277,11 @@ public class LevelGrid : MonoBehaviour
         GridCell temp = gridCellExistence[gridCellPosition];
         grid[temp].Add(gridCell);
         grid[gridCell].Add(temp);
+    }
+
+    private float RoundToNearest(float num) {
+        float numRound = Mathf.Round(num * 100f) / 100f;
+        float r = numRound % gridSpaceSize;
+        return r >= gridSpaceSize / 2.0f ? (numRound - r) + gridSpaceSize : numRound - r;
     }
 }
