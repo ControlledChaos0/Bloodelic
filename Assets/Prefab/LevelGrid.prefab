@@ -82,7 +82,7 @@ MonoBehaviour:
   corner2: {fileID: 6067195433143577395}
   gridSpaceSize: 1
   levelObject: {fileID: 0}
-  gridCellPrefab: {fileID: 3429167134508496756, guid: a6f60f04b7d74634782672f26c305fa1, type: 3}
+  gridCellPrefab: {fileID: 3429167134508496756, guid: 3948ccc271c5edc4a93add339f506091, type: 3}
 --- !u!114 &6067195432784082372
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 //[ExecuteInEditMode]
 public class LevelGrid : MonoBehaviour
@@ -21,6 +22,8 @@ public class LevelGrid : MonoBehaviour
 
     private Dictionary<GridCellPosition, GridCell> gridCellExistence;
     private Dictionary<GridCell, List<GridCell>> grid;
+
+    private GridCell testGridCell;
     
 
     // Start is called before the first frame update
@@ -31,18 +34,14 @@ public class LevelGrid : MonoBehaviour
         grid = new Dictionary<GridCell, List<GridCell>>();
 
         CallCreateGrid(levelObject.transform);
+        ConnectGridCells();
+        TurnAllWhite(testGridCell);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 cornerTemp1 = corner1.transform.position;
-        Vector3 cornerTemp2 = corner2.transform.position;
-
-        Vector3 cornerPos1 = new Vector3(Mathf.Min(cornerTemp1.x, cornerTemp2.x), Mathf.Min(cornerTemp1.y, cornerTemp2.y), Mathf.Min(cornerTemp1.z, cornerTemp2.z));
-        Vector3 cornerPos2 = new Vector3(Mathf.Max(cornerTemp1.x, cornerTemp2.x), Mathf.Max(cornerTemp1.y, cornerTemp2.y), Mathf.Max(cornerTemp1.z, cornerTemp2.z));
-        //DrawGridOutline();
-        Debug.DrawRay(new Vector3(cornerPos2.x, cornerPos1.y + (gridSpaceSize / 2.0f), cornerPos1.z + (gridSpaceSize / 2.0f)), Vector3.right);
+        
     }
 
     private void OnDrawGizmosSelected() {
@@ -92,13 +91,6 @@ public class LevelGrid : MonoBehaviour
             Debug.LogError("ERROR: Null Grid Cell Prefab");
             return;
         }
-
-
-        // for (int i = 0; i < numChild; i++) {
-        //     Transform childTransform = transform.GetChild(i);
-        //     MeshRenderer meshRend = childTransform.gameObject.GetComponent<MeshRenderer>();
-        //     CreateGrid(childTransform, meshRend);
-        // }
 
         CreateGrid();
     }
@@ -195,7 +187,7 @@ public class LevelGrid : MonoBehaviour
                 foreach (RaycastHit hit in hits)
                 {
                     if (hits.Length == 2) {
-                        Debug.Log(hit.collider.gameObject.name);
+                        //Debug.Log(hit.collider.gameObject.name);
                     }
                     Vector3 pos = hit.point;
                     float xf = RoundToNearest(pos.x);
@@ -208,6 +200,7 @@ public class LevelGrid : MonoBehaviour
     private void CreateGridCell(Vector3 pos, Quaternion rot, GridCellPositionEnum posE) {
         GameObject temp = Instantiate(gridCellPrefab, pos, rot);
         temp.transform.parent = gameObject.transform;
+        temp.name = $"GridCell; Position: {pos.x}, {pos.y}, {pos.z}; Enum: {posE.ToString()}";
         GridCell gridCell = temp.GetComponent<GridCell>();
         gridCell.Position = new GridCellPosition(pos, posE);
         gridCell.PositionE = posE;
@@ -236,41 +229,105 @@ public class LevelGrid : MonoBehaviour
         // = Color.blue;
     }
 
+    private void ConnectGridCells() {
+        GridCell[] allGridCells = grid.Keys.ToArray();
+        Debug.Log(allGridCells.Length);
+        testGridCell = allGridCells[0];
+        foreach (GridCell gridCell in allGridCells) {
+            ConnectGraph(gridCell);
+        }
+    }
+
     private void ConnectGraph(GridCell gridCell) {
+        bool testing = false;
+        if (gridCell.Equals(testGridCell)) {
+            testing = true;
+        }
+
+
+
         Vector3 position = gridCell.Position.Position;
+        if (testing) {
+            Debug.Log(position);
+        }
         Quaternion rotation = gridCell.gameObject.transform.rotation;
+        Quaternion invertRot = Quaternion.Inverse(rotation);
         Vector3 rotVec = rotation * Vector3.forward;
 
+        List<GridCell> gridCellConnections = new List<GridCell>(4);
+        Dictionary<GridCell, float> distanceChart = new Dictionary<GridCell, float>();
+
         Collider[] colliders = Physics.OverlapSphere(position, gridSpaceSize, 1 << 3);
+        if (testing) {
+            Debug.Log($"Collider Length: {colliders.Length}");
+        }
         foreach (Collider collider in colliders) {
+            if (testing) {
+                Debug.Log(collider.gameObject.name);
+            }
             if (collider.Equals(gridCell.Collider)) {
                 continue;
             }
+            GridCell otherGridCell = collider.gameObject.GetComponent<GridCell>();
+            Vector3 dirToCol = collider.gameObject.transform.position - position;
+            if (testing) {
+                Debug.Log(collider.gameObject.transform.position);
+            }
+            Vector3 correctDir = invertRot * dirToCol;
+            int edgeNum = -1;
+            if ((correctDir.x != 0 && correctDir.z != 0) || (correctDir.x == 0 && correctDir.z == 0)) {
+                continue;
+            }
+            if (correctDir.z > 0) {
+                edgeNum = 0;
+            } else if (correctDir.z < 0) {
+                edgeNum = 1;
+            } else if (correctDir.x < 0) {
+                edgeNum = 2;
+            } else if (correctDir.x > 0) {
+                edgeNum = 3;
+            } 
+
+            if (testing) {
+                if (edgeNum == -1) {
+                    Debug.Log("BRUH");
+                }
+                Debug.Log($"Enum: {(int)gridCell.PositionE}; EdgeNum: {edgeNum}; Y: {correctDir.y}");
+            }
+
+            GridCellPositionEnum corPosition;
+            if (correctDir.y == 0) {
+                corPosition = ConstantValues.PositionArray[(int)gridCell.PositionE, edgeNum, 0];
+            } else if (correctDir.y > 0) {
+                corPosition = ConstantValues.PositionArray[(int)gridCell.PositionE, edgeNum, 1];
+            } else {
+                corPosition = ConstantValues.PositionArray[(int)gridCell.PositionE, edgeNum, 2];
+            }
+            
+            if (gridCellConnections[edgeNum] == null || distanceChart[gridCellConnections[edgeNum]] > dirToCol.magnitude) {
+                gridCellConnections[edgeNum] = otherGridCell;
+            } else {
+                continue;
+            }
+
+            if (otherGridCell.PositionE != corPosition) {
+                gridCellConnections[edgeNum] = null;
+            } else {
+                distanceChart.Add(otherGridCell, dirToCol.magnitude);
+            }
         }
 
-    }
-
-    private void CheckBottomGraph(GridCell gridCell) {
-        Vector3 position = gridCell.Position.Position;
-        Quaternion rotation = gridCell.gameObject.transform.rotation;
-        // Vector3 topEdge = new Vector3(position.x, position.y, position.z + gridSpaceSize);
-        // Vector3 bottomEdge = position;
-        // Vector3 leftEdge = position;
-        // Vector3 rightEdge = new Vector3(position.x + gridSpaceSize, position.y, position.z);
-
-        // GridCellPosition bottomPos = new GridCellPosition(new Vector3(topEdge.x, topEdge.y, topEdge.z + gridSpaceSize), GridCellPositionEnum.BOTTOM);
-        // GridCellPosition frontPos = new GridCellPosition(topEdge, GridCellPositionEnum.FRONT);
-        // GridCellPosition backPos = new GridCellPosition(new Vector3(topEdge.x, topEdge.y - gridSpaceSize, topEdge.z), GridCellPositionEnum.BACK);
-        
-        // //TopEdge
-        // if (gridCellExistence.ContainsKey(bottomPos)) {
-        //     AddToGraph(gridCell, bottomPos);
-        // } else if (gridCellExistence.ContainsKey(frontPos)) {
-        //     AddToGraph(gridCell, frontPos);
-        // } else if (gridCellExistence.ContainsKey(backPos)) {
-        //     AddToGraph(gridCell, backPos);
-        // }
-        //BottomEdge
+        bool isEmpty = true;
+        foreach(GridCell otherGridCell in gridCellConnections) {
+            if (otherGridCell == null) {
+                continue;
+            }
+            isEmpty = false;
+            grid[gridCell].Add(otherGridCell);
+        }
+        if (isEmpty) {
+            //Destroy(gridCell.gameObject);
+        }
     }
 
     private void AddToGraph(GridCell gridCell, GridCellPosition gridCellPosition) {
@@ -283,5 +340,14 @@ public class LevelGrid : MonoBehaviour
         float numRound = Mathf.Round(num * 100f) / 100f;
         float r = numRound % gridSpaceSize;
         return r >= gridSpaceSize / 2.0f ? (numRound - r) + gridSpaceSize : numRound - r;
+    }
+
+    //TEST METHODS
+    private void TurnAllWhite(GridCell gridCell) {
+        gridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+        List<GridCell> list = grid[gridCell];
+        foreach (GridCell connectedGridCell in list) {
+            TurnAllWhite(connectedGridCell);
+        }
     }
 }

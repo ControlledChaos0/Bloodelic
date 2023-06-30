@@ -1471,10 +1471,6 @@ PrefabInstance:
       propertyPath: levelObject
       value: 
       objectReference: {fileID: 842543464}
-    - target: {fileID: 6067195432784082378, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
-      propertyPath: gridSpaceSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6067195432784082379, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_Name
       value: LevelGrid
