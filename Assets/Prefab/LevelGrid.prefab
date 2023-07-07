@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6067195432784082373}
   - component: {fileID: 6067195432784082378}
-  - component: {fileID: 6067195432784082372}
   m_Layer: 3
   m_Name: LevelGrid
   m_TagString: Untagged
@@ -82,19 +81,7 @@ MonoBehaviour:
   corner2: {fileID: 6067195433143577395}
   gridSpaceSize: 1
   levelObject: {fileID: 0}
-  gridCellPrefab: {fileID: 3429167134508496756, guid: 3948ccc271c5edc4a93add339f506091, type: 3}
---- !u!114 &6067195432784082372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6067195432784082379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c07f9e1a8f1a90408ccb03a9af43c90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  gridCellPrefab: {fileID: 3429167134508496756, guid: a6f60f04b7d74634782672f26c305fa1, type: 3}
 --- !u!1 &6067195433143577395
 GameObject:
   m_ObjectHideFlags: 0

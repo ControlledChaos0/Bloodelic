@@ -29,13 +29,12 @@ public class LevelGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //DrawGridOutline();
         gridCellExistence = new Dictionary<GridCellPosition, GridCell>();
         grid = new Dictionary<GridCell, List<GridCell>>();
 
         CallCreateGrid(levelObject.transform);
         ConnectGridCells();
-        TurnAllWhite(testGridCell);
+        //TurnAllWhite(testGridCell);
     }
 
     // Update is called once per frame
@@ -120,7 +119,10 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float yf = RoundToNearest(pos.y);
-                    CreateGridCell(new Vector3(x + offset, yf, z + offset), Quaternion.identity, GridCellPositionEnum.BOTTOM);
+                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, yf - offset, z + offset), Vector3.up), gridSpaceSize);
+                    if (!check) {
+                        CreateGridCell(new Vector3(x + offset, yf, z + offset), Quaternion.identity, GridCellPositionEnum.BOTTOM);
+                    }
                 }
             }
         }
@@ -137,7 +139,10 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float zf = RoundToNearest(pos.z);
-                    CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, 0), GridCellPositionEnum.FRONT);
+                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, y + offset, zf + offset), Vector3.back), gridSpaceSize);
+                    if (!check) {
+                        CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, 0), GridCellPositionEnum.FRONT);
+                    }
                 }
             }
         }
@@ -154,7 +159,10 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float zf = RoundToNearest(pos.z);
-                    CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, -180), GridCellPositionEnum.BACK);
+                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, y + offset, zf - offset), Vector3.forward), gridSpaceSize);
+                    if (!check) {
+                        CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, 180), GridCellPositionEnum.BACK);
+                    }
                 }
             }
         }
@@ -171,7 +179,10 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float xf = RoundToNearest(pos.x);
-                    CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, 90), GridCellPositionEnum.RIGHT);
+                    bool check = Physics.Raycast(new Ray(new Vector3(xf + offset, y + offset, z + offset), Vector3.left), gridSpaceSize);
+                    if (!check) {
+                        CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, 90), GridCellPositionEnum.RIGHT);
+                    }
                 }
             }
         }
@@ -191,7 +202,10 @@ public class LevelGrid : MonoBehaviour
                     }
                     Vector3 pos = hit.point;
                     float xf = RoundToNearest(pos.x);
-                    CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, -90), GridCellPositionEnum.LEFT);
+                    bool check = Physics.Raycast(new Ray(new Vector3(xf - offset, y + offset, z + offset), Vector3.right), gridSpaceSize);
+                    if (!check) {
+                        CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, -90), GridCellPositionEnum.LEFT);
+                    }
                 }
             }
         }
@@ -232,8 +246,10 @@ public class LevelGrid : MonoBehaviour
     private void ConnectGridCells() {
         GridCell[] allGridCells = grid.Keys.ToArray();
         Debug.Log(allGridCells.Length);
-        testGridCell = allGridCells[0];
         foreach (GridCell gridCell in allGridCells) {
+            if (gridCell.gameObject.name == "GridCell; Position: 0.5, 1, -1.5; Enum: BOTTOM") {
+                testGridCell = gridCell;
+            }
             ConnectGraph(gridCell);
         }
     }
@@ -248,21 +264,23 @@ public class LevelGrid : MonoBehaviour
 
         Vector3 position = gridCell.Position.Position;
         if (testing) {
-            Debug.Log(position);
+             Debug.Log($"TEST GRID CELL: {gridCell.gameObject.name}");
         }
         Quaternion rotation = gridCell.gameObject.transform.rotation;
         Quaternion invertRot = Quaternion.Inverse(rotation);
         Vector3 rotVec = rotation * Vector3.forward;
 
-        List<GridCell> gridCellConnections = new List<GridCell>(4);
+        //2D array: Second num is edge, First num is whether they line up with the enum or not
+        GridCell[,] gridCellConnections = new GridCell[2,4];
         Dictionary<GridCell, float> distanceChart = new Dictionary<GridCell, float>();
 
         Collider[] colliders = Physics.OverlapSphere(position, gridSpaceSize, 1 << 3);
-        if (testing) {
-            Debug.Log($"Collider Length: {colliders.Length}");
-        }
+        // if (testing) {
+        //     Debug.Log($"Collider Length: {colliders.Length}");
+        // }
         foreach (Collider collider in colliders) {
             if (testing) {
+                Debug.Log("-------------------------------------------------");
                 Debug.Log(collider.gameObject.name);
             }
             if (collider.Equals(gridCell.Collider)) {
@@ -271,20 +289,30 @@ public class LevelGrid : MonoBehaviour
             GridCell otherGridCell = collider.gameObject.GetComponent<GridCell>();
             Vector3 dirToCol = collider.gameObject.transform.position - position;
             if (testing) {
-                Debug.Log(collider.gameObject.transform.position);
+                Debug.Log($"Position: {collider.gameObject.transform.position}");
             }
             Vector3 correctDir = invertRot * dirToCol;
+            float roundX = Mathf.Round(correctDir.x * 100f) / 100f;
+            float roundY = Mathf.Round(correctDir.y * 100f) / 100f;
+            float roundZ = Mathf.Round(correctDir.z * 100f) / 100f;
+            if (testing) {
+                //Debug.Log($"Corrected Position: {correctDir}");
+                Debug.Log($"Double Check: x,{correctDir.x}; y,{correctDir.y}; z,{correctDir.z}");
+            }
             int edgeNum = -1;
-            if ((correctDir.x != 0 && correctDir.z != 0) || (correctDir.x == 0 && correctDir.z == 0)) {
+            if ((roundX != 0 && roundZ != 0) || (roundX == 0 && roundZ == 0)) {
+                if (testing) {
+                    Debug.Log("Skipping!");
+                }
                 continue;
             }
-            if (correctDir.z > 0) {
+            if (roundZ > 0) {
                 edgeNum = 0;
-            } else if (correctDir.z < 0) {
+            } else if (roundZ < 0) {
                 edgeNum = 1;
-            } else if (correctDir.x < 0) {
+            } else if (roundX < 0) {
                 edgeNum = 2;
-            } else if (correctDir.x > 0) {
+            } else if (roundX > 0) {
                 edgeNum = 3;
             } 
 
@@ -292,41 +320,87 @@ public class LevelGrid : MonoBehaviour
                 if (edgeNum == -1) {
                     Debug.Log("BRUH");
                 }
-                Debug.Log($"Enum: {(int)gridCell.PositionE}; EdgeNum: {edgeNum}; Y: {correctDir.y}");
+                //Debug.Log($"Enum: {(int)gridCell.PositionE}; EdgeNum: {edgeNum}; Y: {correctDir.y}");
             }
 
             GridCellPositionEnum corPosition;
-            if (correctDir.y == 0) {
-                corPosition = ConstantValues.PositionArray[(int)gridCell.PositionE, edgeNum, 0];
-            } else if (correctDir.y > 0) {
-                corPosition = ConstantValues.PositionArray[(int)gridCell.PositionE, edgeNum, 1];
+            if (roundY == 0) {
+                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.PositionE), edgeNum, 0);
+            } else if (roundY > 0) {
+                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.PositionE), edgeNum, 1);
             } else {
-                corPosition = ConstantValues.PositionArray[(int)gridCell.PositionE, edgeNum, 2];
+                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.PositionE), edgeNum, 2);
             }
             
-            if (gridCellConnections[edgeNum] == null || distanceChart[gridCellConnections[edgeNum]] > dirToCol.magnitude) {
-                gridCellConnections[edgeNum] = otherGridCell;
+            if (gridCellConnections[1,edgeNum] == null) {
+                if (testing) {
+                    Debug.Log($"EDGE {edgeNum} CONNECTED");
+                }
+                gridCellConnections[0,edgeNum] = otherGridCell;
+                gridCellConnections[1,edgeNum] = otherGridCell;
+            } else if (distanceChart.Count != 0 && distanceChart[gridCellConnections[1,edgeNum]] > dirToCol.magnitude) {
+                if (testing) {
+                    Debug.Log($"EDGE {edgeNum} CONNECTED");
+                }
+                gridCellConnections[0,edgeNum] = otherGridCell;
+                gridCellConnections[1,edgeNum] = otherGridCell;
+            } else if (distanceChart.Count != 0 && distanceChart[gridCellConnections[1,edgeNum]] == dirToCol.magnitude && !gridCellConnections[1,edgeNum].Equals(gridCellConnections[0,edgeNum])) {
+                if (testing) {
+                    Debug.Log($"EDGE {edgeNum} CONNECTED");
+                }
+                gridCellConnections[0,edgeNum] = otherGridCell;
+                gridCellConnections[1,edgeNum] = otherGridCell;
             } else {
                 continue;
             }
-
+            
+            distanceChart.Add(otherGridCell, dirToCol.magnitude);
+            if (testing) {
+                    Debug.Log($"Magnitude: {dirToCol.magnitude}");
+                }
             if (otherGridCell.PositionE != corPosition) {
-                gridCellConnections[edgeNum] = null;
-            } else {
-                distanceChart.Add(otherGridCell, dirToCol.magnitude);
+                if (testing) {
+                    Debug.Log("SIKE");
+                }
+                gridCellConnections[0,edgeNum] = null;
             }
         }
 
         bool isEmpty = true;
-        foreach(GridCell otherGridCell in gridCellConnections) {
-            if (otherGridCell == null) {
+        bool destroyed = false;
+        for(int x = 0; x < 4; x++) {
+            if (gridCellConnections[0,x] == null) {
+                if (gridCellConnections[1,x] != null) {
+                    if (testing) {
+                        Debug.Log("DESTROYED 1");
+                    }
+                    //Destroy(gridCell.gameObject);
+                    destroyed = true;
+                }
+                continue;
+            }
+            if (gridCellConnections[1,x] != null && !gridCellConnections[1,x].Equals(gridCellConnections[0,x])) {
+                if (testing) {
+                    Debug.Log("DESTROYED 2");
+                }
+                //Destroy(gridCell.gameObject);
+                destroyed = true;
                 continue;
             }
             isEmpty = false;
-            grid[gridCell].Add(otherGridCell);
+            grid[gridCell].Add(gridCellConnections[0,x]);
+            
         }
         if (isEmpty) {
+            if (testing) {
+                Debug.Log("DESTROYED 3");
+            }
             //Destroy(gridCell.gameObject);
+            destroyed = true;
+        }
+        if (destroyed) {
+            //grid.Remove(gridCell);
+            //Debug.Log("wait wtf this actually runs?");
         }
     }
 
@@ -347,7 +421,9 @@ public class LevelGrid : MonoBehaviour
         gridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
         List<GridCell> list = grid[gridCell];
         foreach (GridCell connectedGridCell in list) {
-            TurnAllWhite(connectedGridCell);
+            if (!connectedGridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.Equals(Color.blue)) {
+                TurnAllWhite(connectedGridCell);
+            }
         }
     }
 }

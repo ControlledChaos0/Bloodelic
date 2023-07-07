@@ -17,35 +17,34 @@ public static class ConstantValues
     Right edge      "           RIGHT       LEFT
     **/
     private static GridCellPositionEnum[,,] _positionArray = new GridCellPositionEnum[5, 4, 3]
-                                    //BOTTOM
+                                    
                                     {{{GridCellPositionEnum.BOTTOM, GridCellPositionEnum.FRONT, GridCellPositionEnum.BACK},
                                     {GridCellPositionEnum.BOTTOM, GridCellPositionEnum.BACK, GridCellPositionEnum.FRONT},
                                     {GridCellPositionEnum.BOTTOM, GridCellPositionEnum.LEFT, GridCellPositionEnum.RIGHT},
                                     {GridCellPositionEnum.BOTTOM, GridCellPositionEnum.RIGHT, GridCellPositionEnum.LEFT}},
-                                    //FRONT
+                                    
                                     {{GridCellPositionEnum.FRONT, GridCellPositionEnum.ERROR, GridCellPositionEnum.BOTTOM},
                                     {GridCellPositionEnum.FRONT, GridCellPositionEnum.BOTTOM, GridCellPositionEnum.ERROR},
                                     {GridCellPositionEnum.FRONT, GridCellPositionEnum.LEFT, GridCellPositionEnum.RIGHT},
                                     {GridCellPositionEnum.FRONT, GridCellPositionEnum.RIGHT, GridCellPositionEnum.LEFT}},
-                                    //BACK
+                                    
                                     {{GridCellPositionEnum.BACK, GridCellPositionEnum.ERROR, GridCellPositionEnum.BOTTOM},
                                     {GridCellPositionEnum.BACK, GridCellPositionEnum.BOTTOM, GridCellPositionEnum.ERROR},
                                     {GridCellPositionEnum.BACK, GridCellPositionEnum.RIGHT, GridCellPositionEnum.LEFT},
                                     {GridCellPositionEnum.BACK, GridCellPositionEnum.LEFT, GridCellPositionEnum.RIGHT}},
-                                    //RIGHT
+                                    
                                     {{GridCellPositionEnum.RIGHT, GridCellPositionEnum.ERROR, GridCellPositionEnum.BOTTOM},
                                     {GridCellPositionEnum.RIGHT, GridCellPositionEnum.BOTTOM, GridCellPositionEnum.ERROR},
                                     {GridCellPositionEnum.RIGHT, GridCellPositionEnum.FRONT, GridCellPositionEnum.BACK},
                                     {GridCellPositionEnum.RIGHT, GridCellPositionEnum.BACK, GridCellPositionEnum.FRONT}},
-                                    //LEFT
+                                    
                                     {{GridCellPositionEnum.LEFT, GridCellPositionEnum.ERROR, GridCellPositionEnum.BOTTOM},
                                     {GridCellPositionEnum.LEFT, GridCellPositionEnum.BOTTOM, GridCellPositionEnum.ERROR},
                                     {GridCellPositionEnum.LEFT, GridCellPositionEnum.BACK, GridCellPositionEnum.FRONT},
                                     {GridCellPositionEnum.LEFT, GridCellPositionEnum.FRONT, GridCellPositionEnum.BACK}},
                                     };
 
-    public static GridCellPositionEnum[,,] PositionArray {
-        get;
-        private set;
+    public static GridCellPositionEnum GetPositionalArray(int enumValue, int edge, int dir) {
+        return _positionArray[enumValue, edge, dir];
     }
 }
