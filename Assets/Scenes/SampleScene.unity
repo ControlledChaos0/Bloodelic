@@ -683,7 +683,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821881443}
   m_Layer: 0
-  m_Name: Follow
+  m_Name: LookAt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1077,6 +1077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001644256}
   - component: {fileID: 1001644257}
+  - component: {fileID: 1001644258}
   m_Layer: 0
   m_Name: InputController
   m_TagString: Untagged
@@ -1092,7 +1093,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1001644255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.438703, y: -29.184673, z: 17.734102}
+  m_LocalPosition: {x: 0, y: -7.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1126,9 +1127,23 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: e615be76-9535-4030-8dab-223ecdaf9fb4
+  m_DefaultActionMap: MainControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1001644258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001644255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15a1abd09017544cb0637f58a6686a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: 4281d62d3fd671a408d198adac8dba7f, type: 3}
+  cameraController: {fileID: 0}
 --- !u!1 &1007798014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1641,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1789751622}
   - component: {fileID: 1789751621}
-  - component: {fileID: 1789751620}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -1634,22 +1648,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1789751620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1789751619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerIndex: -1
-  AutoEnableInputs: 1
-  XYAxis: {fileID: -5630151704836100654, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  ZAxis: {fileID: 0}
 --- !u!114 &1789751621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1856,6 +1854,10 @@ PrefabInstance:
       propertyPath: levelObject
       value: 
       objectReference: {fileID: 842543464}
+    - target: {fileID: 6067195432784082378, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
+      propertyPath: gridCellPrefab
+      value: 
+      objectReference: {fileID: 3429167134508496756, guid: 3948ccc271c5edc4a93add339f506091, type: 3}
     - target: {fileID: 6067195432784082379, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_Name
       value: LevelGrid

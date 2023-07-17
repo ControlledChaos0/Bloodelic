@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraMovement : MonoBehaviour
+public class InputController : MonoBehaviour
 {
     [SerializeField]
     private InputActionAsset inputActions;
-    private InputActionMap cameraControls;
-    private InputAction moveCameraAction;
-    private InputAction checkMoveCameraAction;
-    private Vector2 mouseDelta;
-    private bool moveCamera;
+    [SerializeField]
+    private CameraController cameraController;
+    private InputActionMap _cameraControls;
+    private InputAction _moveCameraAction;
+    private InputAction _checkMoveCameraAction;
+    private Vector2 _mouseDelta;
+    private bool _moveCamera;
 
     private void Awake() {
-        cameraControls = inputActions.FindActionMap("MainControls");
+        _cameraControls = inputActions.FindActionMap("MainControls");
 
-        moveCameraAction = cameraControls.FindAction("MoveCamera");
-        checkMoveCameraAction = cameraControls.FindAction("CheckMoveCamera");
+        _moveCameraAction = _cameraControls.FindAction("MoveCamera");
+        _checkMoveCameraAction = _cameraControls.FindAction("CheckMoveCamera");
 
-        checkMoveCameraAction.performed += OnCheckMoveCameraPerformed;
-        checkMoveCameraAction.canceled += OnCheckMoveCameraCanceled;
-        moveCamera = false;
+        _checkMoveCameraAction.performed += OnCheckMoveCameraPerformed;
+        _checkMoveCameraAction.canceled += OnCheckMoveCameraCanceled;
+        _moveCamera = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -46,16 +48,17 @@ public class CameraMovement : MonoBehaviour
 
 
     private void OnMoveCamera(InputValue inputValue) {
-        mouseDelta = moveCamera ? inputValue.Get<Vector2>() : Vector2.zero;
+        _mouseDelta = _moveCamera ? inputValue.Get<Vector2>() : Vector2.zero;
+        cameraController.RotateCamera(_mouseDelta);
     }
 
     private void OnCheckMoveCameraPerformed(InputAction.CallbackContext context) {
-        moveCamera = true;
+        _moveCamera = true;
         Debug.Log("Performed");
     }
 
     private void OnCheckMoveCameraCanceled(InputAction.CallbackContext context) {
-        moveCamera = false;
+        _moveCamera = false;
         Debug.Log("Canceled");
     }
 }
