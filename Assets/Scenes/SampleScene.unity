@@ -1025,7 +1025,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.2439384, y: 0.37325996, z: -0.10239757, w: 0.88920516}
+  m_LocalRotation: {x: 0.2439384, y: 0.37325993, z: -0.10239755, w: 0.88920516}
   m_LocalPosition: {x: -16, y: 18.3, z: -15.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1078,6 +1078,7 @@ GameObject:
   - component: {fileID: 1001644256}
   - component: {fileID: 1001644257}
   - component: {fileID: 1001644258}
+  - component: {fileID: 1001644259}
   m_Layer: 0
   m_Name: InputController
   m_TagString: Untagged
@@ -1143,7 +1144,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: 4281d62d3fd671a408d198adac8dba7f, type: 3}
-  cameraController: {fileID: 0}
+  cameraController: {fileID: 1001644259}
+--- !u!114 &1001644259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001644255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250c7dfd83fbc2242b6f8a040b9e570c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 963194227}
+  lookAt: {fileID: 821881443}
+  cameraSensitivity: 0.5
+  distanceFrom: 15
 --- !u!1 &1007798014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,7 +1683,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 821881443}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
@@ -1693,7 +1710,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789751619}
-  m_LocalRotation: {x: 0.2439384, y: 0.37325996, z: -0.10239757, w: 0.88920516}
+  m_LocalRotation: {x: 0.2439384, y: 0.37325993, z: -0.10239755, w: 0.88920516}
   m_LocalPosition: {x: -16, y: 18.3, z: -15.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1701,7 +1718,7 @@ Transform:
   - {fileID: 249935084}
   m_Father: {fileID: 0}
   m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 30.681, y: 45.542, z: 0.3}
 --- !u!1 &1924581011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1854,10 +1871,6 @@ PrefabInstance:
       propertyPath: levelObject
       value: 
       objectReference: {fileID: 842543464}
-    - target: {fileID: 6067195432784082378, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
-      propertyPath: gridCellPrefab
-      value: 
-      objectReference: {fileID: 3429167134508496756, guid: 3948ccc271c5edc4a93add339f506091, type: 3}
     - target: {fileID: 6067195432784082379, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_Name
       value: LevelGrid

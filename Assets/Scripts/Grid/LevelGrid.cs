@@ -247,9 +247,9 @@ public class LevelGrid : MonoBehaviour
         GridCell[] allGridCells = grid.Keys.ToArray();
         Debug.Log(allGridCells.Length);
         foreach (GridCell gridCell in allGridCells) {
-            if (gridCell.gameObject.name == "GridCell; Position: 0.5, 1, -1.5; Enum: BOTTOM") {
-                testGridCell = gridCell;
-            }
+            // if (gridCell.gameObject.name == "GridCell; Position: 0.5, 1, -1.5; Enum: BOTTOM") {
+            //     testGridCell = gridCell;
+            // }
             ConnectGraph(gridCell);
         }
     }

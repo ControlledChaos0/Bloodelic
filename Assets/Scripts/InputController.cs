@@ -49,7 +49,14 @@ public class InputController : MonoBehaviour
 
     private void OnMoveCamera(InputValue inputValue) {
         _mouseDelta = _moveCamera ? inputValue.Get<Vector2>() : Vector2.zero;
+        if (_moveCamera) {
+            Debug.Log(_mouseDelta);
+        }
         cameraController.RotateCamera(_mouseDelta);
+    }
+
+    private void OnZoomCamera(InputValue inputValue) {
+        cameraController.ZoomCamera(inputValue.Get<float>());
     }
 
     private void OnCheckMoveCameraPerformed(InputAction.CallbackContext context) {
