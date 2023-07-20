@@ -9,8 +9,6 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Camera mainCamera;
     [SerializeField]
-    private Transform lookAt;
-    [SerializeField]
     private float cameraSensitivity = 0.5f;
     [SerializeField]
     private float zoomSensitivity = 0.5f;
@@ -19,7 +17,10 @@ public class CameraController : MonoBehaviour
 
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
+    private Transform _lookAt;
     private Vector3 _oldRot;
+    private Vector3 _internalPos;
+    private Quaternion _internalRot;
 
     private float _rotX;
     private float _rotY;
@@ -31,38 +32,28 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ChangeCamera();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        SetCamera();
     }
 
     private void LateUpdate() {
         _cinemachineCam.m_Lens.OrthographicSize = distanceFrom;
 
-        Vector3 newRot =  new Vector3(_rotX, _rotY, 0);
-        Vector3 dir = newRot - _oldRot;
-        Vector3 camPos = _cinemachineCam.VirtualCameraGameObject.transform.position;
-        Vector3 lookToCam = camPos - lookAt.transform.position;
-        Vector3 upCross = Vector3.Cross(lookToCam, Vector3.up);
-        _cinemachineCam.VirtualCameraGameObject.transform.RotateAround(lookAt.position, upCross, dir.x);
-        _cinemachineCam.VirtualCameraGameObject.transform.RotateAround(lookAt.position, Vector3.up, dir.y);
-
-        _cinemachineCam.VirtualCameraGameObject.transform.LookAt(lookAt);
-        _oldRot = newRot;
+        _lookAt.rotation = Quaternion.Euler(_rotX, _rotY, 0);
     }
 
-    private void ChangeCamera() {
+    private void SetCamera() {
         _cinemachineCam = _cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+        _lookAt = _cinemachineCam.gameObject.transform.parent;
+
+        _internalPos = _cinemachineCam.VirtualCameraGameObject.transform.position;
+        _internalRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation;
+
         _oldRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles;
         _rotX = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.x;
         _rotY = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.y;
         distanceFrom = _cinemachineCam.m_Lens.OrthographicSize;
 
-        Debug.Log(_rotX);
+        //Debug.Log(_rotX);
         //_cinemachineCam.VirtualCameraGameObject.transform.position = (_cinemachineCam.VirtualCameraGameObject.transform.position - lookAt.position).normalized * distanceFrom;
     }
 
@@ -70,7 +61,7 @@ public class CameraController : MonoBehaviour
         _rotX -= mouseDelta.y * cameraSensitivity;
         _rotY += mouseDelta.x * cameraSensitivity;
         _rotX = Mathf.Clamp(_rotX, 0f, 90f);
-        Debug.Log(_rotX);
+        //Debug.Log(_rotX);
     }
 
     public void ZoomCamera(float zoom) {
