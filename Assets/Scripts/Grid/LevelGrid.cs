@@ -16,14 +16,12 @@ public class LevelGrid : MonoBehaviour
     [SerializeField]
     private float gridSpaceSize = 1f;
     [SerializeField]
-    private GameObject levelObject;
-    [SerializeField]
     private GameObject gridCellPrefab;
 
     private Dictionary<GridCellPosition, GridCell> gridCellExistence;
     private Dictionary<GridCell, List<GridCell>> grid;
-
     private GridCell testGridCell;
+    private int layerMask = 1 << 6;
     
 
     // Start is called before the first frame update
@@ -32,7 +30,7 @@ public class LevelGrid : MonoBehaviour
         gridCellExistence = new Dictionary<GridCellPosition, GridCell>();
         grid = new Dictionary<GridCell, List<GridCell>>();
 
-        CallCreateGrid(levelObject.transform);
+        CallCreateGrid();
         ConnectGridCells();
         //TurnAllWhite(testGridCell);
     }
@@ -80,12 +78,7 @@ public class LevelGrid : MonoBehaviour
         }
     }
     
-    private void CallCreateGrid(Transform transform) {
-        int numChild = transform.childCount;
-        if (numChild <= 0) {
-            return;
-        }
-
+    private void CallCreateGrid() {
         if (gridCellPrefab == null) {
             Debug.LogError("ERROR: Null Grid Cell Prefab");
             return;
@@ -99,6 +92,8 @@ public class LevelGrid : MonoBehaviour
             return;
         }
 
+        Debug.Log("sdaflkj;ljksdfaadsf");
+
         Vector3 cornerTemp1 = corner1.transform.position;
         Vector3 cornerTemp2 = corner2.transform.position;
 
@@ -111,16 +106,18 @@ public class LevelGrid : MonoBehaviour
             for (float z = cornerPos1.z; z < cornerPos2.z; z += gridSpaceSize) {
                 Ray ray = new Ray(new Vector3(x + offset, cornerPos2.y, z + offset), Vector3.down);
                 float y = (Mathf.Round((cornerPos2.y - cornerPos1.y) * 100f) / 100f) + 0.001f;
-                RaycastHit[] hits = Physics.RaycastAll(ray, y, 1);
+                RaycastHit[] hits = Physics.RaycastAll(ray, y, layerMask);
                 if (hits.Length == 0) {
+                    Debug.Log(y);
                     continue;
                 }
                 foreach (RaycastHit hit in hits)
                 {
                     Vector3 pos = hit.point;
                     float yf = RoundToNearest(pos.y);
-                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, yf - offset, z + offset), Vector3.up), gridSpaceSize);
+                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, yf - offset, z + offset), Vector3.up), gridSpaceSize, layerMask);
                     if (!check) {
+                        Debug.Log("Trying to test");
                         CreateGridCell(new Vector3(x + offset, yf, z + offset), Quaternion.identity, GridCellPositionEnum.BOTTOM);
                     }
                 }
@@ -131,7 +128,7 @@ public class LevelGrid : MonoBehaviour
             for (float y = cornerPos1.y; y < cornerPos2.y; y += gridSpaceSize) {
                 Ray ray = new Ray(new Vector3(x + offset, y + offset, cornerPos1.z), Vector3.forward);
                 float z = (Mathf.Round((cornerPos2.z - cornerPos1.z) * 100f) / 100f) + 0.001f;
-                RaycastHit[] hits = Physics.RaycastAll(ray, z, 1);
+                RaycastHit[] hits = Physics.RaycastAll(ray, z, layerMask);
                 if (hits.Length == 0) {
                     continue;
                 }
@@ -139,7 +136,7 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float zf = RoundToNearest(pos.z);
-                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, y + offset, zf + offset), Vector3.back), gridSpaceSize);
+                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, y + offset, zf + offset), Vector3.back), gridSpaceSize, layerMask);
                     if (!check) {
                         CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, 0), GridCellPositionEnum.FRONT);
                     }
@@ -151,7 +148,7 @@ public class LevelGrid : MonoBehaviour
             for (float y = cornerPos1.y; y < cornerPos2.y; y += gridSpaceSize) {
                 Ray ray = new Ray(new Vector3(x + offset, y + offset, cornerPos2.z), Vector3.back);
                 float z = (Mathf.Round((cornerPos2.z - cornerPos1.z) * 100f) / 100f) + 0.001f;
-                RaycastHit[] hits = Physics.RaycastAll(ray, z, 1);
+                RaycastHit[] hits = Physics.RaycastAll(ray, z, layerMask);
                 if (hits.Length == 0) {
                     continue;
                 }
@@ -159,7 +156,7 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float zf = RoundToNearest(pos.z);
-                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, y + offset, zf - offset), Vector3.forward), gridSpaceSize);
+                    bool check = Physics.Raycast(new Ray(new Vector3(x + offset, y + offset, zf - offset), Vector3.forward), gridSpaceSize, layerMask);
                     if (!check) {
                         CreateGridCell(new Vector3(x + offset, y + offset, zf), Quaternion.Euler(-90, 0, 180), GridCellPositionEnum.BACK);
                     }
@@ -171,7 +168,7 @@ public class LevelGrid : MonoBehaviour
             for (float z = cornerPos1.z; z < cornerPos2.z; z += gridSpaceSize) {
                 Ray ray = new Ray(new Vector3(cornerPos1.x, y + offset, z + offset), Vector3.right);
                 float x = (Mathf.Round((cornerPos2.x - cornerPos1.x) * 100f) / 100f) + 0.001f;
-                RaycastHit[] hits = Physics.RaycastAll(ray, x, 1);
+                RaycastHit[] hits = Physics.RaycastAll(ray, x, layerMask);
                 if (hits.Length == 0) {
                     continue;
                 }
@@ -179,7 +176,7 @@ public class LevelGrid : MonoBehaviour
                 {
                     Vector3 pos = hit.point;
                     float xf = RoundToNearest(pos.x);
-                    bool check = Physics.Raycast(new Ray(new Vector3(xf + offset, y + offset, z + offset), Vector3.left), gridSpaceSize);
+                    bool check = Physics.Raycast(new Ray(new Vector3(xf + offset, y + offset, z + offset), Vector3.left), gridSpaceSize, layerMask);
                     if (!check) {
                         CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, 90), GridCellPositionEnum.RIGHT);
                     }
@@ -191,7 +188,7 @@ public class LevelGrid : MonoBehaviour
             for (float z = cornerPos1.z; z < cornerPos2.z; z += gridSpaceSize) {
                 Ray ray = new Ray(new Vector3(cornerPos2.x, y + offset, z + offset), Vector3.left);
                 float x = (Mathf.Round((cornerPos2.x - cornerPos1.x) * 100f) / 100f) + 0.001f;
-                RaycastHit[] hits = Physics.RaycastAll(ray, x, 1);
+                RaycastHit[] hits = Physics.RaycastAll(ray, x, layerMask);
                 if (hits.Length == 0) {
                     continue;
                 }
@@ -202,8 +199,9 @@ public class LevelGrid : MonoBehaviour
                     }
                     Vector3 pos = hit.point;
                     float xf = RoundToNearest(pos.x);
-                    bool check = Physics.Raycast(new Ray(new Vector3(xf - offset, y + offset, z + offset), Vector3.right), gridSpaceSize);
+                    bool check = Physics.Raycast(new Ray(new Vector3(xf - offset, y + offset, z + offset), Vector3.right), gridSpaceSize, layerMask);
                     if (!check) {
+                        Debug.Log("WWWWWWWWWWWWWWWW");
                         CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, -90), GridCellPositionEnum.LEFT);
                     }
                 }
@@ -247,9 +245,9 @@ public class LevelGrid : MonoBehaviour
         GridCell[] allGridCells = grid.Keys.ToArray();
         Debug.Log(allGridCells.Length);
         foreach (GridCell gridCell in allGridCells) {
-            // if (gridCell.gameObject.name == "GridCell; Position: 0.5, 1, -1.5; Enum: BOTTOM") {
-            //     testGridCell = gridCell;
-            // }
+            if (gridCell.gameObject.name == "GridCell; Position: 0.5, 1, -1.5; Enum: BOTTOM") {
+                testGridCell = gridCell;
+            }
             ConnectGraph(gridCell);
         }
     }

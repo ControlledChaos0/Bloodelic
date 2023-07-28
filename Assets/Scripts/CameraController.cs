@@ -13,15 +13,17 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float zoomSensitivity = 0.5f;
     [SerializeField]
+    private float panSensitivity = 0.5f;
+    [SerializeField]
     private float distanceFrom = 5.0f;
 
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
     private Transform _lookAt;
     private Vector3 _oldRot;
-    private Vector3 _internalPos;
-    private Quaternion _internalRot;
-
+    private Vector3 _defaultPos;
+    private Vector3 _currentPos;
+    private Vector3 _panMove;
     private float _rotX;
     private float _rotY;
 
@@ -39,22 +41,20 @@ public class CameraController : MonoBehaviour
         _cinemachineCam.m_Lens.OrthographicSize = distanceFrom;
 
         _lookAt.rotation = Quaternion.Euler(_rotX, _rotY, 0);
+        _lookAt.position = _currentPos;
     }
 
     private void SetCamera() {
         _cinemachineCam = _cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         _lookAt = _cinemachineCam.gameObject.transform.parent;
 
-        _internalPos = _cinemachineCam.VirtualCameraGameObject.transform.position;
-        _internalRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation;
+        _defaultPos = new Vector3(_lookAt.position.x, _lookAt.position.y, _lookAt.position.z);
+        _currentPos = new Vector3(_lookAt.position.x, _lookAt.position.y, _lookAt.position.z);
 
         _oldRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles;
         _rotX = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.x;
         _rotY = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.y;
         distanceFrom = _cinemachineCam.m_Lens.OrthographicSize;
-
-        //Debug.Log(_rotX);
-        //_cinemachineCam.VirtualCameraGameObject.transform.position = (_cinemachineCam.VirtualCameraGameObject.transform.position - lookAt.position).normalized * distanceFrom;
     }
 
     public void RotateCamera(Vector2 mouseDelta) {
@@ -62,6 +62,11 @@ public class CameraController : MonoBehaviour
         _rotY += mouseDelta.x * cameraSensitivity;
         _rotX = Mathf.Clamp(_rotX, 0f, 90f);
         //Debug.Log(_rotX);
+    }
+
+    public void PanCamera(Vector2 mouseDelta) {
+        _currentPos += ((_lookAt.up * mouseDelta.y) + (_lookAt.right * mouseDelta.x)) * panSensitivity;
+
     }
 
     public void ZoomCamera(float zoom) {

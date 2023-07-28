@@ -12,18 +12,24 @@ public class InputController : MonoBehaviour
     private InputActionMap _cameraControls;
     private InputAction _moveCameraAction;
     private InputAction _checkMoveCameraAction;
+    private InputAction _checkPanCameraAction;
     private Vector2 _mouseDelta;
     private bool _moveCamera;
+    private bool _panCamera;
 
     private void Awake() {
         _cameraControls = inputActions.FindActionMap("MainControls");
 
         _moveCameraAction = _cameraControls.FindAction("MoveCamera");
         _checkMoveCameraAction = _cameraControls.FindAction("CheckMoveCamera");
+        _checkPanCameraAction = _cameraControls.FindAction("CheckPanCamera");
 
         _checkMoveCameraAction.performed += OnCheckMoveCameraPerformed;
         _checkMoveCameraAction.canceled += OnCheckMoveCameraCanceled;
+        _checkPanCameraAction.performed += OnCheckPanCameraPerformed;
+        _checkPanCameraAction.canceled += OnCheckPanCameraCanceled;
         _moveCamera = false;
+        _panCamera = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -48,11 +54,12 @@ public class InputController : MonoBehaviour
 
 
     private void OnMoveCamera(InputValue inputValue) {
-        _mouseDelta = _moveCamera ? inputValue.Get<Vector2>() : Vector2.zero;
+        _mouseDelta = inputValue.Get<Vector2>();
         if (_moveCamera) {
-            Debug.Log(_mouseDelta);
+            cameraController.RotateCamera(_mouseDelta);
+        } else if (_panCamera) {
+            cameraController.PanCamera(_mouseDelta);
         }
-        cameraController.RotateCamera(_mouseDelta);
     }
 
     private void OnZoomCamera(InputValue inputValue) {
@@ -67,5 +74,11 @@ public class InputController : MonoBehaviour
     private void OnCheckMoveCameraCanceled(InputAction.CallbackContext context) {
         _moveCamera = false;
         Debug.Log("Canceled");
+    }
+    private void OnCheckPanCameraPerformed(InputAction.CallbackContext context) {
+        _panCamera = true;
+    }
+    private void OnCheckPanCameraCanceled(InputAction.CallbackContext context) {
+        _panCamera = false;
     }
 }

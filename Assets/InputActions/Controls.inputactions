@@ -397,6 +397,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "CheckPanCamera",
+                    "type": "Button",
+                    "id": "6769b65d-215d-40eb-aa12-8c0149b1ebfa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -441,6 +450,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "ZoomCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c367a8d-3b78-4bb2-83ad-03b16bc0e050",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "CheckPanCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
