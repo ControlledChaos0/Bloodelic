@@ -399,9 +399,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "CheckPanCamera",
+                    "name": "Click",
                     "type": "Button",
-                    "id": "6769b65d-215d-40eb-aa12-8c0149b1ebfa",
+                    "id": "b07e077b-7eac-4ca6-8646-f82a4c97f4f1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -455,12 +455,12 @@
                 },
                 {
                     "name": "",
-                    "id": "5c367a8d-3b78-4bb2-83ad-03b16bc0e050",
-                    "path": "<Mouse>/middleButton",
+                    "id": "e08ba3f8-df6f-4d4d-8e2a-f810336d0044",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "CheckPanCamera",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1163,6 +1163,7 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   cameraSensitivity: 0.5
   zoomSensitivity: 0.5
+  panSensitivity: 0.5
   distanceFrom: 15
 --- !u!1 &1007798014
 GameObject:
@@ -1874,6 +1875,10 @@ PrefabInstance:
       propertyPath: levelObject
       value: 
       objectReference: {fileID: 842543464}
+    - target: {fileID: 6067195432784082378, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
+      propertyPath: gridCellPrefab
+      value: 
+      objectReference: {fileID: 3429167134508496756, guid: a6f60f04b7d74634782672f26c305fa1, type: 3}
     - target: {fileID: 6067195432784082379, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_Name
       value: LevelGrid
