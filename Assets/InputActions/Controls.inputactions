@@ -399,9 +399,27 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "CheckPanCamera",
+                    "type": "Button",
+                    "id": "41ddc401-d77b-4bcf-b44c-93787e990dc8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.2)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Click",
                     "type": "Button",
                     "id": "b07e077b-7eac-4ca6-8646-f82a4c97f4f1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cursor",
+                    "type": "Button",
+                    "id": "86db533f-79f5-49b7-af08-2df294c2e847",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -461,6 +479,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17b29dcb-f599-4f25-9ba5-32a2806af596",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "CheckPanCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91b85077-92e0-4a8b-8de2-884eee4bef77",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cursor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

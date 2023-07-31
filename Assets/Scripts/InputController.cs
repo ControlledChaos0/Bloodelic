@@ -82,9 +82,10 @@ public class InputController : MonoBehaviour
     }
 
     private void OnClickCanceled(InputAction.CallbackContext context) {
-        if (Time.time - _clickTime < _pressTime) {
-            Debug.Log("Just a click!!!");
+        if (Time.time - _clickTime >= _pressTime) {
+            return;
         }
+        Debug.Log("Just a click!!!");
     }
 
     private void OnCheckMoveCameraPerformed(InputAction.CallbackContext context) {
