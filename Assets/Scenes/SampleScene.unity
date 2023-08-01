@@ -1878,7 +1878,7 @@ PrefabInstance:
     - target: {fileID: 6067195432784082378, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: gridCellPrefab
       value: 
-      objectReference: {fileID: 3429167134508496756, guid: 3948ccc271c5edc4a93add339f506091, type: 3}
+      objectReference: {fileID: 3429167134508496756, guid: a6f60f04b7d74634782672f26c305fa1, type: 3}
     - target: {fileID: 6067195432784082379, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_Name
       value: LevelGrid

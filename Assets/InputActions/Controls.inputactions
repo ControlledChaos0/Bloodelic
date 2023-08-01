@@ -418,12 +418,12 @@
                 },
                 {
                     "name": "Cursor",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "86db533f-79f5-49b7-af08-2df294c2e847",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -496,10 +496,10 @@
                 {
                     "name": "",
                     "id": "91b85077-92e0-4a8b-8de2-884eee4bef77",
-                    "path": "",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse;Gamepad",
                     "action": "Cursor",
                     "isComposite": false,
                     "isPartOfComposite": false

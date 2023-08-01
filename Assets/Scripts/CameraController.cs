@@ -27,6 +27,11 @@ public class CameraController : MonoBehaviour
     private float _rotX;
     private float _rotY;
 
+    public Camera MainCamera {
+        get => mainCamera;
+        private set => mainCamera = value;
+    }
+
     private void Awake() {
         _cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
     }
