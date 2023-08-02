@@ -14,6 +14,7 @@ public class InputController : MonoBehaviour
     private InputAction _checkMoveCameraAction;
     private InputAction _checkPanCameraAction;
     private InputAction _clickAction;
+    private InputAction _cursorAction;
     private Vector2 _mouseDelta;
     private float _pressTime;
     private float _clickTime;
@@ -26,12 +27,13 @@ public class InputController : MonoBehaviour
         _moveCameraAction = _cameraControls.FindAction("MoveCamera");
         _checkMoveCameraAction = _cameraControls.FindAction("CheckMoveCamera");
         _checkPanCameraAction = _cameraControls.FindAction("CheckPanCamera");
+        _clickAction = _cameraControls.FindAction("Click");
+        _cursorAction = _cameraControls.FindAction("Cursor");
 
         _checkMoveCameraAction.performed += OnCheckMoveCameraPerformed;
         _checkMoveCameraAction.canceled += OnCheckMoveCameraCanceled;
         _checkPanCameraAction.performed += OnCheckPanCameraPerformed;
         _checkPanCameraAction.canceled += OnCheckPanCameraCanceled;
-        _clickAction = _cameraControls.FindAction("Click");
 
         int holdIndex = _checkMoveCameraAction.interactions.IndexOf("Hold(duration=");
         _pressTime = float.Parse(_checkMoveCameraAction.interactions.Substring(holdIndex + 14, 3));
