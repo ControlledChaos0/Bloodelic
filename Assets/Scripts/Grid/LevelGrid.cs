@@ -117,7 +117,7 @@ public class LevelGrid : MonoBehaviour
                     float yf = RoundToNearest(pos.y);
                     bool check = Physics.Raycast(new Ray(new Vector3(x + offset, yf - offset, z + offset), Vector3.up), gridSpaceSize, layerMask);
                     if (!check) {
-                        Debug.Log("Trying to test");
+                        //Debug.Log("Trying to test");
                         CreateGridCell(new Vector3(x + offset, yf, z + offset), Quaternion.identity, GridCellPositionEnum.BOTTOM);
                     }
                 }
@@ -201,7 +201,7 @@ public class LevelGrid : MonoBehaviour
                     float xf = RoundToNearest(pos.x);
                     bool check = Physics.Raycast(new Ray(new Vector3(xf - offset, y + offset, z + offset), Vector3.right), gridSpaceSize, layerMask);
                     if (!check) {
-                        Debug.Log("WWWWWWWWWWWWWWWW");
+                        //Debug.Log("WWWWWWWWWWWWWWWW");
                         CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, -90), GridCellPositionEnum.LEFT);
                     }
                 }
@@ -245,7 +245,7 @@ public class LevelGrid : MonoBehaviour
         GridCell[] allGridCells = grid.Keys.ToArray();
         Debug.Log(allGridCells.Length);
         foreach (GridCell gridCell in allGridCells) {
-            if (gridCell.gameObject.name == "GridCell; Position: 0.5, 1, -1.5; Enum: BOTTOM") {
+            if (gridCell.gameObject.name == "GridCell; Position: 4.5, 3, -4.5; Enum: BOTTOM") {
                 testGridCell = gridCell;
             }
             ConnectGraph(gridCell);
@@ -398,6 +398,7 @@ public class LevelGrid : MonoBehaviour
         }
         if (destroyed) {
             //grid.Remove(gridCell);
+            //gridCellExistence.Remove(gridCell.Position);
             //Debug.Log("wait wtf this actually runs?");
         }
     }
@@ -410,7 +411,7 @@ public class LevelGrid : MonoBehaviour
 
     private float RoundToNearest(float num) {
         float numRound = Mathf.Round(num * 100f) / 100f;
-        float r = numRound % gridSpaceSize;
+        float r = (numRound) % gridSpaceSize;
         return r >= gridSpaceSize / 2.0f ? (numRound - r) + gridSpaceSize : numRound - r;
     }
 
@@ -422,6 +423,15 @@ public class LevelGrid : MonoBehaviour
             if (!connectedGridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.Equals(Color.blue)) {
                 TurnAllWhite(connectedGridCell);
             }
+        }
+    }
+
+    public void TurnSurroundingBlue(GridCell gridCell) {
+        gridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+        List<GridCell> list = grid[gridCell];
+        Debug.Log($"Length of List: {list.Count}");
+        foreach (GridCell connectedGridCell in list) {
+            connectedGridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
         }
     }
 }

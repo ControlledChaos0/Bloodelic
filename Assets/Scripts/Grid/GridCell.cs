@@ -8,6 +8,7 @@ public class GridCell : MonoBehaviour
     private GameObject objectInThisGridSpace = null;
     [SerializeField]
     private Collider _collider;
+    private LevelGrid _levelGrid;
 
     public GridCellPositionEnum PositionE {
         get;
@@ -33,12 +34,17 @@ public class GridCell : MonoBehaviour
     void Start()
     {
         IsOccupied = false;
+        _levelGrid = transform.parent.GetComponent<LevelGrid>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void TurnSurroundingBlue() {
+        _levelGrid.TurnSurroundingBlue(this);
     }
 
     public Vector2Int GetPosition() {

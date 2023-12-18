@@ -408,9 +408,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Click",
+                    "name": "RIghtClick",
                     "type": "Button",
                     "id": "b07e077b-7eac-4ca6-8646-f82a4c97f4f1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "2c4b1269-b225-460f-89d4-4256e164af93",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -478,7 +487,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Click",
+                    "action": "RIghtClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -501,6 +510,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse;Gamepad",
                     "action": "Cursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80ab2bb8-78c5-4a3d-9af6-22ee23e0f5ba",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
