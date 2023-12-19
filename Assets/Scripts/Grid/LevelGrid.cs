@@ -179,6 +179,9 @@ public class LevelGrid : MonoBehaviour
                     bool check = Physics.Raycast(new Ray(new Vector3(xf + offset, y + offset, z + offset), Vector3.left), gridSpaceSize, layerMask);
                     if (!check) {
                         CreateGridCell(new Vector3(xf, y + offset, z + offset), Quaternion.Euler(-90, 0, 90), GridCellPositionEnum.RIGHT);
+                        if ((new Vector3(-3f, 1.5f, 2.5f)).Equals(new Vector3(xf, y + offset, z + offset))) {
+                            Debug.Log($"Hit Position: {pos}");
+                        }
                     }
                 }
             }
@@ -212,7 +215,7 @@ public class LevelGrid : MonoBehaviour
     private void CreateGridCell(Vector3 pos, Quaternion rot, GridCellPositionEnum posE) {
         GameObject temp = Instantiate(gridCellPrefab, pos, rot);
         temp.transform.parent = gameObject.transform;
-        temp.name = $"GridCell; Position: {pos.x}, {pos.y}, {pos.z}; Enum: {posE.ToString()}";
+        temp.name = $"GridCell; Position: {pos.x}, {pos.y}, {pos.z}; Enum: {posE}";
         GridCell gridCell = temp.GetComponent<GridCell>();
         gridCell.Position = new GridCellPosition(pos, posE);
         gridCell.PositionE = posE;
@@ -238,6 +241,9 @@ public class LevelGrid : MonoBehaviour
                 temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.black;
                 break;
         }
+        if (temp.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
+            //testGridCell = gridCell;
+        }
         // = Color.blue;
     }
 
@@ -245,7 +251,7 @@ public class LevelGrid : MonoBehaviour
         GridCell[] allGridCells = grid.Keys.ToArray();
         Debug.Log(allGridCells.Length);
         foreach (GridCell gridCell in allGridCells) {
-            if (gridCell.gameObject.name == "GridCell; Position: 4.5, 3, -4.5; Enum: BOTTOM") {
+            if (gridCell.gameObject.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
                 testGridCell = gridCell;
             }
             ConnectGraph(gridCell);
@@ -257,8 +263,6 @@ public class LevelGrid : MonoBehaviour
         if (gridCell.Equals(testGridCell)) {
             testing = true;
         }
-
-
 
         Vector3 position = gridCell.Position.Position;
         if (testing) {
@@ -411,8 +415,8 @@ public class LevelGrid : MonoBehaviour
 
     private float RoundToNearest(float num) {
         float numRound = Mathf.Round(num * 100f) / 100f;
-        float r = (numRound) % gridSpaceSize;
-        return r >= gridSpaceSize / 2.0f ? (numRound - r) + gridSpaceSize : numRound - r;
+        float r = Mathf.Abs(numRound) % gridSpaceSize;
+        return r >= gridSpaceSize / 2.0f ? Mathf.Sign(num) * (Mathf.Abs(numRound) - r + gridSpaceSize) : Mathf.Sign(num) * (Mathf.Abs(numRound) - r);
     }
 
     //TEST METHODS
