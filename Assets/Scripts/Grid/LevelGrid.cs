@@ -5,21 +5,28 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class LevelGrid : MonoBehaviour
 {
-    [Header("Debug Grid")]
+    // public static LevelGrid S_LevelGrid {
+    //     get => s_levelGrid;
+    //     set => s_levelGrid = value;
+    // }
+    // private static LevelGrid s_levelGrid;
+
     [SerializeField]
     private GameObject corner1;
     [SerializeField]
     private GameObject corner2;
-
-    [Header("Creating Grid")]
-
     [SerializeField]
     private float gridSpaceSize = 1f;
     [SerializeField]
     private GameObject gridCellPrefab;
 
-    private Dictionary<GridCellPosition, GridCell> gridCellExistence;
-    private Dictionary<GridCell, List<GridCell>> grid;
+    public Dictionary<GridCell, List<GridCell>> Grid {
+        get => grid;
+        private set => grid = value;
+    }
+
+    private Dictionary<GridCellPosition, GridCell> gridCellExistence = new();
+    private Dictionary<GridCell, List<GridCell>> grid = new();
     private GridCell testGridCell;
     private int layerMask = 1 << 6;
     
@@ -27,11 +34,9 @@ public class LevelGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gridCellExistence = new Dictionary<GridCellPosition, GridCell>();
-        grid = new Dictionary<GridCell, List<GridCell>>();
-
-        CallCreateGrid();
-        ConnectGridCells();
+        // S_LevelGrid = this;
+        GridManager.SetLevelGrid(gameObject);
+        DebugGrid();
         //TurnAllWhite(testGridCell);
     }
 
@@ -77,14 +82,20 @@ public class LevelGrid : MonoBehaviour
             }
         }
     }
-    
-    private void CallCreateGrid() {
+
+    public void CallCreateGrid() {
         if (gridCellPrefab == null) {
             Debug.LogError("ERROR: Null Grid Cell Prefab");
             return;
         }
-
         CreateGrid();
+        ConnectGridCells();
+    }
+    public void ClearGrid() {
+        gridCellExistence = new();
+        grid = new();
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
     }
 
     private void CreateGrid() {
@@ -99,6 +110,9 @@ public class LevelGrid : MonoBehaviour
 
         Vector3 cornerPos1 = new Vector3(Mathf.Min(cornerTemp1.x, cornerTemp2.x), Mathf.Min(cornerTemp1.y, cornerTemp2.y), Mathf.Min(cornerTemp1.z, cornerTemp2.z));
         Vector3 cornerPos2 = new Vector3(Mathf.Max(cornerTemp1.x, cornerTemp2.x), Mathf.Max(cornerTemp1.y, cornerTemp2.y), Mathf.Max(cornerTemp1.z, cornerTemp2.z));
+
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
 
         float offset = gridSpaceSize / 2.0f;
         //DOWN (facing UP) xz
@@ -218,29 +232,7 @@ public class LevelGrid : MonoBehaviour
         temp.name = $"GridCell; Position: {pos.x}, {pos.y}, {pos.z}; Enum: {posE}";
         GridCell gridCell = temp.GetComponent<GridCell>();
         gridCell.Position = new GridCellPosition(pos, posE);
-        gridCell.PositionE = posE;
         grid.Add(gridCell, new List<GridCell>());
-        switch (posE)
-        {
-            case GridCellPositionEnum.BOTTOM:
-                temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
-                break;
-            case GridCellPositionEnum.FRONT:
-                temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.magenta;
-                break;
-            case GridCellPositionEnum.BACK:
-                temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.cyan;
-                break;
-            case GridCellPositionEnum.RIGHT:
-                temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
-                break;
-            case GridCellPositionEnum.LEFT:
-                temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
-                break;
-            default:
-                temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.black;
-                break;
-        }
         if (temp.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
             //testGridCell = gridCell;
         }
@@ -327,11 +319,11 @@ public class LevelGrid : MonoBehaviour
 
             GridCellPositionEnum corPosition;
             if (roundY == 0) {
-                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.PositionE), edgeNum, 0);
+                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.Position.PositionE), edgeNum, 0);
             } else if (roundY > 0) {
-                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.PositionE), edgeNum, 1);
+                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.Position.PositionE), edgeNum, 1);
             } else {
-                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.PositionE), edgeNum, 2);
+                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.Position.PositionE), edgeNum, 2);
             }
             
             if (gridCellConnections[1,edgeNum] == null) {
@@ -360,7 +352,7 @@ public class LevelGrid : MonoBehaviour
             if (testing) {
                     Debug.Log($"Magnitude: {dirToCol.magnitude}");
                 }
-            if (otherGridCell.PositionE != corPosition) {
+            if (otherGridCell.Position.PositionE != corPosition) {
                 if (testing) {
                     Debug.Log("SIKE");
                 }
@@ -407,6 +399,33 @@ public class LevelGrid : MonoBehaviour
         }
     }
 
+    private void DebugGrid() {
+        foreach(KeyValuePair<GridCellPosition, GridCell> pair in gridCellExistence) {
+            GameObject temp = pair.Value.gameObject;
+            GridCellPositionEnum posE = pair.Key.PositionE;
+            switch (posE)
+            {
+                case GridCellPositionEnum.BOTTOM:
+                    temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
+                    break;
+                case GridCellPositionEnum.FRONT:
+                    temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.magenta;
+                    break;
+                case GridCellPositionEnum.BACK:
+                    temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.cyan;
+                    break;
+                case GridCellPositionEnum.RIGHT:
+                    temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
+                    break;
+                case GridCellPositionEnum.LEFT:
+                    temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
+                    break;
+                default:
+                    temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.black;
+                    break;
+            }
+        }
+    }
     private void AddToGraph(GridCell gridCell, GridCellPosition gridCellPosition) {
         GridCell temp = gridCellExistence[gridCellPosition];
         grid[temp].Add(gridCell);

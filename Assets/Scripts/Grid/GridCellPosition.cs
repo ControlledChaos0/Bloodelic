@@ -5,16 +5,18 @@ using UnityEngine;
 public class GridCellPosition
 {
     public GridCellPositionEnum PositionE {
-        get;
-        set;
+        get => _positionE;
+        set => _positionE = value;
     }
     public Vector3 Position{
-        get;
-        set;
+        get => _position;
+        set => _position = value;
     }
 
-    public GridCellPosition() : this(Vector3.up, GridCellPositionEnum.BOTTOM) {
-    }
+    private GridCellPositionEnum _positionE;
+    private Vector3 _position;
+
+    public GridCellPosition() : this(Vector3.up, GridCellPositionEnum.BOTTOM) {}
     public GridCellPosition(Vector3 position, GridCellPositionEnum positionE) {
         Position = position;
         PositionE = positionE;
@@ -42,8 +44,8 @@ public class GridCellPosition
     public override int GetHashCode()
     {
         int hash = 5;
-        hash += 89 * hash + (this.Position != null ? this.Position.GetHashCode() : 0);
-        hash += 89 * hash + (PositionE.GetHashCode());
+        hash += 89 * hash + (Position != null ? Position.GetHashCode() : 0);
+        hash += 89 * hash + PositionE.GetHashCode();
         return hash;
     }
 }

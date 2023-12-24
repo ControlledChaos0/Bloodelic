@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 607018832}
   - component: {fileID: 607018831}
   - component: {fileID: 607018830}
+  - component: {fileID: 607018834}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -619,6 +620,19 @@ Transform:
   - {fileID: 2101598396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &607018834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607018829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c926efe702234c8ce3d317f39d441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collider: {fileID: 607018830}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1929,6 +1943,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6067195432754804477, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6067195432784082373, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1984,6 +2002,10 @@ PrefabInstance:
     - target: {fileID: 6067195432784082379, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
       propertyPath: m_Name
       value: LevelGrid
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067195433143577395, guid: d3c1e46d30a6a964f8ebe50ecb5b2fa3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

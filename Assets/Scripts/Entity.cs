@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    [SerializeField]
+    private Collider _collider;
+    private GridCell _occupiedCell;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +18,9 @@ public class Entity : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Move(GridCell target) {
+
     }
 }
