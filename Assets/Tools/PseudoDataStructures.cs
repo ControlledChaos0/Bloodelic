@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEngine;
 
 /// <summary>
 /// A bunch of handwritten versions of non-serializable types using serializable types;
@@ -196,7 +197,7 @@ namespace PseudoDataStructures {
         }
     } /// An empty space, with a single bracket protecting this 3 AM script against an infinite, dark void... Yay ;-;
 
-    [System.Serializable]
+    [Serializable]
     public class PseudoDictionary<T1, T2> {
 
         public T1[] Keys;
@@ -224,10 +225,47 @@ namespace PseudoDataStructures {
         }
 
         public Dictionary<T1, T2> ToDictionary() {
-            Dictionary<T1, T2> dict = new Dictionary<T1, T2>();
+            Dictionary<T1, T2> dict = new();
             for (int i = 0; i < Keys.Length; i++) {
                 dict[Keys[i]] = Values[i];
-            } return dict;
+            }
+            return dict;
+        }
+    }
+
+    [Serializable]
+    public class PseudoDictionaryList<T1, T2> {
+
+        public T1[] Keys;
+        public PseudoList<T2>[] Values;
+        public int Count {
+            get => Keys.Length;
+        }
+
+        public PseudoDictionaryList() {
+            Keys = new T1[0];
+            Values = new PseudoList<T2>[0];
+        }
+
+        public PseudoDictionaryList(Dictionary<T1, List<T2>> dict) {
+
+            Keys = new T1[dict.Count];
+            Values = new PseudoList<T2>[dict.Count];
+
+            int i = 0;
+            foreach (KeyValuePair<T1, List<T2>> kvp in dict) {
+                Keys[i] = kvp.Key;
+                Values[i] = new PseudoList<T2>(kvp.Value);
+                i++;
+            }
+        }
+
+        public Dictionary<T1, List<T2>> ToDictionary() {
+            Dictionary<T1, List<T2>> dict = new();
+            for (int i = 0; i < Keys.Length; i++) {
+                dict[Keys[i]] = Values[i].ToList();
+            }
+            return dict;
         }
     }
 
@@ -254,6 +292,31 @@ namespace PseudoDataStructures {
             for (int i = 0; i < elementMatrix.Length; i++) {
                 output[i] = elementMatrix[i].elements;
             } return output;
+        }
+    }
+
+    [Serializable]
+    public class PseudoList<T> {
+        public T[] elements;
+
+        public PseudoList() {
+            elements = new T[0];
+        }
+        public PseudoList(List<T> list) {
+            elements = new T[list.Count];
+            int i = 0;
+            foreach (T element in list) {
+                elements[i] = element;
+                i++;
+            }
+        }
+
+        public List<T> ToList() {
+            List<T> list = new();
+            foreach (T element in elements) {
+                list.Add(element);
+            }
+            return list;
         }
     }
 }

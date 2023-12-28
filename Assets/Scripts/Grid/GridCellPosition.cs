@@ -14,14 +14,15 @@ public class GridCellPosition
         get => _position;
         set => _position = value;
     }
-
+    [SerializeField]
     private GridCellPositionEnum _positionE;
+    [SerializeField]
     private Vector3 _position;
 
     public GridCellPosition() : this(Vector3.up, GridCellPositionEnum.BOTTOM) {}
     public GridCellPosition(Vector3 position, GridCellPositionEnum positionE) {
-        Position = position;
-        PositionE = positionE;
+        _position = position;
+        _positionE = positionE;
     }
 
     public override bool Equals(object obj)
@@ -49,5 +50,10 @@ public class GridCellPosition
         hash += 89 * hash + (Position != null ? Position.GetHashCode() : 0);
         hash += 89 * hash + PositionE.GetHashCode();
         return hash;
+    }
+
+    public override string ToString()
+    {
+        return $"{_position} {_positionE}";
     }
 }

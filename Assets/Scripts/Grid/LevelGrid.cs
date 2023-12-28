@@ -22,7 +22,7 @@ public class LevelGrid : MonoBehaviour
     [SerializeField]
     private PseudoDictionary<GridCellPosition, GridCell> pGridCellExistence;
     [SerializeField]
-    private PseudoDictionary<GridCell, List<GridCell>> pGrid;
+    private PseudoDictionaryList<GridCell, GridCell> pGrid;
 
     public Dictionary<GridCell, List<GridCell>> Grid {
         get => grid;
@@ -38,10 +38,12 @@ public class LevelGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"If this is 0 im gonna fucking lose it: {pGrid.Count}");
+        Debug.Log($"If this is 0 im gonna fucking lose it: {pGridCellExistence.Keys.Length}");
         // S_LevelGrid = this;
+
         grid = pGrid.ToDictionary();
         gridCellExistence = pGridCellExistence.ToDictionary();
+        Debug.Log($"What is going on: {gridCellExistence.Keys.Count}");
         GridManager.SetLevelGrid(gameObject);
         DebugGrid();
         //TurnAllWhite(testGridCell);
