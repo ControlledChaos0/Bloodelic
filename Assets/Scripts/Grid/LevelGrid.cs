@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PseudoDataStructures;
 using UnityEngine;
-//[ExecuteInEditMode]
 public class LevelGrid : MonoBehaviour
 {
     // public static LevelGrid S_LevelGrid {
@@ -19,14 +19,18 @@ public class LevelGrid : MonoBehaviour
     private float gridSpaceSize = 1f;
     [SerializeField]
     private GameObject gridCellPrefab;
+    [SerializeField]
+    private PseudoDictionary<GridCellPosition, GridCell> pGridCellExistence;
+    [SerializeField]
+    private PseudoDictionary<GridCell, List<GridCell>> pGrid;
 
     public Dictionary<GridCell, List<GridCell>> Grid {
         get => grid;
         private set => grid = value;
     }
 
-    private Dictionary<GridCellPosition, GridCell> gridCellExistence = new();
-    private Dictionary<GridCell, List<GridCell>> grid = new();
+    private Dictionary<GridCellPosition, GridCell> gridCellExistence;
+    private Dictionary<GridCell, List<GridCell>> grid;
     private GridCell testGridCell;
     private int layerMask = 1 << 6;
     
@@ -34,7 +38,10 @@ public class LevelGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log($"If this is 0 im gonna fucking lose it: {pGrid.Count}");
         // S_LevelGrid = this;
+        grid = pGrid.ToDictionary();
+        gridCellExistence = pGridCellExistence.ToDictionary();
         GridManager.SetLevelGrid(gameObject);
         DebugGrid();
         //TurnAllWhite(testGridCell);
@@ -88,12 +95,18 @@ public class LevelGrid : MonoBehaviour
             Debug.LogError("ERROR: Null Grid Cell Prefab");
             return;
         }
+        gridCellExistence = new();
+        grid = new();
         CreateGrid();
         ConnectGridCells();
+        pGrid = new(grid);
+        pGridCellExistence = new(gridCellExistence);
     }
     public void ClearGrid() {
         gridCellExistence = new();
         grid = new();
+        pGridCellExistence = new();
+        pGrid = new();
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
     }
@@ -232,6 +245,7 @@ public class LevelGrid : MonoBehaviour
         temp.name = $"GridCell; Position: {pos.x}, {pos.y}, {pos.z}; Enum: {posE}";
         GridCell gridCell = temp.GetComponent<GridCell>();
         gridCell.Position = new GridCellPosition(pos, posE);
+        gridCellExistence.Add(gridCell.Position, gridCell);
         grid.Add(gridCell, new List<GridCell>());
         if (temp.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
             //testGridCell = gridCell;
@@ -266,7 +280,7 @@ public class LevelGrid : MonoBehaviour
 
         //2D array: Second num is edge, First num is whether they line up with the enum or not
         GridCell[,] gridCellConnections = new GridCell[2,4];
-        Dictionary<GridCell, float> distanceChart = new Dictionary<GridCell, float>();
+        Dictionary<GridCell, float> distanceChart = new();
 
         Collider[] colliders = Physics.OverlapSphere(position, gridSpaceSize, 1 << 3);
         // if (testing) {
@@ -368,7 +382,7 @@ public class LevelGrid : MonoBehaviour
                     if (testing) {
                         Debug.Log("DESTROYED 1");
                     }
-                    //Destroy(gridCell.gameObject);
+                    Destroy(gridCell.gameObject);
                     destroyed = true;
                 }
                 continue;
@@ -377,7 +391,7 @@ public class LevelGrid : MonoBehaviour
                 if (testing) {
                     Debug.Log("DESTROYED 2");
                 }
-                //Destroy(gridCell.gameObject);
+                Destroy(gridCell.gameObject);
                 destroyed = true;
                 continue;
             }
@@ -389,13 +403,13 @@ public class LevelGrid : MonoBehaviour
             if (testing) {
                 Debug.Log("DESTROYED 3");
             }
-            //Destroy(gridCell.gameObject);
+            Destroy(gridCell.gameObject);
             destroyed = true;
         }
         if (destroyed) {
-            //grid.Remove(gridCell);
-            //gridCellExistence.Remove(gridCell.Position);
-            //Debug.Log("wait wtf this actually runs?");
+            grid.Remove(gridCell);
+            gridCellExistence.Remove(gridCell.Position);
+            Debug.Log("wait wtf this actually runs?");
         }
     }
 

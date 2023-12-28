@@ -15,6 +15,8 @@ public class LevelGridEditor : Editor
     private SerializedProperty _cornerProperty2;
     private SerializedProperty _gridSize;
     private SerializedProperty _gridPrefab;
+    private SerializedProperty _grid;
+    private SerializedProperty _gridExist;
     private bool _corners;
     private bool _gridProps;
     private bool _create;
@@ -29,12 +31,14 @@ public class LevelGridEditor : Editor
         _cornerProperty2 = serializedObject.FindProperty("corner2");
         _gridSize = serializedObject.FindProperty("gridSpaceSize");
         _gridPrefab = serializedObject.FindProperty("gridCellPrefab");
+        _grid = serializedObject.FindProperty("pGrid");
+        _gridExist = serializedObject.FindProperty("pGridCellExistence");
     }
 
     public override void OnInspectorGUI() {
         serializedObject.Update();
         
-        _create = (target as LevelGrid).Grid.Count == 0 && _corner1.activeSelf;
+        _create = ((target as LevelGrid).Grid == null || (target as LevelGrid).Grid.Count == 0) && _corner1.activeSelf;
         if (_create) {
             _corners = EditorGUILayout.BeginFoldoutHeaderGroup(_corners, "Corners");
             if (_corners) {
@@ -48,15 +52,19 @@ public class LevelGridEditor : Editor
                 EditorGUILayout.PropertyField(_gridPrefab);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
-            if (GUILayout.Button("Create Level Grid")) {                
+            if (GUILayout.Button("Create Level Grid")) {             
                 (target as LevelGrid).CallCreateGrid();
+                EditorUtility.SetDirty((target as LevelGrid).gameObject);
             }
         } else {
+            EditorGUILayout.PropertyField(_grid);
+            EditorGUILayout.PropertyField(_gridExist);
             if (GUILayout.Button("Delete Level Grid")) {
                 (target as LevelGrid).ClearGrid();
                 while (_gridTransform.childCount > 2) {
                     DestroyImmediate(_gridTransform.GetChild(2).gameObject);
                 }
+                EditorUtility.SetDirty((target as LevelGrid).gameObject);
             }
         }
         serializedObject.ApplyModifiedProperties();
