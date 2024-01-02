@@ -62,10 +62,10 @@ public class LevelGridEditor : Editor
                     EditorSceneManager.MarkSceneDirty(levelGrid.gameObject.scene);
                 }
             } else {
-                // if (_grid != null) {
-                //     EditorGUILayout.PropertyField(_grid);
-                //     EditorGUILayout.PropertyField(_gridExist);
-                // }
+                if (_grid != null) {
+                    EditorGUILayout.PropertyField(_grid);
+                    EditorGUILayout.PropertyField(_gridExist);
+                }
                 if (GUILayout.Button("Delete Level Grid")) {
                     levelGrid.ClearGrid();
                     while (_gridTransform.childCount > 2) {

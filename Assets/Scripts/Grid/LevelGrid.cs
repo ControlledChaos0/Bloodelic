@@ -22,15 +22,15 @@ public class LevelGrid : MonoBehaviour
     [SerializeField]
     private PseudoDictionary<GridCellPosition, GridCell> pGridCellExistence;
     [SerializeField]
-    private PseudoDictionaryList<GridCell, GridCell> pGrid;
+    private PseudoDictionaryArray<GridCell, GridCell> pGrid;
 
-    public Dictionary<GridCell, List<GridCell>> Grid {
+    public Dictionary<GridCell, GridCell[]> Grid {
         get => grid;
         private set => grid = value;
     }
 
     private Dictionary<GridCellPosition, GridCell> gridCellExistence;
-    private Dictionary<GridCell, List<GridCell>> grid;
+    private Dictionary<GridCell, GridCell[]> grid;
     private GridCell testGridCell;
     private int layerMask = 1 << 6;
     
@@ -248,7 +248,7 @@ public class LevelGrid : MonoBehaviour
         GridCell gridCell = temp.GetComponent<GridCell>();
         gridCell.Position = new GridCellPosition(pos, posE);
         gridCellExistence.Add(gridCell.Position, gridCell);
-        grid.Add(gridCell, new List<GridCell>());
+        grid.Add(gridCell, new GridCell[4]);
         if (temp.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
             //testGridCell = gridCell;
         }
@@ -316,6 +316,14 @@ public class LevelGrid : MonoBehaviour
                 }
                 continue;
             }
+
+            /*
+            Edge Num goes 0-3 corresponding to edge direction
+            0 - TOP
+            1 - BOTTOM
+            2 - LEFT
+            3 - RIGHT
+            */
             if (roundZ > 0) {
                 edgeNum = 0;
             } else if (roundZ < 0) {
@@ -398,9 +406,9 @@ public class LevelGrid : MonoBehaviour
                 continue;
             }
             isEmpty = false;
-            grid[gridCell].Add(gridCellConnections[0,x]);
-            
+            grid[gridCell][x] = gridCellConnections[0,x];
         }
+        gridCell.Neighbors = grid[gridCell];
         if (isEmpty) {
             if (testing) {
                 Debug.Log("DESTROYED 3");
@@ -442,11 +450,11 @@ public class LevelGrid : MonoBehaviour
             }
         }
     }
-    private void AddToGraph(GridCell gridCell, GridCellPosition gridCellPosition) {
-        GridCell temp = gridCellExistence[gridCellPosition];
-        grid[temp].Add(gridCell);
-        grid[gridCell].Add(temp);
-    }
+    // private void AddToGraph(GridCell gridCell, GridCellPosition gridCellPosition) {
+    //     GridCell temp = gridCellExistence[gridCellPosition];
+    //     grid[temp].Add(gridCell);
+    //     grid[gridCell].Add(temp);
+    // }
 
     private float RoundToNearest(float num) {
         float numRound = Mathf.Round(num * 100f) / 100f;
@@ -457,7 +465,7 @@ public class LevelGrid : MonoBehaviour
     //TEST METHODS
     private void TurnAllWhite(GridCell gridCell) {
         gridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
-        List<GridCell> list = grid[gridCell];
+        GridCell[] list = grid[gridCell];
         foreach (GridCell connectedGridCell in list) {
             if (!connectedGridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.Equals(Color.blue)) {
                 TurnAllWhite(connectedGridCell);
@@ -467,8 +475,8 @@ public class LevelGrid : MonoBehaviour
 
     public void TurnSurroundingBlue(GridCell gridCell) {
         gridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
-        List<GridCell> list = grid[gridCell];
-        Debug.Log($"Length of List: {list.Count}");
+        GridCell[] list = grid[gridCell];
+        Debug.Log($"Length of List: {list.Length}");
         foreach (GridCell connectedGridCell in list) {
             connectedGridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
         }

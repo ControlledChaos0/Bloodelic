@@ -37,6 +37,12 @@ namespace PseudoDataStructures {
             secondaryElements = new T[0];
         }
 
+        public ArrayArray(int i) {
+            startIndeces = new int[i];
+            secondaryElements = new T[i];
+        }
+
+
         public ArrayArray(T[][] array) {
             startIndeces = new int[array.Length];
             secondaryElements = new T[0];
@@ -270,6 +276,42 @@ namespace PseudoDataStructures {
     }
 
     [Serializable]
+    public class PseudoDictionaryArray<T1, T2> {
+
+        public T1[] Keys;
+        public Pseudo2DArray<T2>[] Values;
+        public int Count {
+            get => Keys.Length;
+        }
+
+        public PseudoDictionaryArray() {
+            Keys = new T1[0];
+            Values = new Pseudo2DArray<T2>[0];
+        }
+
+        public PseudoDictionaryArray(Dictionary<T1, T2[]> dict) {
+
+            Keys = new T1[dict.Count];
+            Values = new Pseudo2DArray<T2>[dict.Count];
+
+            int i = 0;
+            foreach (KeyValuePair<T1, T2[]> kvp in dict) {
+                Keys[i] = kvp.Key;
+                Values[i] = new Pseudo2DArray<T2>(kvp.Value);
+                i++;
+            }
+        }
+
+        public Dictionary<T1, T2[]> ToDictionary() {
+            Dictionary<T1, T2[]> dict = new();
+            for (int i = 0; i < Keys.Length; i++) {
+                dict[Keys[i]] = Values[i].elements;
+            }
+            return dict;
+        }
+    }
+
+    [Serializable]
     public class SNode<T> {
         public T[] elements;
         public T this[int index] => elements[index];
@@ -317,6 +359,18 @@ namespace PseudoDataStructures {
                 list.Add(element);
             }
             return list;
+        }
+    }
+
+    [Serializable]
+    public class Pseudo2DArray<T> {
+        public T[] elements;
+
+        public Pseudo2DArray() {
+            elements = new T[0];
+        }
+        public Pseudo2DArray(T[] array) {
+            elements = array;
         }
     }
 }
