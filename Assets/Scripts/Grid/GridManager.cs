@@ -24,4 +24,6 @@ public class GridManager
         LevelGridGO = gameObject;
         LevelGrid = _levelGridGO.GetComponent<LevelGrid>();
     }
+
+    
 }
