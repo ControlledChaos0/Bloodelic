@@ -15,6 +15,12 @@ public static class ConstantValues
     Bottom edge     "           BACK        FRONT
     Left edge       "           LEFT        RIGHT
     Right edge      "           RIGHT       LEFT
+
+    Edge Num also goes accordingly:
+    0. Top
+    1. Bottom
+    2. Left
+    3. Right
     **/
     private static GridCellPositionEnum[,,] _positionArray = new GridCellPositionEnum[5, 4, 3]
                                     

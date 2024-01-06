@@ -23,48 +23,54 @@ public class Pathfinder
         }
 
         Dictionary<GridCell, bool> searched = new(GridManager.LevelGrid.Grid.Count);
+        Dictionary<GridCell, bool> toBeSearchedDic = new(GridManager.LevelGrid.Grid.Count);
         PriorityQueue<GridCell, float> toBeSearched = new();
         toBeSearched.Enqueue(start, 0);
-        start.g = 0;
+        toBeSearchedDic.Add(start, true);
+        start.G = 0;
+        start.PathTo = null;
 
         bool end = false;
 
         while (toBeSearched.Count > 0) {
             GridCell current = toBeSearched.Dequeue();
+            if (searched.ContainsKey(current)) {
+                continue;
+            }
             GridCell[] neighbors = current.Neighbors;
 
             foreach (GridCell cell in neighbors) {
                 if (cell == null) {
                     continue;
                 }
-
                 bool value;
-                if (cell.Equals(target)) {
+                if (searched.ContainsKey(cell)) {
+                    continue;
+                } else if (cell.Equals(target)) {
                     cell.PathTo = current;
                     end = true;
                     break;
-                } else if (!searched.ContainsKey(cell)) {
-
                 }
 
-                cell.PathTo = current;
-
-                float g = current.g + Vector3.Distance(cell.Position.Position, current.Position.Position);
+                float g = current.G + Vector3.Distance(cell.Position.Position, current.Position.Position);
                 float h = cell.FindHeuristic(target);
                 float f = g + h;
 
-                if (cell.F > f) {
-                    
+                if (toBeSearchedDic.TryGetValue(cell, out value) && value && cell.F <= f) {
+                    continue;
                 }
+                cell.SetF(g, h);
+                cell.PathTo = current;
+                toBeSearched.Enqueue(cell, f);
             }
 
             if (end) {
-                break;
+                return new GridPath(target);
             }
 
             searched.Add(current, true);
         }
-
+        UnityEngine.Debug.Log("No path found");
         return new GridPath();
     }
 }

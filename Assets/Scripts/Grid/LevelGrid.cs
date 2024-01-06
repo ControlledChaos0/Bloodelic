@@ -31,8 +31,11 @@ public class LevelGrid : MonoBehaviour
 
     private Dictionary<GridCellPosition, GridCell> gridCellExistence;
     private Dictionary<GridCell, GridCell[]> grid;
-    private GridCell testGridCell;
     private int layerMask = 1 << 6;
+
+    //TESTING VARIABLES
+    private string testName = "GridCell; Position: 0.5, 0.5, 0; Enum: FRONT";
+    private GridCell testGridCell;
     
 
     // Start is called before the first frame update
@@ -249,17 +252,13 @@ public class LevelGrid : MonoBehaviour
         gridCell.Position = new GridCellPosition(pos, posE);
         gridCellExistence.Add(gridCell.Position, gridCell);
         grid.Add(gridCell, new GridCell[4]);
-        if (temp.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
-            //testGridCell = gridCell;
-        }
-        // = Color.blue;
     }
 
     private void ConnectGridCells() {
         GridCell[] allGridCells = grid.Keys.ToArray();
         Debug.Log(allGridCells.Length);
         foreach (GridCell gridCell in allGridCells) {
-            if (gridCell.gameObject.name == "GridCell; Position: -3, 1.5, 2.5; Enum: RIGHT") {
+            if (gridCell.gameObject.name == testName) {
                 testGridCell = gridCell;
             }
             ConnectGraph(gridCell);
@@ -307,7 +306,7 @@ public class LevelGrid : MonoBehaviour
             float roundZ = Mathf.Round(correctDir.z * 100f) / 100f;
             if (testing) {
                 //Debug.Log($"Corrected Position: {correctDir}");
-                Debug.Log($"Double Check: x,{correctDir.x}; y,{correctDir.y}; z,{correctDir.z}");
+                Debug.Log($"Double Check: x,{roundX}; y,{roundY}; z,{roundZ}");
             }
             int edgeNum = -1;
             if ((roundX != 0 && roundZ != 0) || (roundX == 0 && roundZ == 0)) {
@@ -343,45 +342,62 @@ public class LevelGrid : MonoBehaviour
 
             GridCellPositionEnum corPosition;
             if (roundY == 0) {
-                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.Position.PositionE), edgeNum, 0);
+                corPosition = ConstantValues.GetPositionalArray((int)gridCell.Position.PositionE, edgeNum, 0);
             } else if (roundY > 0) {
-                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.Position.PositionE), edgeNum, 1);
+                corPosition = ConstantValues.GetPositionalArray((int)gridCell.Position.PositionE, edgeNum, 1);
             } else {
-                corPosition = ConstantValues.GetPositionalArray(((int)gridCell.Position.PositionE), edgeNum, 2);
+                corPosition = ConstantValues.GetPositionalArray((int)gridCell.Position.PositionE, edgeNum, 2);
             }
             
-            if (gridCellConnections[1,edgeNum] == null) {
-                if (testing) {
-                    Debug.Log($"EDGE {edgeNum} CONNECTED");
+            bool connectEdge = false;
+            GridCell gridCellConnection = gridCellConnections[1,edgeNum];
+            if (gridCellConnection == null) {
+                connectEdge = true;
+            } else if (distanceChart.Count != 0) {
+                if (distanceChart[gridCellConnection] > dirToCol.magnitude) {
+                    connectEdge = true;
+                } else if (distanceChart[gridCellConnection] == dirToCol.magnitude) {
+                    if (!gridCellConnection.Equals(gridCellConnections[0,edgeNum])) {
+                        connectEdge = true;
+                    } else if (otherGridCell.Position.PositionE == ConstantValues.GetPositionalArray((int)gridCell.Position.PositionE, edgeNum, 1)) {
+                        connectEdge = true;
+                    } else {
+                        if (testing) {
+                            Debug.Log("Lol lmao");
+                        }
+                    }
                 }
-                gridCellConnections[0,edgeNum] = otherGridCell;
-                gridCellConnections[1,edgeNum] = otherGridCell;
-            } else if (distanceChart.Count != 0 && distanceChart[gridCellConnections[1,edgeNum]] > dirToCol.magnitude) {
-                if (testing) {
-                    Debug.Log($"EDGE {edgeNum} CONNECTED");
-                }
-                gridCellConnections[0,edgeNum] = otherGridCell;
-                gridCellConnections[1,edgeNum] = otherGridCell;
-            } else if (distanceChart.Count != 0 && distanceChart[gridCellConnections[1,edgeNum]] == dirToCol.magnitude && !gridCellConnections[1,edgeNum].Equals(gridCellConnections[0,edgeNum])) {
-                if (testing) {
-                    Debug.Log($"EDGE {edgeNum} CONNECTED");
-                }
-                gridCellConnections[0,edgeNum] = otherGridCell;
-                gridCellConnections[1,edgeNum] = otherGridCell;
             } else {
+                if (testing) {
+                    Debug.Log("All checks failed.");
+                }
                 continue;
+            }
+
+            if (connectEdge) {
+                if (testing) {
+                    Debug.Log($"EDGE {edgeNum} CONNECTED");
+                }
+                gridCellConnections[0,edgeNum] = otherGridCell;
+                gridCellConnections[1,edgeNum] = otherGridCell;
+                if (gridCellConnections[0,edgeNum].Position.PositionE != corPosition) {
+                    if (testing) {
+                        Debug.Log("SIKE");
+                    }
+                    gridCellConnections[0,edgeNum] = null;
+                }
             }
             
             distanceChart.Add(otherGridCell, dirToCol.magnitude);
             if (testing) {
-                    Debug.Log($"Magnitude: {dirToCol.magnitude}");
-                }
-            if (otherGridCell.Position.PositionE != corPosition) {
-                if (testing) {
-                    Debug.Log("SIKE");
-                }
-                gridCellConnections[0,edgeNum] = null;
+                Debug.Log($"Magnitude: {dirToCol.magnitude}");
             }
+        }
+
+        if (testing) {
+            Debug.Log("-------------------------------------------------");
+            Debug.Log($"{gridCellConnections[0,0]}, {gridCellConnections[0,1]}, {gridCellConnections[0,2]}, {gridCellConnections[0,3]}");
+            Debug.Log($"{gridCellConnections[1,0]}, {gridCellConnections[1,1]}, {gridCellConnections[1,2]}, {gridCellConnections[1,3]}");
         }
 
         bool isEmpty = true;

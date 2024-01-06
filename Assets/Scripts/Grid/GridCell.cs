@@ -33,22 +33,36 @@ public class GridCell : MonoBehaviour
         get;
         private set;
     }
-    public float F => g + h;
-    public float g;
-    public float h;
+    public float F => G + H;
+    public float G;
+    public float H;
     private GridCell _pathTo;
+    private Renderer _renderer;
     private bool _isOccupied;
 
+    private void Start() {
+        _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+    }
+
+    public void TurnBlue() {
+        _renderer.material.color = Color.blue;
+    }
     public void TurnSurroundingBlue() {
         //GridManager.LevelGrid.TurnSurroundingBlue(this);
 
-        gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+        TurnBlue();
         foreach (GridCell connectedGridCell in Neighbors) {
-            connectedGridCell.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+            if (connectedGridCell != null) {
+                connectedGridCell.TurnBlue();
+            }
         }
     }
+    public void SetF(float g, float h) {
+        G = g;
+        H = h;
+    }
     public float FindHeuristic(GridCell target) {
-        h = Vector3.Distance(Position.Position, target.Position.Position);
-        return h;
+        H = Vector3.Distance(Position.Position, target.Position.Position);
+        return H;
     }
 }

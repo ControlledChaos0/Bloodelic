@@ -7,22 +7,22 @@ using UnityEngine;
 public class GridCellPosition
 {
     public GridCellPositionEnum PositionE {
-        get => _positionE;
-        set => _positionE = value;
+        get => positionE;
+        set => positionE = value;
     }
     public Vector3 Position{
-        get => _position;
-        set => _position = value;
+        get => position;
+        set => position = value;
     }
     [SerializeField]
-    private GridCellPositionEnum _positionE;
+    private GridCellPositionEnum positionE;
     [SerializeField]
-    private Vector3 _position;
+    private Vector3 position;
 
     public GridCellPosition() : this(Vector3.up, GridCellPositionEnum.BOTTOM) {}
     public GridCellPosition(Vector3 position, GridCellPositionEnum positionE) {
-        _position = position;
-        _positionE = positionE;
+        this.position = position;
+        this.positionE = positionE;
     }
 
     public override bool Equals(object obj)
@@ -54,6 +54,6 @@ public class GridCellPosition
 
     public override string ToString()
     {
-        return $"{_position} {_positionE}";
+        return $"{position} {positionE}";
     }
 }
