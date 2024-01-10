@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
     private static CameraController _instance;
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
+    //private RaycastHit _closestHit;
     private Transform _lookAt;
     private Vector3 _oldRot;
     private Vector3 _defaultPos;
@@ -61,9 +62,11 @@ public class CameraController : MonoBehaviour
     }
     private void OnEnable() {
         InputController.InputControllerInstance.click += ScreenClick;
+        //InputController.InputControllerInstance.hover += Hover;
     }
     private void OnDisable() {
         InputController.InputControllerInstance.click -= ScreenClick;
+        //InputController.InputControllerInstance.hover -= Hover;
         Clear();
     }
 
@@ -95,6 +98,22 @@ public class CameraController : MonoBehaviour
     public void ZoomCamera(float zoom) {
         distanceFrom += zoomSensitivity * (-zoom / 120f);
         distanceFrom = Mathf.Clamp(distanceFrom, 1f, 20f);
+    }
+
+    public RaycastHit Hover() {
+        Ray cameraRay = MainCamera.ScreenPointToRay(InputController.InputControllerInstance.screenPosition);
+        RaycastHit[] cameraRayHits = Physics.RaycastAll(cameraRay, Mathf.Infinity, 1 << 3);
+        float closestDistance = Mathf.Infinity;
+        RaycastHit hit = new();
+        foreach (RaycastHit cameraRayHit in cameraRayHits) {
+            float angle = Vector3.Angle(cameraRay.direction, cameraRayHit.transform.up);
+            Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
+            if (angle >= 90f && cameraRayHit.distance < closestDistance) {
+                hit = cameraRayHit;
+                closestDistance = cameraRayHit.distance;
+            }
+        }
+        return hit;
     }
 
     public void ScreenClick() {

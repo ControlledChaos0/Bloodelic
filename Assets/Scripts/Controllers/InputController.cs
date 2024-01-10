@@ -26,6 +26,7 @@ public class InputController : MonoBehaviour
     private bool _moveCamera;
     private bool _panCamera;
     public event Action click;
+    public event Action hover;
     public static InputController InputControllerInstance {
         get {
             lock (padlock) {
@@ -72,7 +73,7 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        OnHover();
     }
 
     private void OnEnable() {
@@ -87,6 +88,10 @@ public class InputController : MonoBehaviour
 
     private void OnCursor(InputValue inputValue) {
         screenPosition = inputValue.Get<Vector2>();
+    }
+    private void OnHover() {
+        if (!_mouseDelta.Equals(Vector2.zero))
+            hover?.Invoke();
     }
     private void OnMoveCamera(InputValue inputValue) {
         _mouseDelta = inputValue.Get<Vector2>();

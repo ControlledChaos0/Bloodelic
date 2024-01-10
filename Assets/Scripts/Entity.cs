@@ -27,8 +27,17 @@ public class Entity : MonoBehaviour
     protected float timeOfMovement;
     protected float error = 0.01f;
     protected bool move;
-    //Testing
+    //Testing (not intended for use in actual game unless decided otherwise, then move up above)
     public static GridCell testCell;
+    private static Entity _instance;
+    public static Entity Instance {
+        get {
+            if (_instance == null) {
+                _instance = new();
+            }
+            return _instance;
+        }
+    }
 
     // Start is called before the first frame update
     protected virtual void Start()

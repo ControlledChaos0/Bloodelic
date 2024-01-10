@@ -6,6 +6,17 @@ using UnityEngine;
 
 public class Monster : Entity
 {
+    //Testing
+    private static Monster _mInstance;
+    public static Monster MInstance {
+        get {
+            if (_mInstance == null) {
+                _mInstance = new();
+            }
+            return _mInstance;
+        }
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
