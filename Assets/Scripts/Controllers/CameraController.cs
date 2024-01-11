@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEditor;
 
 public class CameraController : MonoBehaviour
 {
@@ -13,14 +14,14 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float zoomSensitivity = 0.5f;
     [SerializeField]
-    private float panSensitivity = 0.5f;
+    private float panSensitivity = 5f;
     [SerializeField]
     private float distanceFrom = 5.0f;
 
     private static CameraController _instance;
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
-    //private RaycastHit _closestHit;
+    private RaycastHit _closestHit;
     private Transform _lookAt;
     private Vector3 _oldRot;
     private Vector3 _defaultPos;
@@ -28,6 +29,7 @@ public class CameraController : MonoBehaviour
     private Vector3 _panMove;
     private float _rotX;
     private float _rotY;
+    private int _hitMask;
 
     public static CameraController CameraControllerInstance {
         get {
@@ -42,6 +44,14 @@ public class CameraController : MonoBehaviour
     public Camera MainCamera {
         get => mainCamera;
         private set => mainCamera = value;
+    }
+    public RaycastHit ClosestHit {
+        get => _closestHit;
+        private set => _closestHit = value;
+    }
+    public int HitMask {
+        get => _hitMask;
+        set => _hitMask = value;
     }
 
     private void Awake() {
@@ -91,7 +101,7 @@ public class CameraController : MonoBehaviour
     }
 
     public void PanCamera(Vector2 mouseDelta) {
-        _currentPos += ((_lookAt.up * mouseDelta.y) + (_lookAt.right * mouseDelta.x)) * panSensitivity;
+        _currentPos += ((-_lookAt.up * mouseDelta.y) + (-_lookAt.right * mouseDelta.x)) * panSensitivity / 100f;
 
     }
 
@@ -100,9 +110,12 @@ public class CameraController : MonoBehaviour
         distanceFrom = Mathf.Clamp(distanceFrom, 1f, 20f);
     }
 
-    public RaycastHit Hover() {
+    public void Hover() {
+        _closestHit = SetHit();
+    }
+    private RaycastHit SetHit() {
         Ray cameraRay = MainCamera.ScreenPointToRay(InputController.InputControllerInstance.screenPosition);
-        RaycastHit[] cameraRayHits = Physics.RaycastAll(cameraRay, Mathf.Infinity, 1 << 3);
+        RaycastHit[] cameraRayHits = Physics.RaycastAll(cameraRay, Mathf.Infinity, _hitMask);
         float closestDistance = Mathf.Infinity;
         RaycastHit hit = new();
         foreach (RaycastHit cameraRayHit in cameraRayHits) {
@@ -117,33 +130,20 @@ public class CameraController : MonoBehaviour
     }
 
     public void ScreenClick() {
-        Ray cameraRay = MainCamera.ScreenPointToRay(InputController.InputControllerInstance.screenPosition);
-        RaycastHit[] cameraRayHits = Physics.RaycastAll(cameraRay, Mathf.Infinity, 1 << 3);
-        int position = -1;
-        float closestDistance = Mathf.Infinity;
-        int step = 0;
-        foreach (RaycastHit cameraRayHit in cameraRayHits) {
-            float angle = Vector3.Angle(cameraRay.direction, cameraRayHit.transform.up);
-            Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
-            if (angle >= 90f && cameraRayHit.distance < closestDistance) {
-                position = step;
-                closestDistance = cameraRayHit.distance;
-            }
-            step++;
+        if (_closestHit.Equals(new RaycastHit())) {
+            return;
         }
-        Debug.Log($"Position: {position}");
-        if (position != -1) {
-            GameObject gameObject = cameraRayHits[position].transform.gameObject;
-            Renderer cellRenderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
-            if (cellRenderer.isVisible) {
-                GridCell gridCell = gameObject.GetComponent<GridCell>();
-                //gridCell.TurnSurroundingBlue();
-                GridPath path = Pathfinder.FindPath(Entity.testCell, gridCell);
-                path.TurnBlue();
-                
-            }
-            Debug.Log(cameraRayHits[position].transform.gameObject);
+
+        GameObject gameObject = _closestHit.transform.gameObject;
+        Renderer cellRenderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        if (cellRenderer.isVisible) {
+            GridCell gridCell = gameObject.GetComponent<GridCell>();
+            //gridCell.TurnSurroundingBlue();
+            GridPath path = Pathfinder.FindPath(Entity.testCell, gridCell);
+            path.TurnBlue();
+            
         }
+        Debug.Log(_closestHit.transform.gameObject);
     }
 
     private void Clear() {

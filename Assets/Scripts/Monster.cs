@@ -21,7 +21,7 @@ public class Monster : Entity
     protected override void Start()
     {
         base.Start();
-        GameController.Instance.SetMonster(this);
+        //GameController.Instance.SetMonster(this);
         Pathfinder.FindPath(occupiedCell, occupiedCell);
     }
 

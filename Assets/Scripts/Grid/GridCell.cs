@@ -38,14 +38,19 @@ public class GridCell : MonoBehaviour
     public float H;
     private GridCell _pathTo;
     private Renderer _renderer;
+    private Color _savedColor;
     private bool _isOccupied;
 
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        _savedColor = _renderer.material.color;
     }
 
     public void TurnBlue() {
         _renderer.material.color = Color.blue;
+    }
+    public void RevertColor() {
+        _renderer.material.color = _savedColor;
     }
     public void TurnSurroundingBlue() {
         //GridManager.LevelGrid.TurnSurroundingBlue(this);

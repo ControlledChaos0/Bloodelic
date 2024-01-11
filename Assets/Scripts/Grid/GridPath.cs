@@ -58,4 +58,9 @@ public class GridPath
             gridCell.TurnBlue();
         }
     }
+    public void RevertColor() {
+        foreach (GridCell gridCell in _path) {
+            gridCell.RevertColor();
+        }
+    }
 }
