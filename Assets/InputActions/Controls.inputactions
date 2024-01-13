@@ -372,25 +372,7 @@
             "id": "e615be76-9535-4030-8dab-223ecdaf9fb4",
             "actions": [
                 {
-                    "name": "MoveCamera",
-                    "type": "Value",
-                    "id": "eff75918-6890-47f5-929f-3234278f6c79",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "CheckMoveCamera",
-                    "type": "Button",
-                    "id": "1e619214-c493-448d-b084-0a49644fe853",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=0.2)",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ZoomCamera",
+                    "name": "Scroll",
                     "type": "Value",
                     "id": "28d3a3b6-3276-4559-89bd-b95e5e25939e",
                     "expectedControlType": "Axis",
@@ -399,7 +381,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "CheckPanCamera",
+                    "name": "MiddleClick",
                     "type": "Button",
                     "id": "41ddc401-d77b-4bcf-b44c-93787e990dc8",
                     "expectedControlType": "Button",
@@ -408,12 +390,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RIghtClick",
+                    "name": "RightClick",
                     "type": "Button",
                     "id": "b07e077b-7eac-4ca6-8646-f82a4c97f4f1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.2)",
                     "initialStateCheck": false
                 },
                 {
@@ -433,42 +415,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "DeltaCursor",
+                    "type": "Value",
+                    "id": "eff75918-6890-47f5-929f-3234278f6c79",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "eded63ef-401d-4c6d-9d7c-dd1b516bb261",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "MoveCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "35cff905-d66f-4cda-9963-f31f103923c4",
-                    "path": "<Pointer>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "MoveCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ba37ea87-5c1e-4e41-81bf-4b14d1385452",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "CheckMoveCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "d7763010-8c19-4d8a-b655-545ae670f432",
@@ -476,7 +434,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "ZoomCamera",
+                    "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -487,7 +445,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "RIghtClick",
+                    "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -498,7 +456,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "CheckPanCamera",
+                    "action": "MiddleClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -521,6 +479,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "LeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eded63ef-401d-4c6d-9d7c-dd1b516bb261",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DeltaCursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35cff905-d66f-4cda-9963-f31f103923c4",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DeltaCursor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEditor;
+using System;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Singleton<CameraController>
 {
-    private static readonly object padlock = new();
     [SerializeField]
     private Camera mainCamera;
     [SerializeField]
@@ -18,7 +18,6 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float distanceFrom = 5.0f;
 
-    private static CameraController _instance;
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
     private RaycastHit _closestHit;
@@ -29,18 +28,10 @@ public class CameraController : MonoBehaviour
     private Vector3 _panMove;
     private float _rotX;
     private float _rotY;
+    private bool _rotateCamera;
+    private bool _panCamera;
     private int _hitMask;
 
-    public static CameraController CameraControllerInstance {
-        get {
-            lock (padlock) {
-                if (_instance == null) {
-                    _instance = new();
-                }
-                return _instance;
-            }
-        }
-    }
     public Camera MainCamera {
         get => mainCamera;
         private set => mainCamera = value;
@@ -55,6 +46,7 @@ public class CameraController : MonoBehaviour
     }
 
     private void Awake() {
+        InitializeSingleton();
         _cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
     }
 
@@ -71,13 +63,22 @@ public class CameraController : MonoBehaviour
         _lookAt.position = _currentPos;
     }
     private void OnEnable() {
-        InputController.InputControllerInstance.click += ScreenClick;
-        //InputController.InputControllerInstance.hover += Hover;
+        InputController.Instance.MiddleHold += StartPanCamera;
+        InputController.Instance.MiddleCancel += StopPanCamera;
+        InputController.Instance.RightHold += StartRotateCamera;
+        InputController.Instance.RightCancel += StopRotateCamera;
+        InputController.Instance.LeftClick += ScreenClick;
+        InputController.Instance.Scroll += ZoomCamera;
+        InputController.Instance.Hover += Hover;
     }
     private void OnDisable() {
-        InputController.InputControllerInstance.click -= ScreenClick;
-        //InputController.InputControllerInstance.hover -= Hover;
-        Clear();
+        InputController.Instance.MiddleHold -= StartPanCamera;
+        InputController.Instance.MiddleCancel -= StopPanCamera;
+        InputController.Instance.RightHold -= StartRotateCamera;
+        InputController.Instance.RightCancel -= StopRotateCamera;
+        InputController.Instance.LeftClick -= ScreenClick;
+        InputController.Instance.Scroll -= ZoomCamera;
+        InputController.Instance.Hover -= Hover;
     }
 
     private void SetCamera() {
@@ -91,8 +92,22 @@ public class CameraController : MonoBehaviour
         _rotX = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.x;
         _rotY = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.y;
         distanceFrom = _cinemachineCam.m_Lens.OrthographicSize;
+
+        _panCamera = false;
+        _rotateCamera = false;
     }
 
+    public void StartRotateCamera() {
+        if (_panCamera) {
+            return;
+        }
+        InputController.Instance.MouseMove += RotateCamera;
+        _rotateCamera = true;
+    }
+    public void StopRotateCamera() {
+        InputController.Instance.MouseMove -= RotateCamera;
+        _rotateCamera = false;
+    }
     public void RotateCamera(Vector2 mouseDelta) {
         _rotX -= mouseDelta.y * cameraSensitivity;
         _rotY += mouseDelta.x * cameraSensitivity;
@@ -100,9 +115,19 @@ public class CameraController : MonoBehaviour
         //Debug.Log(_rotX);
     }
 
+    public void StartPanCamera() {
+        if (_rotateCamera) {
+            return;
+        }
+        InputController.Instance.MouseMove += PanCamera;
+        _panCamera = true;
+    }
+    public void StopPanCamera() {
+        InputController.Instance.MouseMove -= PanCamera;
+        _panCamera = false;
+    }
     public void PanCamera(Vector2 mouseDelta) {
         _currentPos += ((-_lookAt.up * mouseDelta.y) + (-_lookAt.right * mouseDelta.x)) * panSensitivity / 100f;
-
     }
 
     public void ZoomCamera(float zoom) {
@@ -110,16 +135,17 @@ public class CameraController : MonoBehaviour
         distanceFrom = Mathf.Clamp(distanceFrom, 1f, 20f);
     }
 
-    public void Hover() {
-        _closestHit = SetHit();
+    public void Hover(Vector2 screenPos) {
+        Ray cameraRay = MainCamera.ScreenPointToRay(screenPos);
+        _closestHit = SetHit(cameraRay);
     }
-    private RaycastHit SetHit() {
-        Ray cameraRay = MainCamera.ScreenPointToRay(InputController.InputControllerInstance.screenPosition);
-        RaycastHit[] cameraRayHits = Physics.RaycastAll(cameraRay, Mathf.Infinity, _hitMask);
+
+    private RaycastHit SetHit(Ray ray) {
+        RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, _hitMask);
         float closestDistance = Mathf.Infinity;
         RaycastHit hit = new();
         foreach (RaycastHit cameraRayHit in cameraRayHits) {
-            float angle = Vector3.Angle(cameraRay.direction, cameraRayHit.transform.up);
+            float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
             Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
             if (angle >= 90f && cameraRayHit.distance < closestDistance) {
                 hit = cameraRayHit;
@@ -144,9 +170,5 @@ public class CameraController : MonoBehaviour
             
         }
         Debug.Log(_closestHit.transform.gameObject);
-    }
-
-    private void Clear() {
-        _instance = null;
     }
 }

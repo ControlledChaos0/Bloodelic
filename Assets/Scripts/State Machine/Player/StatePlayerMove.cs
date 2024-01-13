@@ -7,7 +7,7 @@ public class StatePlayerMove : State
     private GridCell _gridCell;
     private GridPath _gridPath;
     private Monster _monster = Monster.MInstance;
-    private CameraController _camera = CameraController.CameraControllerInstance;
+    private CameraController _camera = new();
 
     public override void EnterState() {
         _camera.HitMask = 1 << 3;

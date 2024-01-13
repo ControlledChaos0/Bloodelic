@@ -1,68 +1,66 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputController : MonoBehaviour
+public class InputController : Singleton<InputController>
 {
-    private static readonly object padlock = new();
     [SerializeField]
     private InputActionAsset inputActions;
-    [SerializeField]
-    private CameraController cameraController;
-    public Vector2 screenPosition;
-    private static InputController _instance;
-    private InputActionMap _cameraControls;
-    private InputAction _moveCameraAction;
-    private InputAction _checkMoveCameraAction;
-    private InputAction _checkPanCameraAction;
+    
+    private InputActionMap _mainControls;
+    private InputAction _scrollAction;
     private InputAction _rightClickAction;
     private InputAction _leftClickAction;
+    private InputAction _middleClickAction;
     private InputAction _cursorAction;
+    private InputAction _deltaCursorAction;
     private Vector2 _mouseDelta;
+    private Vector2 _screenPosition;
+    private float _scrollDelta;
     private float _pressTime;
-    private float _clickTime;
+    private float _middleClickTime;
+    private float _rightClickTime;
+    private float _leftClickTime;
     private bool _moveCamera;
     private bool _panCamera;
-    public event Action click;
-    public event Action hover;
-    public static InputController InputControllerInstance {
-        get {
-            lock (padlock) {
-                if (_instance == null) {
-                    _instance = new();
-                }
-                return _instance;
-            }
-        }
-    }
+    //Events
+    public event Action MiddleClick;
+    public event Action MiddleHold;
+    public event Action MiddleCancel;
+    public event Action RightClick;
+    public event Action RightHold;
+    public event Action RightCancel;
+    public event Action LeftClick;
+    public event Action LeftHold;
+    public event Action<float> Scroll;
+    public event Action<Vector2> Hover;
+    public event Action<Vector2> MouseMove;
 
     private void Awake() {
-        _cameraControls = inputActions.FindActionMap("MainControls");
+        InitializeSingleton();
+        _mainControls = inputActions.FindActionMap("MainControls");
 
-        _moveCameraAction = _cameraControls.FindAction("MoveCamera");
-        _checkMoveCameraAction = _cameraControls.FindAction("CheckMoveCamera");
-        _checkPanCameraAction = _cameraControls.FindAction("CheckPanCamera");
-        _rightClickAction = _cameraControls.FindAction("RightClick");
-        _leftClickAction = _cameraControls.FindAction("LeftClick");
-        _cursorAction = _cameraControls.FindAction("Cursor");
+        _scrollAction = _mainControls.FindAction("Scroll");
+        _middleClickAction = _mainControls.FindAction("MiddleClick");
+        _rightClickAction = _mainControls.FindAction("RightClick");
+        _leftClickAction = _mainControls.FindAction("LeftClick");
+        _cursorAction = _mainControls.FindAction("Cursor");
+        _deltaCursorAction = _mainControls.FindAction("DeltaCursor");
 
-        _checkMoveCameraAction.performed += OnCheckMoveCameraPerformed;
-        _checkMoveCameraAction.canceled += OnCheckMoveCameraCanceled;
-        _checkPanCameraAction.performed += OnCheckPanCameraPerformed;
-        _checkPanCameraAction.canceled += OnCheckPanCameraCanceled;
+        int holdIndex = _middleClickAction.interactions.IndexOf("Hold(duration=");
+        _pressTime = float.Parse(_middleClickAction.interactions.Substring(holdIndex + 14, 3));
 
-        int holdIndex = _checkMoveCameraAction.interactions.IndexOf("Hold(duration=");
-        _pressTime = float.Parse(_checkMoveCameraAction.interactions.Substring(holdIndex + 14, 3));
-
+        _middleClickAction.started += OnMiddleClickStarted;
+        _middleClickAction.performed += OnMiddleClickPerformed;
+        _middleClickAction.canceled += OnMiddleClickCanceled;
         _rightClickAction.started += OnRightClickStarted;
+        _rightClickAction.performed += OnRightClickPerformed;
         _rightClickAction.canceled += OnRightClickCanceled;
         _leftClickAction.started += OnLeftClickStarted;
         _leftClickAction.canceled += OnLeftClickCanceled;
-
-        _moveCamera = false;
-        _panCamera = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -73,7 +71,7 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OnHover();
+
     }
 
     private void OnEnable() {
@@ -82,65 +80,64 @@ public class InputController : MonoBehaviour
 
     private void OnDisable() {
         inputActions.FindActionMap("MainControls").Disable();
-        Clear();
     }
 
 
     private void OnCursor(InputValue inputValue) {
-        screenPosition = inputValue.Get<Vector2>();
+        _screenPosition = inputValue.Get<Vector2>();
     }
-    private void OnHover() {
-        if (!_mouseDelta.Equals(Vector2.zero))
-            hover?.Invoke();
-    }
-    private void OnMoveCamera(InputValue inputValue) {
+    private void OnDeltaCursor(InputValue inputValue) {
         _mouseDelta = inputValue.Get<Vector2>();
-        if (_moveCamera) {
-            cameraController.RotateCamera(_mouseDelta);
-        } else if (_panCamera) {
-            cameraController.PanCamera(_mouseDelta);
+        MouseMove?.Invoke(_mouseDelta);
+        OnHover();
+    }
+    private void OnScroll(InputValue inputValue) {
+        _scrollDelta = inputValue.Get<float>();
+        Scroll?.Invoke(_scrollDelta);
+    }
+    private void OnMiddleClickStarted(InputAction.CallbackContext context) {
+        _middleClickTime = Time.time;
+    }
+    private void OnMiddleClickPerformed(InputAction.CallbackContext context) {
+        MiddleHold?.Invoke();
+        Debug.Log("Middle hold!");
+    }
+    private void OnMiddleClickCanceled(InputAction.CallbackContext context) {
+        if (Time.time - _middleClickTime >= _pressTime) {
+            Debug.Log("Stop middle hold!");
+            MiddleCancel?.Invoke();
+            return;
         }
+        MiddleClick?.Invoke();
+        Debug.Log("Just a middle click!!!");
     }
-
-    private void OnZoomCamera(InputValue inputValue) {
-        cameraController.ZoomCamera(inputValue.Get<float>());
-    }
-
     private void OnRightClickStarted(InputAction.CallbackContext context) {
-        _clickTime = Time.time;
+        _rightClickTime = Time.time;
     }
-
+    private void OnRightClickPerformed(InputAction.CallbackContext context) {
+        RightHold?.Invoke();
+    }
     private void OnRightClickCanceled(InputAction.CallbackContext context) {
-        if (Time.time - _clickTime >= _pressTime) {
+        if (Time.time - _rightClickTime >= _pressTime) {
+            RightCancel?.Invoke();
+            return;
+        }
+        RightClick?.Invoke();
+        Debug.Log("Just a right click!!!");
+    }
+    private void OnLeftClickStarted(InputAction.CallbackContext context) {
+        _leftClickTime = Time.time;
+    }
+    private void OnLeftClickCanceled(InputAction.CallbackContext context) {
+        if (Time.time - _leftClickTime >= _pressTime) {
             return;
         }
         Debug.Log("Just a click!!!");
+        LeftClick?.Invoke();
     }
 
-    private void OnLeftClickStarted(InputAction.CallbackContext context) {
-        
-    }
-
-    private void OnLeftClickCanceled(InputAction.CallbackContext context) {
-        click?.Invoke();
-    }
-
-    private void OnCheckMoveCameraPerformed(InputAction.CallbackContext context) {
-        _moveCamera = true;
-        Debug.Log("Check Move Camera Performed");
-    }
-
-    private void OnCheckMoveCameraCanceled(InputAction.CallbackContext context) {
-        _moveCamera = false;
-        Debug.Log("Check Move Camera Canceled");
-    }
-    private void OnCheckPanCameraPerformed(InputAction.CallbackContext context) {
-        _panCamera = true;
-    }
-    private void OnCheckPanCameraCanceled(InputAction.CallbackContext context) {
-        _panCamera = false;
-    }
-    private void Clear() {
-        _instance = null;
+    private void OnHover() {
+        if (!_mouseDelta.Equals(Vector2.zero))
+            Hover?.Invoke(_screenPosition);
     }
 }
