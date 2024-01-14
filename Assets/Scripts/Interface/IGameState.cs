@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IGameState
 {
-    public void EnterState();
-    public void UpdateState();
-    public void ExitState();
+    public void EnterState(StateMachine sm);
+    public void UpdateState(StateMachine sm);
+    public void ExitState(StateMachine sm);
 }

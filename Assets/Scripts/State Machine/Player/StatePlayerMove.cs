@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class StatePlayerMove : State
 {
+    public bool canSwitch = true;
     private GridCell _gridCell;
     private GridPath _gridPath;
-    private Monster _monster = Monster.MInstance;
-    private CameraController _camera = new();
+    private LayerMask _prevLayerMask;
 
-    public override void EnterState() {
-        _camera.HitMask = 1 << 3;
+    public override void EnterState(StateMachine sm) {
+        PlayerTurnMachine ptm = sm as PlayerTurnMachine;
+        _prevLayerMask = CameraController.Instance.HitMask;
+        CameraController.Instance.HitMask = ConstantValues.GridMask;
+        GridManager.Instance.HoverAction += ptm.monster.ShowPath;
+        GridManager.Instance.ClickAction += ptm.monster.ChoosePath;
     }
-    public override void UpdateState() {
-        RaycastHit hit = _camera.ClosestHit;
-        if (hit.Equals(new RaycastHit())) {
-            return;
-        }
-        GridCell cell = hit.transform.gameObject.GetComponent<GridCell>();
-        if (_gridCell != null && cell.Equals(_gridCell)) {
-            return;
-        }
-        _gridCell = cell;
-        _gridPath.RevertColor();
-        _gridPath = _monster.FindPath(_gridCell);
-        _gridPath.TurnBlue();
+    public override void UpdateState(StateMachine sm) {
+
     }
-    public override void ExitState() {
-        _camera.HitMask = 0;
+    public override void ExitState(StateMachine sm) {
+        PlayerTurnMachine ptm = sm as PlayerTurnMachine;
+        CameraController.Instance.HitMask = _prevLayerMask;
+        canSwitch = false;
+        GridManager.Instance.HoverAction -= ptm.monster.ShowPath;
+        GridManager.Instance.ClickAction -= ptm.monster.ChoosePath;
     }
 }

@@ -4,19 +4,12 @@ using UnityEngine;
 
 public abstract class State : IGameState
 {
-    private StateMachine _stateMachine;
+    protected StateMachine stateMachine;
 
     public void StartState(StateMachine sm) {
-        _stateMachine = sm;
-        EnterState();
+        stateMachine = sm;
     }
-    public virtual void EnterState() {
-
-    }
-    public virtual void UpdateState() {
-
-    }
-    public virtual void ExitState() {
-
-    }
+    public abstract void EnterState(StateMachine sm);
+    public abstract void UpdateState(StateMachine sm);
+    public abstract void ExitState(StateMachine sm);
 }

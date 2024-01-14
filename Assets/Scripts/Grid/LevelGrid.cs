@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PseudoDataStructures;
 using UnityEngine;
-public class LevelGrid : MonoBehaviour
+public class LevelGrid : Singleton<LevelGrid>
 {
     // public static LevelGrid S_LevelGrid {
     //     get => s_levelGrid;
@@ -37,7 +37,9 @@ public class LevelGrid : MonoBehaviour
     private string testName = "GridCell; Position: 0.5, 0.5, 0; Enum: FRONT";
     private GridCell testGridCell;
     
-
+    private void Awake() {
+        InitializeSingleton();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +49,6 @@ public class LevelGrid : MonoBehaviour
         grid = pGrid.ToDictionary();
         gridCellExistence = pGridCellExistence.ToDictionary();
         Debug.Log($"What is going on: {gridCellExistence.Keys.Count}");
-        GridManager.SetLevelGrid(gameObject);
         DebugGrid();
         //TurnAllWhite(testGridCell);
     }
@@ -464,6 +465,7 @@ public class LevelGrid : MonoBehaviour
                     temp.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.black;
                     break;
             }
+            temp.GetComponent<GridCell>().SaveColor();
         }
     }
     // private void AddToGraph(GridCell gridCell, GridCellPosition gridCellPosition) {

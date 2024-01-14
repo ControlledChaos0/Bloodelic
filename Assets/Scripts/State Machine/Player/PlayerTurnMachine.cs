@@ -5,15 +5,15 @@ using UnityEngine;
 //This class is for controlling interactions when the player is choosing what the monster is doing on their turn
 public class PlayerTurnMachine : StateMachine
 {
-    private StatePlayerMove _moveState = new();
-    private StatePlayerIdle _idleState = new();
+    public Monster monster;
+    public StatePlayerMove moveState = new();
+    public StatePlayerIdle idleState = new();
 
 
-    
     // Start is called before the first frame update
     protected override void Start()
     {
-        ChangeState(_moveState);
+        StartState(idleState);
     }
 
     // Update is called once per frame

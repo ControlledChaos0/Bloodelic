@@ -22,8 +22,8 @@ public class Pathfinder
             return new GridPath();
         }
 
-        Dictionary<GridCell, bool> searched = new(GridManager.LevelGrid.Grid.Count);
-        Dictionary<GridCell, bool> toBeSearchedDic = new(GridManager.LevelGrid.Grid.Count);
+        Dictionary<GridCell, bool> searched = new(LevelGrid.Instance.Grid.Count);
+        Dictionary<GridCell, bool> toBeSearchedDic = new(LevelGrid.Instance.Grid.Count);
         PriorityQueue<GridCell, float> toBeSearched = new();
         toBeSearched.Enqueue(start, 0);
         toBeSearchedDic.Add(start, true);

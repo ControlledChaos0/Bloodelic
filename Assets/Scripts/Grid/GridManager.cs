@@ -5,25 +5,44 @@ using System.Reflection;
 using System.Linq;
 using UnityEngine;
 
-public class GridManager
+public class GridManager : Singleton<GridManager>
 {
-    public static GameObject LevelGridGO
-    {
-        get => _levelGridGO;
-        set => _levelGridGO = value;
+    public event Action<GridCell> HoverAction;
+    public event Action<GridCell> ClickAction;
+
+    private void Awake() {
+        InitializeSingleton();
     }
-    public static LevelGrid LevelGrid
-    {
-        get => _levelGrid;
-        set => _levelGrid = value;
+    private void Start() {
+        CameraController.Instance.HoverAction += HoverGrid;
+        CameraController.Instance.ClickAction += ClickGrid;
     }
-    private static GameObject _levelGridGO;
-    private static LevelGrid _levelGrid;
-    
-    public static void SetLevelGrid(GameObject gameObject) {
-        LevelGridGO = gameObject;
-        LevelGrid = _levelGridGO.GetComponent<LevelGrid>();
+    private void Update() {
+        
+    }
+    private void OnEnable() {
+
+    }
+    private void OnDisable() {
+        
+    }
+    private void OnDestroy() {
+        CameraController.Instance.HoverAction -= HoverGrid;
+        CameraController.Instance.ClickAction -= ClickGrid;
     }
 
-    
+    private void HoverGrid(GameObject gameObject) {
+        GridCell gridCell = gameObject.GetComponent<GridCell>();
+        if (gridCell == null) {
+            return;
+        }
+        HoverAction?.Invoke(gridCell);
+    }
+    private void ClickGrid(GameObject gameObject) {
+        GridCell gridCell = gameObject.GetComponent<GridCell>();
+        if (gridCell == null) {
+            return;
+        }
+        ClickAction?.Invoke(gridCell);
+    }
 }

@@ -10,6 +10,8 @@ public class CameraController : Singleton<CameraController>
     [SerializeField]
     private Camera mainCamera;
     [SerializeField]
+    private CameraMachine cameraMachine;
+    [SerializeField]
     private float cameraSensitivity = 0.5f;
     [SerializeField]
     private float zoomSensitivity = 0.5f;
@@ -30,7 +32,7 @@ public class CameraController : Singleton<CameraController>
     private float _rotY;
     private bool _rotateCamera;
     private bool _panCamera;
-    private int _hitMask;
+    private LayerMask _hitMask;
 
     public Camera MainCamera {
         get => mainCamera;
@@ -40,14 +42,18 @@ public class CameraController : Singleton<CameraController>
         get => _closestHit;
         private set => _closestHit = value;
     }
-    public int HitMask {
+    public LayerMask HitMask {
         get => _hitMask;
         set => _hitMask = value;
     }
 
+    public event Action<GameObject> ClickAction;
+    public event Action<GameObject> HoverAction;
+
     private void Awake() {
         InitializeSingleton();
         _cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
+        SeparateCameraObject();
     }
 
     // Start is called before the first frame update
@@ -63,22 +69,10 @@ public class CameraController : Singleton<CameraController>
         _lookAt.position = _currentPos;
     }
     private void OnEnable() {
-        InputController.Instance.MiddleHold += StartPanCamera;
-        InputController.Instance.MiddleCancel += StopPanCamera;
-        InputController.Instance.RightHold += StartRotateCamera;
-        InputController.Instance.RightCancel += StopRotateCamera;
-        InputController.Instance.LeftClick += ScreenClick;
-        InputController.Instance.Scroll += ZoomCamera;
-        InputController.Instance.Hover += Hover;
+        
     }
     private void OnDisable() {
-        InputController.Instance.MiddleHold -= StartPanCamera;
-        InputController.Instance.MiddleCancel -= StopPanCamera;
-        InputController.Instance.RightHold -= StartRotateCamera;
-        InputController.Instance.RightCancel -= StopRotateCamera;
-        InputController.Instance.LeftClick -= ScreenClick;
-        InputController.Instance.Scroll -= ZoomCamera;
-        InputController.Instance.Hover -= Hover;
+        
     }
 
     private void SetCamera() {
@@ -138,6 +132,10 @@ public class CameraController : Singleton<CameraController>
     public void Hover(Vector2 screenPos) {
         Ray cameraRay = MainCamera.ScreenPointToRay(screenPos);
         _closestHit = SetHit(cameraRay);
+        if (_closestHit.Equals(new RaycastHit())) {
+            return;
+        }
+        HoverAction?.Invoke(_closestHit.transform.gameObject);
     }
 
     private RaycastHit SetHit(Ray ray) {
@@ -146,7 +144,7 @@ public class CameraController : Singleton<CameraController>
         RaycastHit hit = new();
         foreach (RaycastHit cameraRayHit in cameraRayHits) {
             float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
-            Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
+            //Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
             if (angle >= 90f && cameraRayHit.distance < closestDistance) {
                 hit = cameraRayHit;
                 closestDistance = cameraRayHit.distance;
@@ -159,16 +157,21 @@ public class CameraController : Singleton<CameraController>
         if (_closestHit.Equals(new RaycastHit())) {
             return;
         }
+        GameObject hitGO = _closestHit.transform.gameObject;
+        ClickAction?.Invoke(hitGO);
 
-        GameObject gameObject = _closestHit.transform.gameObject;
-        Renderer cellRenderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
-        if (cellRenderer.isVisible) {
-            GridCell gridCell = gameObject.GetComponent<GridCell>();
-            //gridCell.TurnSurroundingBlue();
-            GridPath path = Pathfinder.FindPath(Entity.testCell, gridCell);
-            path.TurnBlue();
+        // Renderer cellRenderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        // if (cellRenderer.isVisible) {
+        //     GridCell gridCell = gameObject.GetComponent<GridCell>();
+        //     gridCell.TurnSurroundingBlue();
+        //     //GridPath path = Pathfinder.FindPath(Entity.testCell, gridCell);
+        //     //path.TurnBlue();
             
-        }
-        Debug.Log(_closestHit.transform.gameObject);
+        // }
+        Debug.Log(hitGO);
+    }
+
+    private void SeparateCameraObject() {
+        transform.GetChild(0).parent = null;
     }
 }

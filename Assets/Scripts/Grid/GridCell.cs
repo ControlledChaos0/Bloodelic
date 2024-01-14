@@ -49,6 +49,9 @@ public class GridCell : MonoBehaviour
     public void TurnBlue() {
         _renderer.material.color = Color.blue;
     }
+    public void SaveColor() {
+        _savedColor = _renderer.material.color;
+    }
     public void RevertColor() {
         _renderer.material.color = _savedColor;
     }
