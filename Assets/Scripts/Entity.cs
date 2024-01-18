@@ -45,6 +45,7 @@ public class Entity : MonoBehaviour
     }
 
     // Start is called before the first frame update
+    
     protected virtual void Start()
     {
         Vector3 vec = transform.rotation * Vector3.down;
