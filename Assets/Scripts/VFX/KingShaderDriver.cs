@@ -17,17 +17,17 @@ using UnityEngine.Jobs;
 
 public class KingShaderDriver : MonoBehaviour
 {
-    #region References
+#region References
     [Header("References")]
 
     [SerializeField] private Transform bodyMesh;
     [SerializeField] private Material shellMaterialPrototype;
-    #endregion
+#endregion
 
-    #region Shell Renderer Parameters
-    [Header("Shell Renderer Parameters")]
+#region Shell Renderer Static Parameters
+    [Header("Shell Renderer Static Parameters")]
 
-    [SerializeField, Tooltip("Update stylization parameters per frame")]
+    [SerializeField, Tooltip("Update stylization parameters per frame; DO NOT SET IN SHIPPED GAME!")]
     private bool updateStatics = true;
 
     // TODO: SaveDuringPlay doesn't actually work???? :/
@@ -87,7 +87,15 @@ public class KingShaderDriver : MonoBehaviour
 
     #endregion
 
-    #region Shell Animation Parameters
+#region Shell Renderer Dynamic Parameters
+    [Header("Shell Renderer Dynamic Parameters")]
+
+    private float animationTime = 0.0f;
+
+    public bool viewShells = true;
+#endregion
+
+#region Shell Animation Parameters
     [Header("Shell Animation Parameters")]
 
     [SerializeField, SaveDuringPlay, Range(0.1f, 10.0f)]
@@ -109,7 +117,6 @@ public class KingShaderDriver : MonoBehaviour
     private Material shellMaterial;
     private Transform[] shellTransforms;
     private MeshRenderer[] shellRenderers;
-    private float animationTime = 0.0f;
     private JobHandle currentAnimationJob;
 
     void OnEnable() {
@@ -131,24 +138,23 @@ public class KingShaderDriver : MonoBehaviour
             MeshRenderer currRend = currShell.GetComponent<MeshRenderer>();
             currRend.material = shellMaterial;
             shellRenderers[i] = currRend;
-            currRend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; // body mesh should cast shadow, not the shells. hopefully saving some performance
         }
 
         shellTransformAccesses = new TransformAccessArray(shellTransforms);
 
-        UpdateStatics();
+        UpdateStaticParameters();
     }
 
     void FixedUpdate() { // AT: optionally use Update instead
         if (updateStatics) { 
-            UpdateStatics();
+            UpdateStaticParameters();
         }
-        UpdateDynamics(Time.deltaTime);
+        UpdateDynamicParameters(Time.deltaTime);
     }
 
     private void Update()
     {
-        currentAnimationJob = SyncAllShellTransforms(Time.deltaTime);
+        currentAnimationJob = SyncAllShellTransforms(Time.deltaTime); // keep track of this handle but don't actually 
     }
 
     private void LateUpdate()
@@ -170,7 +176,7 @@ public class KingShaderDriver : MonoBehaviour
         //shellRenderers = null;
     }
 
-    void UpdateStatics()
+    void UpdateStaticParameters()
     {
         ForEachShellDo((Transform shellTransform, MeshRenderer shellRenderer, int idx) =>
         {
@@ -200,7 +206,7 @@ public class KingShaderDriver : MonoBehaviour
         });
     }
 
-    void UpdateDynamics(float deltaTime)
+    void UpdateDynamicParameters(float deltaTime)
     {
         animationTime += (Mathf.Sin(Time.time) + 2) / 3 * deltaTime * animationSpeed;
 
@@ -213,6 +219,8 @@ public class KingShaderDriver : MonoBehaviour
         {
             shellRenderer.material
                 .SetFloatParam("_AnimationTime", animationTime);
+
+            shellRenderer.enabled = viewShells;
         });
     }
 

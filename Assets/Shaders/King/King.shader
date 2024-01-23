@@ -9,22 +9,24 @@ Shader "Custom/King"
 	}
     SubShader
     {
-        Tags {
-			"LightMode" = "ForwardBase"
-		}
-
-        LOD 100
+        Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
+        // LOD 100
 
 		Pass {
 			Cull Off
 			ZWrite [_ZWrite]
+
+			Tags {
+				"LightMode" = "ForwardBase"
+			}
 
 			CGPROGRAM
 			
 			#pragma vertex vp
 			#pragma fragment fp
 
-			#pragma multi_compile_fwdbase
+			#pragma multi_compile_fwdbase // see https://docs.unity3d.com/Manual/SL-MultipleProgramVariants.html
+            #pragma multi_compile_fog
 
 			#include "UnityPBSLighting.cginc"
             #include "AutoLight.cginc"
@@ -38,8 +40,6 @@ Shader "Custom/King"
 				float3 normal : NORMAL;
 				float3 tangent : TANGENT;
                 float2 uv : TEXCOORD0;
-
-				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			/* All v2f buffers are linearly interpolated, meaning normalization is lost in the process! */
@@ -52,13 +52,11 @@ Shader "Custom/King"
 				float3 worldTangent : TEXCOORD2;
 				float3 worldNormal : TEXCOORD3;
 
-				/* Unity lighting jumbo, see built-in shaders for 2022.3.14, specifically VertexOutputForwardBase in UnityStandardCore.cginc */
+				/* Unity lighting, see built-in shaders for 2022.3.14, specifically VertexOutputForwardBase in UnityStandardCore.cginc */
 				float4 ambientOrLightmapUV : TEXCOORD4;    // SH or Lightmap UV
-   			 	float4 eyeVec : TEXCOORD6;    // eyeVec.xyz | fogCoord
+   			 	float4 eyeVec : TEXCOORD5;    // eyeVec.xyz | fogCoord
 				UNITY_LIGHTING_COORDS(6, 7)   // Lighting channel + shadow channel
 				// Warn: starting here the tex coord count is over the SM2.0 limit of 0~7
-
-				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
             int _ShellIndex;
@@ -89,12 +87,10 @@ Shader "Custom/King"
 
 			//https://docs.unity3d.com/Manual/SL-VertexProgramInputs.html
 			v2f vp(VertexData v) {
-    			UNITY_SETUP_INSTANCE_ID(v);
 				v2f i;
    				UNITY_INITIALIZE_OUTPUT(v2f, i);
-				UNITY_TRANSFER_INSTANCE_ID(v, i);
 
-				float shellHeight = (float)_ShellIndex / (float)_ShellCount;
+				float shellHeight = (float)_ShellIndex / (float)_ShellCount + 0.025; // add small bias for clipping issue
 				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
 				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight;
 				float k = pow(shellHeight, _Curvature);
@@ -106,7 +102,7 @@ Shader "Custom/King"
                 i.pos = UnityObjectToClipPos(v.vertex);
                 i.uv = v.uv;
 
-				/* Unity lighting jumbo, see built-in shaders for 2022.3.14, specifically vertForwardBase in UnityStandardCore.cginc */
+				/* Unity lighting, see built-in shaders for 2022.3.14, specifically vertForwardBase in UnityStandardCore.cginc */
 				i.eyeVec.xyz = normalize(i.worldPos.xyz - _WorldSpaceCameraPos);
 
 				// ...orig: needed for shadow
@@ -119,9 +115,12 @@ Shader "Custom/King"
 				return i;
 			}
 
+			// for debug purposes only! to preview the entire mesh instead of rendering spikes via discarding
+			// #define __KING_NODISCARD
+
+			// patch shadow depth write bug by just not having body color being affected by shadowing
+			#define __KING_NO_SHADOW_ON_BODY
 			float4 fp(v2f i) : SV_TARGET {
-				// for debug purposes only! to preview the entire mesh instead of rendering spikes via discarding
-				// #define __KING_NODISCARD
 
 				float3 worldNormal = normalize(i.worldNormal);
 				float3 worldTangent = normalize(i.worldTangent);
@@ -207,7 +206,7 @@ Shader "Custom/King"
 				if (!spikeMask) discard;
 				#endif
 
-				/* From here on it's literally just Blinn-Phong */
+				/* Blinn Phong helpers */
 
 				float3 unlit = lerp(_BodyColor, _SpikeTipColor, spikeT * spikeT * spikeT);
 
@@ -224,8 +223,7 @@ Shader "Custom/King"
 
 				float specularAmount = _ShellSpecularAmount * pow(specularTime, _ShellSpecularSharpness);
 
-				/* Unity Lighting Jumbo Section, see fragForwardBaseInternal in UnityStandardCore.cginc */
-
+				/* Unity Lighting Section, see fragForwardBaseInternal in UnityStandardCore.cginc */
 
 				// inlined from MainLight in UnityStandardCore.cginc, sets up a light object to be used later on (see FragmentGI)
 				UnityLight mainLight;
@@ -238,10 +236,14 @@ Shader "Custom/King"
 				half occlusion = 0.5 * (1 - nDotL); // spikes on the back-side of the original mesh are more occluded
 
 				// the sample forwardBase pass hands the GI stuff to Unity BRDF, which requires a bunch of extra parameters
-				// here we directly compute direct and indirect lighting to skip those unnecessary fluff
+				// here we just "pretend" to compute direct and indirect lighting to skip those unnecessary fluff
 
 				// direct lighting is just Blinn Phong
-				float3 direct = nDotL * atten * unlit;
+				float3 direct = nDotL 
+					#ifndef __KING_NO_SHADOW_ON_BODY
+					* atten
+					#endif
+					* unlit;
 				direct += mainLight.color * specularAmount;
 
 				// inlined from UnityGI_Base in UnityGlobalIllumination.cginc as well as BRDF3_Indirect from UnityStandardBRDF.cginc
@@ -252,12 +254,12 @@ Shader "Custom/King"
 				UNITY_EXTRACT_FOG_FROM_EYE_VEC(i);
 				UNITY_APPLY_FOG(_unity_fogCoord, color.rgb);
 
-				return atten;
+				return float4(color, 1);
 			}
 
 			ENDCG
 		}
 	}
 
-	// TOOD: I really don't recommend this but we could repeat the shader for every subsequent light using the ForwardAdd pass, it'll be really painful to run though
+    FallBack "Standard"
 }

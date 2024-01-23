@@ -347,7 +347,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 317686b31870d8346bb8d242b74073d9, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -445,7 +445,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 317686b31870d8346bb8d242b74073d9, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -536,7 +536,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1a4c812ebe2a7fb47b8fe6c87219875e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -631,8 +631,8 @@ MonoBehaviour:
   updateStatics: 0
   shellCount: 24
   shellLength: 0.205
-  spikeDensity: 15.2
-  spikeCutoffMin: 0.087
+  spikeDensity: 28.9
+  spikeCutoffMin: 0
   spikeCutoffMax: 0.765
   spikeShapeStylizationFactor: 0.72
   spikeShadowSmoothnessFactor: 0.68
@@ -644,7 +644,8 @@ MonoBehaviour:
   spikeTipColor: {r: 1, g: 0.08962262, b: 0.08962262, a: 0}
   spikeUvTex: {fileID: 2800000, guid: 3bebac37131806e43b75c42c3dd27c80, type: 3}
   animationSpeed: 0.45
-  fuzzFixFactor: 0.245
+  fuzzFixFactor: 0
+  viewShells: 1
   positionResponsiveness: 0
   rotationResponsiveness: 0
 --- !u!1660057539 &9223372036854775807
