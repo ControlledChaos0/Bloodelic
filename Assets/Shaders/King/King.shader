@@ -1,0 +1,212 @@
+// AT: Modified based on https://github.com/GarrettGunnell/Shell-Texturing/blob/main/Assets/Shell.shader, 
+// basically only taking half of their vertex shader for blowing up the mesh.
+// Noise is swapped out from their hash function to Voronoi noise for added stylization / animation
+
+Shader "Custom/King"
+{
+    SubShader
+    {
+        Tags {
+			"LightMode" = "ForwardBase"
+		}
+
+        LOD 100
+
+		Pass {
+			Cull Off
+
+			CGPROGRAM
+			
+			#pragma vertex vp
+			#pragma fragment fp
+
+			/* AT: in original includes, not sure what they do */
+			#include "UnityPBSLighting.cginc"
+            #include "AutoLight.cginc"
+			/* */
+
+			#include "../Helpers/Voronoi.cginc"
+			#include "../Helpers/Hash.cginc"
+			#include "../Helpers/Matrix.cginc"
+
+			struct VertexData {
+				float4 vertex : POSITION;
+				float3 normal : NORMAL;
+				float3 tangent : TANGENT;
+                float2 uv : TEXCOORD0;
+			};
+
+			/* All v2f buffers are linearly interpolated, meaning normalization is lost in the process! */
+			struct v2f {
+				float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD0;
+				float3 worldPos : TEXCOORD1;
+
+				/* Note directions are *linearly* interpolated meaning they lose magnitude in the fragment shader*/
+				float3 worldTangent : TEXCOORD2;
+				float3 worldNormal : TEXCOORD3;
+			};
+
+            int _ShellIndex;
+			int _ShellCount;
+			float _ShellLength; // In world space
+			// float _Attenuation; // This is the exponent on the shell height for lighting calculations to fake ambient occlusion (the lack of ambient light)
+			// float _OcclusionBias; // This is an additive constant on the ambient occlusion in order to make the lighting less harsh and maybe kind of fake in-scattering
+			float _ShellDistanceAttenuation; // This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered
+			float _Curvature; // This is the exponent on the physics displacement attenuation, a higher value controls how stiff the hair is
+			
+			Texture2D _SpikeUv;
+			// https://docs.unity3d.com/Manual/SL-SamplerStates.html
+			SamplerState point_clamp_sampler;
+
+			float3 _BodyColor;
+			float3 _SpikeTipColor;
+			float _SpikeDensity;
+			float _SpikeCutoffMin;
+			float _SpikeCutoffMax;
+			float _ShellSpecularSharpness;
+			float _ShellSpecularAmount;
+			float _SpikeShapeStylizationFactor;
+			float _SpikeShadowSmoothnessFactor;
+
+			float _AnimationTime;
+
+			float _FuzzFixFactor;
+
+			//https://docs.unity3d.com/Manual/SL-VertexProgramInputs.html
+			v2f vp(VertexData v) {
+				v2f i;
+				float shellHeight = (float)_ShellIndex / (float)_ShellCount;
+				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
+				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight;
+				float k = pow(shellHeight, _Curvature);
+				i.worldPos = mul(unity_ObjectToWorld, v.vertex);
+
+				i.worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
+				i.worldTangent = normalize(UnityObjectToWorldDir(v.tangent));
+
+                i.pos = UnityObjectToClipPos(v.vertex);
+                i.uv = v.uv;
+
+				return i;
+			}
+
+			float4 fp(v2f i) : SV_TARGET {
+				// for debug purposes only! to preview the entire mesh instead of rendering spikes via discarding
+				// #define __KING_NODISCARD
+
+				float3 worldNormal = normalize(i.worldNormal);
+				float3 worldTangent = normalize(i.worldTangent);
+
+				// We assume that normal and tangent vectors still make sense after interpolation, and we *force* bitangent to be perpendicular to those two
+				float3 worldBitangent = cross(i.worldNormal, i.worldTangent);
+
+				// Technically we could be more precise and do worldTangent = cross(worldNormal, worldBitangent) * eitherNegativeOrPositive
+				// this would make sure the normal vector is also exactly orthogonal to the normal, which could also be lost during interpolation
+				// I'm skipping it cuz it doesn't feel that necessary :/
+
+				float3x3 worldToTangentFrame = inverse(worldTangent, worldNormal, worldBitangent);
+
+				float3 worldCamToPos = normalize(i.worldPos.xyz - _WorldSpaceCameraPos);
+
+				float angleCheck = dot(worldNormal, worldCamToPos);
+
+				#ifndef __KING_NODISCARD
+				if (abs(angleCheck) < _FuzzFixFactor) discard;
+				#endif
+
+				float spikeT = (float)_ShellIndex / (float)_ShellCount;
+
+				// From old spike masking code...
+				// float4 spikeUv = _SpikeUv.Sample(point_clamp_sampler, i.uv);
+				// if (spikeUv.z > 0.1) discard;
+	
+			    float2 spikeUv2 = i.uv; // spikeUv.xy;
+
+				float voronoi_squaredDistToCenter; // use squared distance to reduce some mult operations, since we don't actually need the accurate distance
+				float voronoi_distToEdge; // this is computed via dot product so it's whatever
+				float voronoi_cellIdx; // 0 ~ 1 random number based on the cell index's hash
+
+				voronoiNoise(
+					/* in params */
+					spikeUv2, _SpikeDensity, _AnimationTime,
+					
+					/* out params */
+					voronoi_squaredDistToCenter, voronoi_distToEdge, voronoi_cellIdx
+				);
+
+				bool spikeMask = voronoi_distToEdge > lerp(_SpikeCutoffMin, _SpikeCutoffMax, pow(spikeT, _SpikeShapeStylizationFactor));
+
+				/* */
+
+				// This section is about finding the normal direction *out* of the fictional spike, which locally is just the radial direction
+				// of the Voronoi cell the pixel is in.
+			
+				// Note that the two distances we already obtained from the noise function *natually* aligns with the spike's radial direction,
+				// as in their gradients either point directly into or against the radial.
+
+				// Unfortunately it's impossible to get the gradient directly, we could only get partial derivatives w.r.t. screen space X and Y
+
+				// dist to edge increases inward, so the gradient points inward
+				float2 spikeGradientScreenspace_Square = float2(ddx(voronoi_distToEdge), ddy(voronoi_distToEdge));
+				// dist to center increases outwards, so the negative gradient points inward
+				float2 spikeGradientScreenspace_Round = -float2(ddx(voronoi_squaredDistToCenter), ddy(voronoi_squaredDistToCenter));
+				
+				// the square gradient is more sharp as the distance is relative to each edge instead of the center point, and vice versa for round gradient
+				// for stylistic control we mix these two for a toon-shading effect
+				float2 spikeGradientScreenspace = lerp(spikeGradientScreenspace_Square, spikeGradientScreenspace_Round, _SpikeShadowSmoothnessFactor);
+
+				// Use the view-to-world projection to get the gradient back to world space, only direction matters so no normalization is performed
+				// - Technically we should go from 2D screen space to view space first but the axis align anyway so it's whatever :]
+				// - Note that this does *not* give us the actual world vector we want, just the projection of that vector *within* world space that is
+				//   parallel to the screen projection plane in world space
+				float4 spikeGradientWorld = mul(UNITY_MATRIX_I_V, float4(spikeGradientScreenspace, 0, 0));
+
+				// Use the world-to-tangent projection, similarly no normalization; also note this is 3x3
+				float3 spikeGradientTangent = mul(worldToTangentFrame, spikeGradientWorld.xyz);
+				
+				// We want the gradient to be completely *along* the surface, so we clip out the component of the projected gradient along the normal
+				// This "clipping" could be done by going *back* to world space but just ignoring the normal axis
+				float3 spikeGradientWorld_Clipped = spikeGradientTangent.x * worldTangent + spikeGradientTangent.z * worldBitangent;
+
+				// Finally we do actually want this to be a normal vector, so normalize it
+				float3 spikeNormal = -normalize(spikeGradientWorld_Clipped); // <-- idk why but negation is needed
+
+				spikeNormal = normalize(lerp(spikeNormal, worldNormal, lerp(0.3, 1.0, spikeT))); // account for upward angle of spike
+
+				/* */
+				#ifndef __KING_NODISCARD
+				if (!spikeMask) discard;
+				#endif
+
+				/* From here on it's literally just Blinn-Phong */
+
+				float3 unlit = lerp(_BodyColor, _SpikeTipColor, spikeT * spikeT * spikeT);
+
+				float3 lightToObj = normalize(i.worldPos - _WorldSpaceLightPos0);
+
+				float rawNDotL = -dot(lightToObj, spikeNormal);
+				
+				float3 reflection = lightToObj + 2 * rawNDotL * spikeNormal;
+				float specularTime = rawNDotL > 0 ? saturate(-dot(reflection, worldCamToPos)) : 0;
+
+				float nDotL = saturate(rawNDotL) * 0.5f + 0.5f; // kept from original repo code, in turn taken from Valve's half lambertian
+
+				// return float4(specularTime, 0, 0, 1);
+
+				#define __KING_SPECULAR
+
+				return float4(
+					nDotL * unlit
+					#ifdef __KING_SPECULAR
+					+ _ShellSpecularAmount * pow(specularTime, _ShellSpecularSharpness) * _LightColor0.rgb
+					#endif
+					, 1);
+			}
+
+			ENDCG
+		}
+	}
+
+	// TOOD: I really don't recommend this but we could repeat the shader for every subsequent light using the ForwardAdd pass, it'll be really painful to run though
+}
