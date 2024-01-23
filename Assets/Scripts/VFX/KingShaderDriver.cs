@@ -110,12 +110,12 @@ public class KingShaderDriver : MonoBehaviour
     private Transform[] shellTransforms;
     private MeshRenderer[] shellRenderers;
     private float animationTime = 0.0f;
+    private JobHandle currentAnimationJob;
 
     void OnEnable() {
 
         shellMaterial = new Material(shellMaterialPrototype);
         shellTransforms = new Transform[shellCount];
-        shellTransformAccesses = new TransformAccessArray(shellTransforms);
         shellRenderers = new MeshRenderer[shellCount];
 
 
@@ -134,6 +134,8 @@ public class KingShaderDriver : MonoBehaviour
             currRend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; // body mesh should cast shadow, not the shells. hopefully saving some performance
         }
 
+        shellTransformAccesses = new TransformAccessArray(shellTransforms);
+
         UpdateStatics();
     }
 
@@ -142,7 +144,16 @@ public class KingShaderDriver : MonoBehaviour
             UpdateStatics();
         }
         UpdateDynamics(Time.deltaTime);
-        SyncAllShellTransforms(Time.deltaTime);
+    }
+
+    private void Update()
+    {
+        currentAnimationJob = SyncAllShellTransforms(Time.deltaTime);
+    }
+
+    private void LateUpdate()
+    {
+        currentAnimationJob.Complete(); // give it enough time to complete
     }
 
     void OnDisable() {
@@ -191,7 +202,7 @@ public class KingShaderDriver : MonoBehaviour
 
     void UpdateDynamics(float deltaTime)
     {
-        animationTime += deltaTime * animationSpeed;
+        animationTime += (Mathf.Sin(Time.time) + 2) / 3 * deltaTime * animationSpeed;
 
         if (animationTime > Mathf.PI * 2)
         {
@@ -205,23 +216,27 @@ public class KingShaderDriver : MonoBehaviour
         });
     }
 
-    void SyncAllShellTransforms(float deltaTime)
+    JobHandle SyncAllShellTransforms(float deltaTime)
     {
         ShellAnimationJob job = new()
         {
-            // pass buffers to job
+            anchorPos = bodyMesh.position,
+            anchorScale = bodyMesh.localScale
         };
 
-        var scheduledJob = job.Schedule(shellTransformAccesses);
-        scheduledJob.Complete(); // ... wait until
+        return job.Schedule(shellTransformAccesses);
     }
 
-    // defined here 
     struct ShellAnimationJob : IJobParallelForTransform // https://realerichu.medium.com/improve-performance-with-c-job-system-and-burst-compiler-in-unity-eecd2a69dbc8
     {
+        [ReadOnly] public float3 anchorPos;
+        [ReadOnly] public float3 anchorScale;
+
         public void Execute(int index, TransformAccess transform)
         {
             // TODO
+            transform.position = anchorPos;
+            transform.localScale = anchorScale;
         }
     }
 
