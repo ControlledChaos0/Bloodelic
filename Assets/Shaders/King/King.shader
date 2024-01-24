@@ -35,17 +35,19 @@ Shader "Custom/King"
 			#include "../Helpers/Hash.cginc"
 			#include "../Helpers/Matrix.cginc"
 
+			#include "./King_Internal.cginc"
+
 			struct VertexData {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float3 tangent : TANGENT;
-                float2 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 			};
 
 			/* All v2f buffers are linearly interpolated, meaning normalization is lost in the process! */
-			struct v2f {
+			struct VertexOutputForwardBase {
 				float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 				float3 worldPos : TEXCOORD1;
 
 				/* Note directions are *linearly* interpolated meaning they lose magnitude in the fragment shader*/
@@ -54,23 +56,18 @@ Shader "Custom/King"
 
 				/* Unity lighting, see built-in shaders for 2022.3.14, specifically VertexOutputForwardBase in UnityStandardCore.cginc */
 				float4 ambientOrLightmapUV : TEXCOORD4;    // SH or Lightmap UV
-   			 	float4 eyeVec : TEXCOORD5;    // eyeVec.xyz | fogCoord
+				float4 eyeVec : TEXCOORD5;    // eyeVec.xyz | fogCoord
 				UNITY_LIGHTING_COORDS(6, 7)   // Lighting channel + shadow channel
 				// Warn: starting here the tex coord count is over the SM2.0 limit of 0~7
 			};
 
             int _ShellIndex;
 			int _ShellCount;
-			float _ShellLength; // In world space
-			// float _Attenuation; // This is the exponent on the shell height for lighting calculations to fake ambient occlusion (the lack of ambient light)
-			// float _OcclusionBias; // This is an additive constant on the ambient occlusion in order to make the lighting less harsh and maybe kind of fake in-scattering
-			float _ShellDistanceAttenuation; // This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered
-			float _Curvature; // This is the exponent on the physics displacement attenuation, a higher value controls how stiff the hair is
-			
+			float _ShellLength; /* In world space */
+			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
+			float _Curvature; /* This is the exponent on the physics displacement attenuation, a higher value controls how stiff the hair is */
 			Texture2D _SpikeUv;
-			// https://docs.unity3d.com/Manual/SL-SamplerStates.html
-			SamplerState point_clamp_sampler;
-
+			SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
 			float3 _BodyColor;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
@@ -80,15 +77,13 @@ Shader "Custom/King"
 			float _ShellSpecularAmount;
 			float _SpikeShapeStylizationFactor;
 			float _SpikeShadowSmoothnessFactor;
-
 			float _AnimationTime;
-
 			float _FuzzFixFactor;
 
 			//https://docs.unity3d.com/Manual/SL-VertexProgramInputs.html
-			v2f vp(VertexData v) {
-				v2f i;
-   				UNITY_INITIALIZE_OUTPUT(v2f, i);
+			VertexOutputForwardBase vp(VertexData v) {
+				VertexOutputForwardBase i;
+   				UNITY_INITIALIZE_OUTPUT(VertexOutputForwardBase, i);
 
 				float shellHeight = (float)_ShellIndex / (float)_ShellCount + 0.025; // add small bias for clipping issue
 				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
@@ -119,8 +114,8 @@ Shader "Custom/King"
 			// #define __KING_NODISCARD
 
 			// patch shadow depth write bug by just not having body color being affected by shadowing
-			#define __KING_NO_SHADOW_ON_BODY
-			float4 fp(v2f i) : SV_TARGET {
+			// #define __KING_NO_SHADOW_ON_BODY
+			float4 fp(VertexOutputForwardBase i) : SV_TARGET {
 
 				float3 worldNormal = normalize(i.worldNormal);
 				float3 worldTangent = normalize(i.worldTangent);
@@ -259,7 +254,141 @@ Shader "Custom/King"
 
 			ENDCG
 		}
+
+		//  Shadow rendering pass, taken from standard shader with as little modifications as possible to preserve compatibility
+        Pass {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
+
+            ZWrite On ZTest LEqual
+
+            CGPROGRAM
+            #pragma target 3.0
+
+            // -------------------------------------
+
+
+            #pragma shader_feature_local _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
+            #pragma shader_feature_local _METALLICGLOSSMAP
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            #pragma shader_feature_local _PARALLAXMAP
+            #pragma multi_compile_shadowcaster
+            // #pragma multi_compile_instancing
+            // Uncomment the following line to enable dithering LOD crossfade. Note: there are more in the file to uncomment for other passes.
+            //#pragma multi_compile _ LOD_FADE_CROSSFADE
+
+            #pragma vertex vp
+            #pragma fragment fp
+
+            #include "UnityStandardShadow.cginc"
+			#include "./King_Internal.cginc"
+			
+			#include "../Helpers/Voronoi.cginc"
+			#include "../Helpers/Hash.cginc"
+			#include "../Helpers/Matrix.cginc"
+
+			struct VertexData {
+				float4 vertex : POSITION;
+				float3 normal : NORMAL;
+				float2 uv : TEXCOORD0;
+				float3 tangent : TANGENT;
+			};
+			
+			struct VertexOutputShadowCaster {
+				float4 pos : SV_POSITION;
+				float2 uv : TEXCOORD0;
+				float3 worldPos : TEXCOORD1;
+				/* Note directions are *linearly* interpolated meaning they lose magnitude in the fragment shader*/
+				float3 worldTangent : TEXCOORD2;
+				float3 worldNormal : TEXCOORD3;
+			};
+
+			int _ShellIndex;
+			int _ShellCount;
+			float _ShellLength; /* In world space */
+			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
+			float _Curvature; /* This is the exponent on the physics displacement attenuation, a higher value controls how stiff the hair is */
+			Texture2D _SpikeUv;
+			SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
+			float3 _BodyColor;
+			float3 _SpikeTipColor;
+			float _SpikeDensity;
+			float _SpikeCutoffMin;
+			float _SpikeCutoffMax;
+			float _ShellSpecularSharpness;
+			float _ShellSpecularAmount;
+			float _SpikeShapeStylizationFactor;
+			float _SpikeShadowSmoothnessFactor;
+			float _AnimationTime;
+			float _FuzzFixFactor;
+
+			VertexOutputShadowCaster vp (VertexData v)
+			{
+				VertexOutputShadowCaster i;
+				float shellHeight = (float)_ShellIndex / (float)_ShellCount + 0.025; // add small bias for clipping issue
+				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
+				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight;
+				
+				TRANSFER_SHADOW_CASTER_NOPOS(i, i.pos)
+
+				i.uv = v.uv;
+				
+				i.worldPos = mul(unity_ObjectToWorld, v.vertex);
+				i.worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
+				i.worldTangent = normalize(UnityObjectToWorldDir(v.tangent));
+
+				return i;
+			}
+
+			float4 fp(VertexOutputShadowCaster i) : SV_TARGET {
+				float3 worldNormal = normalize(i.worldNormal);
+				float3 worldTangent = normalize(i.worldTangent);
+
+				// We assume that normal and tangent vectors still make sense after interpolation, and we *force* bitangent to be perpendicular to those two
+				float3 worldBitangent = cross(i.worldNormal, i.worldTangent);
+
+				// Technically we could be more precise and do worldTangent = cross(worldNormal, worldBitangent) * eitherNegativeOrPositive
+				// this would make sure the normal vector is also exactly orthogonal to the normal, which could also be lost during interpolation
+				// I'm skipping it cuz it doesn't feel that necessary :/
+
+				float3x3 worldToTangentFrame = inverse(worldTangent, worldNormal, worldBitangent);
+
+				float3 worldCamToPos = normalize(i.worldPos.xyz - _WorldSpaceCameraPos);
+
+				float angleCheck = dot(worldNormal, worldCamToPos);
+
+				#ifndef __KING_NODISCARD
+				if (abs(angleCheck) < _FuzzFixFactor) discard;
+				#endif
+
+			    float2 spikeUv2 = i.uv; // spikeUv.xy;
+				float spikeT = (float)_ShellIndex / (float)_ShellCount;
+
+				float voronoi_squaredDistToCenter; // use squared distance to reduce some mult operations, since we don't actually need the accurate distance
+				float voronoi_distToEdge; // this is computed via dot product so it's whatever
+				float voronoi_cellIdx; // 0 ~ 1 random number based on the cell index's hash
+
+				voronoiNoise(
+					/* in params */
+					spikeUv2, _SpikeDensity, _AnimationTime,
+					
+					/* out params */
+					voronoi_squaredDistToCenter, voronoi_distToEdge, voronoi_cellIdx
+				);
+
+				bool spikeMask = voronoi_distToEdge > lerp(_SpikeCutoffMin, _SpikeCutoffMax, pow(spikeT, _SpikeShapeStylizationFactor));
+
+				/* */
+				#ifndef __KING_NODISCARD
+				if (!spikeMask) discard;
+				#endif
+
+				SHADOW_CASTER_FRAGMENT(i);
+			}
+
+            ENDCG
+        }
 	}
 
-    FallBack "Standard"
+    // FallBack "Standard"
 }

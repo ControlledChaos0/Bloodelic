@@ -644,7 +644,7 @@ MonoBehaviour:
   spikeTipColor: {r: 1, g: 0.08962262, b: 0.08962262, a: 0}
   spikeUvTex: {fileID: 2800000, guid: 3bebac37131806e43b75c42c3dd27c80, type: 3}
   animationSpeed: 0.45
-  fuzzFixFactor: 0
+  fuzzFixFactor: 0.25
   viewShells: 1
   positionResponsiveness: 0
   rotationResponsiveness: 0

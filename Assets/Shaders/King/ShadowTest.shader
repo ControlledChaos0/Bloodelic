@@ -1,5 +1,7 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
+/* Minimal setup for both basic BRDF and shadow rendering. The goal is to replicate as least as possible in the King shader to have both of these happen */
+
 Shader "Custom/ShadowTest"
 {
     Properties
@@ -154,34 +156,34 @@ Shader "Custom/ShadowTest"
         // }
         // ------------------------------------------------------------------
         //  Shadow rendering pass
-        // Pass {
-        //     Name "ShadowCaster"
-        //     Tags { "LightMode" = "ShadowCaster" }
+        Pass {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
 
-        //     ZWrite On ZTest LEqual
+            ZWrite On ZTest LEqual
 
-        //     CGPROGRAM
-        //     #pragma target 3.0
+            CGPROGRAM
+            #pragma target 3.0
 
-        //     // -------------------------------------
+            // -------------------------------------
 
 
-        //     #pragma shader_feature_local _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
-        //     #pragma shader_feature_local _METALLICGLOSSMAP
-        //     #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-        //     #pragma shader_feature_local _PARALLAXMAP
-        //     #pragma multi_compile_shadowcaster
-        //     #pragma multi_compile_instancing
-        //     // Uncomment the following line to enable dithering LOD crossfade. Note: there are more in the file to uncomment for other passes.
-        //     //#pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma shader_feature_local _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
+            #pragma shader_feature_local _METALLICGLOSSMAP
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            #pragma shader_feature_local _PARALLAXMAP
+            #pragma multi_compile_shadowcaster
+            #pragma multi_compile_instancing
+            // Uncomment the following line to enable dithering LOD crossfade. Note: there are more in the file to uncomment for other passes.
+            //#pragma multi_compile _ LOD_FADE_CROSSFADE
 
-        //     #pragma vertex vertShadowCaster
-        //     #pragma fragment fragShadowCaster
+            #pragma vertex vertShadowCaster
+            #pragma fragment fragShadowCaster
 
-        //     #include "UnityStandardShadow.cginc"
+            #include "UnityStandardShadow.cginc"
 
-        //     ENDCG
-        // }
+            ENDCG
+        }
         // ------------------------------------------------------------------
         //  Deferred pass
         // Pass
@@ -365,6 +367,6 @@ Shader "Custom/ShadowTest"
     // }
 
 
-    FallBack "VertexLit"
-    CustomEditor "StandardShaderGUI"
+    // FallBack "VertexLit"
+    // CustomEditor "StandardShaderGUI"
 }

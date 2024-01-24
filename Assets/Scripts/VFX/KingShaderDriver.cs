@@ -137,6 +137,8 @@ public class KingShaderDriver : MonoBehaviour
 
             MeshRenderer currRend = currShell.GetComponent<MeshRenderer>();
             currRend.material = shellMaterial;
+            currRend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
             shellRenderers[i] = currRend;
         }
 
