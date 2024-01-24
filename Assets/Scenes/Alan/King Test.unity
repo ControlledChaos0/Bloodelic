@@ -277,8 +277,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -303,7 +303,7 @@ Transform:
   m_GameObject: {fileID: 1111330552}
   serializedVersion: 2
   m_LocalRotation: {x: 0.061261818, y: -0, z: -0, w: 0.99812174}
-  m_LocalPosition: {x: 0, y: 0.21, z: -1.38}
+  m_LocalPosition: {x: 0, y: 1, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -386,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 1368685569}
   serializedVersion: 2
   m_LocalRotation: {x: -0.6958869, y: -0, z: -0, w: 0.7181514}
-  m_LocalPosition: {x: 0.007, y: 0.722, z: -0.443}
+  m_LocalPosition: {x: 0.044, y: 0.828, z: -0.127}
   m_LocalScale: {x: 0.70126, y: 0.70126, z: 0.70126}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -420,7 +420,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.6958869, y: -0, z: -0, w: 0.7181514}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.70126, y: 0.70126, z: 0.70126}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1779942607}
@@ -445,7 +445,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 542821c0bcc78a149a727878b9f8ca51, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -474,7 +474,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484074071}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -5495902117074765545, guid: eec4c80f633e9104982752c9ecc9cedd, type: 3}
 --- !u!1 &1727836446
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,26 +628,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyMesh: {fileID: 1484074072}
   shellMaterialPrototype: {fileID: 2100000, guid: 8c5cb07f44713aa43976d1720ce909cb, type: 2}
-  updateStatics: 0
-  shellCount: 24
-  shellLength: 0.205
-  spikeDensity: 28.9
+  updateStatics: 1
+  shellCount: 16
+  shellLength: 0.15
+  spikeDensity: 26.5
   spikeCutoffMin: 0
-  spikeCutoffMax: 0.765
-  spikeShapeStylizationFactor: 0.72
-  spikeShadowSmoothnessFactor: 0.68
+  spikeCutoffMax: 0.505
+  spikeShapeStylizationFactor: 0.39
+  spikeShadowSmoothnessFactor: 0.82
+  spikeHeightMap: {fileID: 2800000, guid: 3ba27ef20864ccb4793003cb6d147f36, type: 3}
+  spikeHeightMapCutoff: 0.445
   distanceAttenuation: 1
-  curvature: 1
-  shellSpecularSharpness: 56.5
-  shellSpecularAmount: 3.3
+  shellDroop: 0.0005
+  shellSpecularSharpness: 29
+  shellSpecularAmount: 1.9
   bodyColor: {r: 0.011764706, g: 0.011764706, b: 0.011764706, a: 0}
   spikeTipColor: {r: 1, g: 0.08962262, b: 0.08962262, a: 0}
-  spikeUvTex: {fileID: 2800000, guid: 3bebac37131806e43b75c42c3dd27c80, type: 3}
   animationSpeed: 0.45
-  fuzzFixFactor: 0.25
   viewShells: 1
-  positionResponsiveness: 0
-  rotationResponsiveness: 0
+  positionResponsiveness: 137
+  positionMaxDelta: 0.045
+  rotationResponsiveness: 86.3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

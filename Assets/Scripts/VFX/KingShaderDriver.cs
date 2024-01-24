@@ -55,14 +55,20 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay, Range(0.0f, 1.0f), Tooltip("Higher value = smoother lighting on spikes")]
     private float spikeShadowSmoothnessFactor;
 
+    [SerializeField, SaveDuringPlay]
+    private Texture2D spikeHeightMap;
+
+    [SerializeField, SaveDuringPlay, Range(0.0f, 1.0f)]
+    private float spikeHeightMapCutoff;
+
     [SerializeField, SaveDuringPlay, Range(0.01f, 3.0f)]
     private float distanceAttenuation = 1.0f;
 
     //[SerializeField, SaveDuringPlay, Range(0.0f, 10.0f)]
     //private float thickness = 1.0f;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 10.0f)]
-    private float curvature = 1.0f;
+    [SerializeField, SaveDuringPlay, Range(0.0f, 0.01f)]
+    private float shellDroop = 1.0f;
 
     [SerializeField, SaveDuringPlay, Range(0.0f, 100.0f)]
     private float shellSpecularSharpness;
@@ -76,14 +82,8 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay]
     private Color spikeTipColor;
 
-    [SerializeField, SaveDuringPlay]
-    private Texture2D spikeUvTex;
-
     [SerializeField, SaveDuringPlay, Range(0.1f, 10.0f)]
     private float animationSpeed;
-
-    [SerializeField, SaveDuringPlay, Range(0.0f, 1.0f)]
-    private float fuzzFixFactor;
 
     #endregion
 
@@ -98,19 +98,15 @@ public class KingShaderDriver : MonoBehaviour
 #region Shell Animation Parameters
     [Header("Shell Animation Parameters")]
 
-    [SerializeField, SaveDuringPlay, Range(0.1f, 10.0f)]
+    [SerializeField, SaveDuringPlay, Range(0.1f, 300.0f)]
     private float positionResponsiveness;
 
-    [SerializeField, SaveDuringPlay, Range(0.1f, 10.0f)]
+    [SerializeField, SaveDuringPlay, Range(0.0f, 0.25f), Tooltip("Smaller = stiffer swinging animation")]
+    private float positionMaxDelta;
+
+    [SerializeField, SaveDuringPlay, Range(0.1f, 300.0f)]
     private float rotationResponsiveness;
     
-    private struct ShellAnimationState
-    {
-        float3 location;
-        float4 rotation;
-    }
-
-    private NativeArray<ShellAnimationState> shellAnimationBuffer;
     private TransformAccessArray shellTransformAccesses; // NativeArray that optimizes Transform object access, see animation job definition below
     #endregion
 
@@ -118,20 +114,22 @@ public class KingShaderDriver : MonoBehaviour
     private Transform[] shellTransforms;
     private MeshRenderer[] shellRenderers;
     private JobHandle currentAnimationJob;
+    private JobHandle currentBufferSyncJob;
+
+    NativeArray<Vector3> shellPositions;
+    NativeArray<Quaternion> shellRotations;
 
     void OnEnable() {
-
         shellMaterial = new Material(shellMaterialPrototype);
         shellTransforms = new Transform[shellCount];
         shellRenderers = new MeshRenderer[shellCount];
 
-
-        // memory management taken from https://catlikecoding.com/unity/tutorials/basics/jobs/
-        shellAnimationBuffer = new NativeArray<ShellAnimationState>(shellCount, Allocator.Persistent);
-
         for (int i = 0; i < shellCount; ++i) {
             GameObject currShell = new("__shell_temp_obj_" + i.ToString(), typeof(MeshFilter), typeof(MeshRenderer));
             shellTransforms[i] = currShell.transform;
+
+            currShell.transform.position = bodyMesh.position;
+            currShell.transform.rotation = bodyMesh.rotation;
 
             currShell.GetComponent<MeshFilter>().mesh = bodyMesh.GetComponent<MeshFilter>().mesh;
 
@@ -144,6 +142,10 @@ public class KingShaderDriver : MonoBehaviour
 
         shellTransformAccesses = new TransformAccessArray(shellTransforms);
 
+        // memory management taken from https://catlikecoding.com/unity/tutorials/basics/jobs/
+        shellPositions = new NativeArray<Vector3>(shellCount, Allocator.Persistent);
+        shellRotations = new NativeArray<Quaternion>(shellCount, Allocator.Persistent);
+
         UpdateStaticParameters();
     }
 
@@ -154,9 +156,27 @@ public class KingShaderDriver : MonoBehaviour
         UpdateDynamicParameters(Time.deltaTime);
     }
 
-    private void Update()
-    {
-        currentAnimationJob = SyncAllShellTransforms(Time.deltaTime); // keep track of this handle but don't actually 
+    private void Update() {
+        SyncAnimationBufferJob fetchTransforms = new()
+        {
+            anchorPos = bodyMesh.transform.position,
+            anchorRotation = bodyMesh.transform.rotation,
+            Count = shellCount,
+            lastPosition = shellPositions,
+            lastRotation = shellRotations,
+        };
+
+        ShellAnimationJob anim = new()
+        {
+            lastPosition = shellPositions,
+            lastRotation = shellRotations,
+            positionLerpFactor = positionResponsiveness * Time.deltaTime,
+            rotationLerpFactor = rotationResponsiveness * Time.deltaTime,
+            masDistSquared = positionMaxDelta * positionMaxDelta,
+        };
+
+        currentBufferSyncJob = fetchTransforms.Schedule(shellTransformAccesses);
+        currentAnimationJob = anim.Schedule(shellTransformAccesses, currentBufferSyncJob);
     }
 
     private void LateUpdate()
@@ -165,7 +185,6 @@ public class KingShaderDriver : MonoBehaviour
     }
 
     void OnDisable() {
-        shellAnimationBuffer.Dispose();
         shellTransformAccesses.Dispose();
 
         // AT: technically not needed as shells are not saved
@@ -190,21 +209,21 @@ public class KingShaderDriver : MonoBehaviour
                 // .SetFloatParam("_Thickness", thickness)
                 // .SetFloatParam("_Attenuation", occlusionAttenuation)
                 .SetFloatParam("_ShellDistanceAttenuation", distanceAttenuation)
-                .SetFloatParam("_Curvature", curvature)
+                .SetFloatParam("_ShellDroop", shellDroop)
                 //.SetFloatParam("_OcclusionBias", occlusionBias)
                 //.SetFloatParam("_NoiseMin", noiseMin)
                 //.SetFloatParam("_NoiseMax", noiseMax)
                 .SetFloatParam("_SpikeDensity", spikeDensity)
                 .SetFloatParam("_SpikeCutoffMin", spikeCutoffMin)
                 .SetFloatParam("_SpikeCutoffMax", spikeCutoffMax)
+                .SetFloatParam("_SpikeHeightMapCutoff", spikeHeightMapCutoff)
                 .SetFloatParam("_SpikeShapeStylizationFactor", spikeShapeStylizationFactor)
                 .SetFloatParam("_ShellSpecularSharpness", shellSpecularSharpness)
                 .SetFloatParam("_ShellSpecularAmount", shellSpecularAmount)
                 .SetFloatParam("_SpikeShadowSmoothnessFactor", spikeShadowSmoothnessFactor)
-                .SetFloatParam("_FuzzFixFactor", fuzzFixFactor)
                 .SetVectorParam("_BodyColor", bodyColor)
                 .SetVectorParam("_SpikeTipColor", spikeTipColor)
-                .SetTextureParam("_SpikeUv", spikeUvTex);
+                .SetTextureParam("_SpikeHeightMap", spikeHeightMap);
         });
     }
 
@@ -226,27 +245,56 @@ public class KingShaderDriver : MonoBehaviour
         });
     }
 
-    JobHandle SyncAllShellTransforms(float deltaTime)
-    {
-        ShellAnimationJob job = new()
-        {
-            anchorPos = bodyMesh.position,
-            anchorScale = bodyMesh.localScale
-        };
-
-        return job.Schedule(shellTransformAccesses);
-    }
-
     struct ShellAnimationJob : IJobParallelForTransform // https://realerichu.medium.com/improve-performance-with-c-job-system-and-burst-compiler-in-unity-eecd2a69dbc8
     {
-        [ReadOnly] public float3 anchorPos;
-        [ReadOnly] public float3 anchorScale;
+        [ReadOnly] public NativeArray<Vector3> lastPosition;
+        [ReadOnly] public NativeArray<Quaternion> lastRotation;
+        [ReadOnly] public float positionLerpFactor;
+        [ReadOnly] public float rotationLerpFactor;
+        [ReadOnly] public float masDistSquared;
 
         public void Execute(int index, TransformAccess transform)
         {
-            // TODO
-            transform.position = anchorPos;
-            transform.localScale = anchorScale;
+            int prev = index - 1;
+            if (prev < 0) prev = 0;
+
+            Vector3 thisToLast = (lastPosition[prev] - transform.localPosition);
+            float sqrDist = thisToLast.sqrMagnitude;
+
+            if (sqrDist > masDistSquared)
+            {
+                transform.localPosition = lastPosition[prev] - thisToLast.normalized * masDistSquared;
+            } else
+            {
+                transform.localPosition = (1 - positionLerpFactor) * transform.localPosition + positionLerpFactor * lastPosition[prev];
+            }
+
+            transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, lastRotation[prev], rotationLerpFactor);
+        }
+    }
+    
+    struct SyncAnimationBufferJob : IJobParallelForTransform
+    {
+        [ReadOnly] public Vector3 anchorPos;
+        [ReadOnly] public Quaternion anchorRotation;
+        [ReadOnly] public int Count;
+        [WriteOnly, NativeDisableParallelForRestriction] public NativeArray<Vector3> lastPosition;
+        [WriteOnly, NativeDisableParallelForRestriction] public NativeArray<Quaternion> lastRotation;
+
+        public void Execute(int index, TransformAccess transform)
+        {
+            int Idx = (index + 1) % Count;
+
+            if (Idx == 0)
+            {
+                lastPosition[Idx] = anchorPos;
+                lastRotation[Idx] = anchorRotation;
+            }
+            else
+            {
+                lastPosition[Idx] = transform.position;
+                lastRotation[Idx] = transform.rotation;
+            }
         }
     }
 

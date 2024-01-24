@@ -4,17 +4,13 @@
 
 Shader "Custom/King"
 {
-	Properties {
-		[HideInInspector] _ZWrite ("__zw", Float) = 1.0
-	}
-    SubShader
+	SubShader
     {
         Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
-        // LOD 100
+        LOD 100
 
 		Pass {
 			Cull Off
-			ZWrite [_ZWrite]
 
 			Tags {
 				"LightMode" = "ForwardBase"
@@ -45,7 +41,7 @@ Shader "Custom/King"
 			/* All v2f buffers are linearly interpolated, meaning normalization is lost in the process! */
 			struct VertexOutputForwardBase {
 				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float3 uvh : TEXCOORD0; // uv | shellHeight
 				float3 worldPos : TEXCOORD1;
 
 				/* Note directions are *linearly* interpolated meaning they lose magnitude in the fragment shader*/
@@ -63,9 +59,10 @@ Shader "Custom/King"
 			int _ShellCount;
 			float _ShellLength; /* In world space */
 			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
-			float _Curvature; /* This is the exponent on the physics displacement attenuation, a higher value controls how stiff the hair is */
-			Texture2D _SpikeUv;
-			SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
+			float _ShellDroop;
+			sampler2D _SpikeHeightMap;
+			float _ShellHeightMapCutoff;
+			// SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
 			float3 _BodyColor;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
@@ -76,24 +73,26 @@ Shader "Custom/King"
 			float _SpikeShapeStylizationFactor;
 			float _SpikeShadowSmoothnessFactor;
 			float _AnimationTime;
-			float _FuzzFixFactor;
 
 			//https://docs.unity3d.com/Manual/SL-VertexProgramInputs.html
 			VertexOutputForwardBase vp(VertexData v) {
 				VertexOutputForwardBase i;
    				UNITY_INITIALIZE_OUTPUT(VertexOutputForwardBase, i);
+				
+                i.uvh.xy = v.uv;
 
-				float shellHeight = (float)_ShellIndex / (float)_ShellCount + 0.025; // add small bias for clipping issue
+				float4 maxShellHeight = tex2Dlod(_SpikeHeightMap, float4(v.uv, 0, 0));
+				float shellHeight = (float)_ShellIndex / (float)_ShellCount * maxShellHeight.r + 0.025; // add small bias for clipping issue
 				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
-				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight;
-				float k = pow(shellHeight, _Curvature);
+				i.uvh.z = shellHeight;
+
+				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight - _ShellIndex * mul(unity_WorldToObject, float3(0, _ShellDroop, 0));
 				i.worldPos = mul(unity_ObjectToWorld, v.vertex);
 
 				i.worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
 				i.worldTangent = normalize(UnityObjectToWorldDir(v.tangent));
 
                 i.pos = UnityObjectToClipPos(v.vertex);
-                i.uv = v.uv;
 
 				/* Unity lighting, see built-in shaders for 2022.3.14, specifically vertForwardBase in UnityStandardCore.cginc */
 				i.eyeVec.xyz = normalize(i.worldPos.xyz - _WorldSpaceCameraPos);
@@ -115,6 +114,10 @@ Shader "Custom/King"
 			// #define __KING_NO_SHADOW_ON_BODY
 			float4 fp(VertexOutputForwardBase i) : SV_TARGET {
 
+				// re-sample max height per-pixel and ditch surpassing ones
+				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
+				if (i.uvh.z - maxHeight.r > _ShellHeightMapCutoff) discard;
+
 				float3 worldNormal = normalize(i.worldNormal);
 				float3 worldTangent = normalize(i.worldTangent);
 
@@ -131,17 +134,13 @@ Shader "Custom/King"
 
 				float angleCheck = dot(worldNormal, worldCamToPos);
 
-				#ifndef __KING_NODISCARD
-				if (abs(angleCheck) < _FuzzFixFactor) discard;
-				#endif
-
 				float spikeT = (float)_ShellIndex / (float)_ShellCount;
 
 				// From old spike masking code...
 				// float4 spikeUv = _SpikeUv.Sample(point_clamp_sampler, i.uv);
 				// if (spikeUv.z > 0.1) discard;
 	
-			    float2 spikeUv2 = i.uv; // spikeUv.xy;
+			    float2 spikeUv2 = i.uvh.xy; // spikeUv.xy;
 
 				float voronoi_squaredDistToCenter; // use squared distance to reduce some mult operations, since we don't actually need the accurate distance
 				float voronoi_distToEdge; // this is computed via dot product so it's whatever
@@ -258,7 +257,7 @@ Shader "Custom/King"
             Name "ShadowCaster"
             Tags { "LightMode" = "ShadowCaster" }
 
-            ZWrite On ZTest LEqual
+			Cull Off
 
             CGPROGRAM
             #pragma target 3.0
@@ -293,7 +292,7 @@ Shader "Custom/King"
 			
 			struct VertexOutputShadowCaster {
 				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float3 uvh : TEXCOORD0; // uv | shell height
 				float3 worldPos : TEXCOORD1;
 				/* Note directions are *linearly* interpolated meaning they lose magnitude in the fragment shader*/
 				float3 worldTangent : TEXCOORD2;
@@ -304,9 +303,9 @@ Shader "Custom/King"
 			int _ShellCount;
 			float _ShellLength; /* In world space */
 			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
-			float _Curvature; /* This is the exponent on the physics displacement attenuation, a higher value controls how stiff the hair is */
-			Texture2D _SpikeUv;
-			SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
+			float _ShellDroop;
+			sampler2D _SpikeHeightMap;
+			float _ShellHeightMapCutoff;
 			float3 _BodyColor;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
@@ -317,27 +316,33 @@ Shader "Custom/King"
 			float _SpikeShapeStylizationFactor;
 			float _SpikeShadowSmoothnessFactor;
 			float _AnimationTime;
-			float _FuzzFixFactor;
 
 			VertexOutputShadowCaster vp (VertexData v)
 			{
 				VertexOutputShadowCaster i;
-				float shellHeight = (float)_ShellIndex / (float)_ShellCount + 0.025; // add small bias for clipping issue
-				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
-				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight;
-				
-				TRANSFER_SHADOW_CASTER_NOPOS(i, i.pos)
+				i.uvh.xy = v.uv;
 
-				i.uv = v.uv;
-				
+				float4 maxShellHeight = tex2Dlod(_SpikeHeightMap, float4(v.uv, 0, 0));
+				float shellHeight = (float)_ShellIndex / (float)_ShellCount * maxShellHeight + 0.025; // add small bias for clipping issue
+				shellHeight = pow(shellHeight, _ShellDistanceAttenuation);
+
+				i.uvh.z = shellHeight;
+
+				v.vertex.xyz += v.normal.xyz * _ShellLength * shellHeight - _ShellIndex * mul(unity_WorldToObject, float3(0, _ShellDroop, 0));
+
 				i.worldPos = mul(unity_ObjectToWorld, v.vertex);
 				i.worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
 				i.worldTangent = normalize(UnityObjectToWorldDir(v.tangent));
 
+				TRANSFER_SHADOW_CASTER_NOPOS(i, i.pos)
 				return i;
 			}
 
 			float4 fp(VertexOutputShadowCaster i) : SV_TARGET {
+				// re-sample max height per-pixel and ditch surpassing ones
+				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
+				if (i.uvh.z - maxHeight.r > _ShellHeightMapCutoff) discard;
+
 				float3 worldNormal = normalize(i.worldNormal);
 				float3 worldTangent = normalize(i.worldTangent);
 
@@ -354,11 +359,7 @@ Shader "Custom/King"
 
 				float angleCheck = dot(worldNormal, worldCamToPos);
 
-				#ifndef __KING_NODISCARD
-				if (abs(angleCheck) < _FuzzFixFactor) discard;
-				#endif
-
-			    float2 spikeUv2 = i.uv; // spikeUv.xy;
+			    float2 spikeUv2 = i.uvh.xy; // spikeUv.xy;
 				float spikeT = (float)_ShellIndex / (float)_ShellCount;
 
 				float voronoi_squaredDistToCenter; // use squared distance to reduce some mult operations, since we don't actually need the accurate distance
