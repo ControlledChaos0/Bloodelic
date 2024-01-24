@@ -35,8 +35,6 @@ Shader "Custom/King"
 			#include "../Helpers/Hash.cginc"
 			#include "../Helpers/Matrix.cginc"
 
-			#include "./King_Internal.cginc"
-
 			struct VertexData {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
@@ -281,7 +279,6 @@ Shader "Custom/King"
             #pragma fragment fp
 
             #include "UnityStandardShadow.cginc"
-			#include "./King_Internal.cginc"
 			
 			#include "../Helpers/Voronoi.cginc"
 			#include "../Helpers/Hash.cginc"
