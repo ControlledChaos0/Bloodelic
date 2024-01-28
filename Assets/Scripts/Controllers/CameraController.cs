@@ -159,15 +159,7 @@ public class CameraController : Singleton<CameraController>
         }
         GameObject hitGO = _closestHit.transform.gameObject;
         ClickAction?.Invoke(hitGO);
-
-        // Renderer cellRenderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
-        // if (cellRenderer.isVisible) {
-        //     GridCell gridCell = gameObject.GetComponent<GridCell>();
-        //     gridCell.TurnSurroundingBlue();
-        //     //GridPath path = Pathfinder.FindPath(Entity.testCell, gridCell);
-        //     //path.TurnBlue();
-            
-        // }
+        
         Debug.Log(hitGO);
     }
 
