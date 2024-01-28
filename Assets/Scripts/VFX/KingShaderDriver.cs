@@ -58,11 +58,8 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay]
     private Texture2D spikeHeightMap;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 1.0f)]
-    private float spikeHeightMapCutoff;
-
-    [SerializeField, SaveDuringPlay, Range(0.01f, 3.0f)]
-    private float distanceAttenuation = 1.0f;
+    // [SerializeField, SaveDuringPlay, Range(0.01f, 3.0f)]
+    // private float distanceAttenuation = 1.0f;
 
     //[SerializeField, SaveDuringPlay, Range(0.0f, 10.0f)]
     //private float thickness = 1.0f;
@@ -73,7 +70,7 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay, Range(0.0f, 100.0f)]
     private float shellSpecularSharpness;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 5.0f)]
+    [SerializeField, SaveDuringPlay, Range(0.0f, 50.0f)]
     private float shellSpecularAmount;
 
     [SerializeField, SaveDuringPlay]
@@ -208,7 +205,7 @@ public class KingShaderDriver : MonoBehaviour
                 //.SetFloatParam("_Density", density)
                 // .SetFloatParam("_Thickness", thickness)
                 // .SetFloatParam("_Attenuation", occlusionAttenuation)
-                .SetFloatParam("_ShellDistanceAttenuation", distanceAttenuation)
+                // .SetFloatParam("_ShellDistanceAttenuation", distanceAttenuation)
                 .SetFloatParam("_ShellDroop", shellDroop)
                 //.SetFloatParam("_OcclusionBias", occlusionBias)
                 //.SetFloatParam("_NoiseMin", noiseMin)
@@ -216,7 +213,6 @@ public class KingShaderDriver : MonoBehaviour
                 .SetFloatParam("_SpikeDensity", spikeDensity)
                 .SetFloatParam("_SpikeCutoffMin", spikeCutoffMin)
                 .SetFloatParam("_SpikeCutoffMax", spikeCutoffMax)
-                .SetFloatParam("_SpikeHeightMapCutoff", spikeHeightMapCutoff)
                 .SetFloatParam("_SpikeShapeStylizationFactor", spikeShapeStylizationFactor)
                 .SetFloatParam("_ShellSpecularSharpness", shellSpecularSharpness)
                 .SetFloatParam("_ShellSpecularAmount", shellSpecularAmount)
