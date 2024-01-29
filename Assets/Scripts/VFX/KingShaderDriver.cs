@@ -74,7 +74,10 @@ public class KingShaderDriver : MonoBehaviour
     private float shellSpecularAmount;
 
     [SerializeField, SaveDuringPlay]
-    private Color bodyColor;
+    private Texture2D bodyColor;
+
+    [SerializeField, SaveDuringPlay, Range(0.1f, 20.0f)]
+    private float eyeGlow;
 
     [SerializeField, SaveDuringPlay]
     private Color spikeTipColor;
@@ -120,6 +123,8 @@ public class KingShaderDriver : MonoBehaviour
         shellMaterial = new Material(shellMaterialPrototype);
         shellTransforms = new Transform[shellCount];
         shellRenderers = new MeshRenderer[shellCount];
+
+        bodyMesh.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
         for (int i = 0; i < shellCount; ++i) {
             GameObject currShell = new("__shell_temp_obj_" + i.ToString(), typeof(MeshFilter), typeof(MeshRenderer));
@@ -217,8 +222,9 @@ public class KingShaderDriver : MonoBehaviour
                 .SetFloatParam("_ShellSpecularSharpness", shellSpecularSharpness)
                 .SetFloatParam("_ShellSpecularAmount", shellSpecularAmount)
                 .SetFloatParam("_SpikeShadowSmoothnessFactor", spikeShadowSmoothnessFactor)
-                .SetVectorParam("_BodyColor", bodyColor)
+                .SetFloatParam("_EyeGlow", eyeGlow)
                 .SetVectorParam("_SpikeTipColor", spikeTipColor)
+                .SetTextureParam("_BodyColor", bodyColor)
                 .SetTextureParam("_SpikeHeightMap", spikeHeightMap);
         });
     }

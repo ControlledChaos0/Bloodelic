@@ -65,7 +65,8 @@ Shader "Custom/King"
 			sampler2D _SpikeHeightMap;
 			// float _ShellHeightMapCutoff;
 			// SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
-			float3 _BodyColor;
+			sampler2D _BodyColor;
+			float _EyeGlow;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
 			float _SpikeCutoffMin;
@@ -129,7 +130,13 @@ Shader "Custom/King"
 
 				// re-sample max height per-pixel and ditch surpassing ones
 				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
-				// if (i.uvh.z - maxHeight.r > _ShellHeightMapCutoff) discard;
+				float4 bodyColor = tex2D(_BodyColor, i.uvh.xy);
+				if (i.uvh.z > maxHeight.r) {
+
+					if (_ShellIndex == 0) return bodyColor * _EyeGlow;
+					
+					discard;
+				};
 
 				float3 worldNormal = normalize(i.worldNormal.xyz);
 				float3 worldTangent = normalize(i.worldTangent.xyz);
@@ -213,7 +220,7 @@ Shader "Custom/King"
 
 				/* Blinn Phong helpers */
 
-				float3 unlit = lerp(_BodyColor, _SpikeTipColor, spikeT * spikeT * spikeT);
+				float3 unlit = lerp(bodyColor.xyz, _SpikeTipColor, spikeT * spikeT * spikeT);
 
 				float3 lightToObj = normalize(-float3(i.worldPos.w, i.worldTangent.w, i.worldNormal.w));
 
@@ -329,7 +336,8 @@ Shader "Custom/King"
 			sampler2D _SpikeHeightMap;
 			// float _ShellHeightMapCutoff;
 			// SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
-			float3 _BodyColor;
+			sampler2D _BodyColor;
+			float _EyeGlow;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
 			float _SpikeCutoffMin;
@@ -396,7 +404,13 @@ Shader "Custom/King"
 
 				// re-sample max height per-pixel and ditch surpassing ones
 				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
-				// if (i.uvh.z - maxHeight.r > _ShellHeightMapCutoff) discard;
+				float4 bodyColor = tex2D(_BodyColor, i.uvh.xy);
+				if (i.uvh.z > maxHeight.r) {
+
+					if (_ShellIndex == 0) return bodyColor * _EyeGlow;
+					
+					discard;
+				};
 
 				float3 worldNormal = normalize(i.worldNormal.xyz);
 				float3 worldTangent = normalize(i.worldTangent.xyz);
@@ -480,7 +494,7 @@ Shader "Custom/King"
 
 				/* Blinn Phong helpers */
 
-				float3 unlit = lerp(_BodyColor, _SpikeTipColor, spikeT * spikeT * spikeT);
+				float3 unlit = lerp(bodyColor.xyz, _SpikeTipColor, spikeT * spikeT * spikeT);
 
 				float3 lightToObj = -normalize(float3(i.worldPos.w, i.worldTangent.w, i.worldNormal.w));
 
@@ -632,7 +646,14 @@ Shader "Custom/King"
 			float4 fp(VertexOutputShadowCaster i) : SV_TARGET {
 				// re-sample max height per-pixel and ditch surpassing ones
 				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
-				// if (i.uvh.z - maxHeight.r > _ShellHeightMapCutoff) discard;
+				if (i.uvh.z - maxHeight.r > 0) {
+
+					if (_ShellIndex == 0) {
+						SHADOW_CASTER_FRAGMENT(i);
+					}
+					
+					discard;
+				};
 
 				float3 worldNormal = normalize(i.worldNormal);
 				float3 worldTangent = normalize(i.worldTangent);
