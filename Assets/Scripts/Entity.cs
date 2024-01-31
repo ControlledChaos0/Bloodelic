@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 #pragma warning disable CS3009 // Base type is not CLS-compliant
 public class Entity : MonoBehaviour
 #pragma warning restore CS3009 // Base type is not CLS-compliant
 {
+    public Sprite icon;
     [SerializeField]
     protected new Collider collider;
     [SerializeField]
