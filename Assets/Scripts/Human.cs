@@ -8,7 +8,7 @@ public class Human : Entity
     // Start is called before the first frame update
     void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -20,7 +20,7 @@ public class Human : Entity
     protected void PerformAction() {
         // idk you'll probably have some more complicated AI stuff here, but for now it just prints a statement
         StartCoroutine(DummyTurnBehavior());
-        
+
     }
     
     IEnumerator DummyTurnBehavior() {

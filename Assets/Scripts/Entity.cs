@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class Entity : MonoBehaviour
 #pragma warning restore CS3009 // Base type is not CLS-compliant
 {
-    public Sprite icon;
     [SerializeField]
     protected new Collider collider;
     [SerializeField]
@@ -18,7 +17,7 @@ public class Entity : MonoBehaviour
     protected float moveSpeed = 10f;
     [SerializeField]
     protected float rotateSpeed = 10f;
-
+    public Sprite icon;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
     protected Vector3 OffsetGridPos => occupiedCell.transform.position + (occupiedCell.transform.rotation * -offset);
     protected Vector3 OffsetPrevGridPos => prevOccupiedCell.transform.position + (prevOccupiedCell.transform.rotation * -offset);
