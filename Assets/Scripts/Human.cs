@@ -17,7 +17,7 @@ public class Human : Entity
         
     }
 
-    protected void PerformAction() {
+    public void PerformAction() {
         // idk you'll probably have some more complicated AI stuff here, but for now it just prints a statement
         StartCoroutine(DummyTurnBehavior());
 
@@ -26,5 +26,6 @@ public class Human : Entity
     IEnumerator DummyTurnBehavior() {
         Debug.Log("human turn! :D");
         yield return new WaitForSeconds(2.0f);
+        TurnSystem.Instance.SwitchTurn();
     }
 }

@@ -36,6 +36,7 @@ public class Entity : MonoBehaviour
     //Testing (not intended for use in actual game unless decided otherwise, then move up above)
     public static GridCell testCell;
     private static Entity _instance;
+    
     public static Entity Instance {
         get {
             if (_instance == null) {
@@ -43,6 +44,10 @@ public class Entity : MonoBehaviour
             }
             return _instance;
         }
+    }
+
+    public bool IsMoving {
+        get { return move; }
     }
 
     // Start is called before the first frame update
