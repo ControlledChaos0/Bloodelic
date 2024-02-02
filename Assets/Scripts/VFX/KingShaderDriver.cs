@@ -58,11 +58,8 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay]
     private Texture2D spikeHeightMap;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 1.0f)]
-    private float spikeHeightMapCutoff;
-
-    [SerializeField, SaveDuringPlay, Range(0.01f, 3.0f)]
-    private float distanceAttenuation = 1.0f;
+    // [SerializeField, SaveDuringPlay, Range(0.01f, 3.0f)]
+    // private float distanceAttenuation = 1.0f;
 
     //[SerializeField, SaveDuringPlay, Range(0.0f, 10.0f)]
     //private float thickness = 1.0f;
@@ -73,11 +70,14 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay, Range(0.0f, 100.0f)]
     private float shellSpecularSharpness;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 5.0f)]
+    [SerializeField, SaveDuringPlay, Range(0.0f, 50.0f)]
     private float shellSpecularAmount;
 
     [SerializeField, SaveDuringPlay]
-    private Color bodyColor;
+    private Texture2D bodyColor;
+
+    [SerializeField, SaveDuringPlay, Range(0.1f, 20.0f)]
+    private float eyeGlow;
 
     [SerializeField, SaveDuringPlay]
     private Color spikeTipColor;
@@ -123,6 +123,8 @@ public class KingShaderDriver : MonoBehaviour
         shellMaterial = new Material(shellMaterialPrototype);
         shellTransforms = new Transform[shellCount];
         shellRenderers = new MeshRenderer[shellCount];
+
+        bodyMesh.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
         for (int i = 0; i < shellCount; ++i) {
             GameObject currShell = new("__shell_temp_obj_" + i.ToString(), typeof(MeshFilter), typeof(MeshRenderer));
@@ -208,7 +210,7 @@ public class KingShaderDriver : MonoBehaviour
                 //.SetFloatParam("_Density", density)
                 // .SetFloatParam("_Thickness", thickness)
                 // .SetFloatParam("_Attenuation", occlusionAttenuation)
-                .SetFloatParam("_ShellDistanceAttenuation", distanceAttenuation)
+                // .SetFloatParam("_ShellDistanceAttenuation", distanceAttenuation)
                 .SetFloatParam("_ShellDroop", shellDroop)
                 //.SetFloatParam("_OcclusionBias", occlusionBias)
                 //.SetFloatParam("_NoiseMin", noiseMin)
@@ -216,13 +218,13 @@ public class KingShaderDriver : MonoBehaviour
                 .SetFloatParam("_SpikeDensity", spikeDensity)
                 .SetFloatParam("_SpikeCutoffMin", spikeCutoffMin)
                 .SetFloatParam("_SpikeCutoffMax", spikeCutoffMax)
-                .SetFloatParam("_SpikeHeightMapCutoff", spikeHeightMapCutoff)
                 .SetFloatParam("_SpikeShapeStylizationFactor", spikeShapeStylizationFactor)
                 .SetFloatParam("_ShellSpecularSharpness", shellSpecularSharpness)
                 .SetFloatParam("_ShellSpecularAmount", shellSpecularAmount)
                 .SetFloatParam("_SpikeShadowSmoothnessFactor", spikeShadowSmoothnessFactor)
-                .SetVectorParam("_BodyColor", bodyColor)
+                .SetFloatParam("_EyeGlow", eyeGlow)
                 .SetVectorParam("_SpikeTipColor", spikeTipColor)
+                .SetTextureParam("_BodyColor", bodyColor)
                 .SetTextureParam("_SpikeHeightMap", spikeHeightMap);
         });
     }
