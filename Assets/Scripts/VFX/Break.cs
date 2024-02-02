@@ -67,6 +67,7 @@ public class Break : MonoBehaviour
     private MeshRenderer _meshRenderer;
     private Rigidbody _rigidbody;
     private List<Collider> _collider;
+    private AudioSource _audio;
 
     private void Start()
     {
@@ -75,6 +76,8 @@ public class Break : MonoBehaviour
 
         _collider = new List<Collider>();
         GetComponents(_collider);
+
+        _audio = GetComponent<AudioSource>();
 
         setPiecesActive(false);
     }
@@ -97,6 +100,8 @@ public class Break : MonoBehaviour
         _rigidbody.isKinematic = true;
 
         setPiecesActive(true);
+
+        _audio.Play();
 
         foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
         {
