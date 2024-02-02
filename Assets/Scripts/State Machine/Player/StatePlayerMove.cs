@@ -22,7 +22,7 @@ public class StatePlayerMove : State
     public override void ExitState(StateMachine sm) {
         PlayerTurnMachine ptm = sm as PlayerTurnMachine;
         CameraController.Instance.HitMask = _prevLayerMask;
-        canSwitch = false;
+        // canSwitch = false;
         GridManager.Instance.HoverAction -= ptm.monster.ShowPath;
         GridManager.Instance.ClickAction -= ptm.monster.ChoosePath;
     }
