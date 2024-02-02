@@ -32,8 +32,7 @@ public class Monster : Entity
         Debug.Log("split");
         if (!_playerTurnMachine.moveState.canSwitch) {
             return;
-        }
-        
+        }        
         _playerTurnMachine.ChangeState(_playerTurnMachine.moveState);
     }
     public void ShowPath(GridCell gridCell) {
