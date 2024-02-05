@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Editor;
+using UnityEditor;
 using UnityEditor.Recorder.Input;
 using UnityEngine;
 
@@ -50,4 +51,13 @@ public class Monster : Entity
         _playerTurnMachine.ChangeState(_playerTurnMachine.idleState);
         Move(currPosPath);
     }
+    
+    #if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        string stateDebug = string.Format("State: " + _playerTurnMachine.currentState);
+        Handles.Label(transform.position + Vector3.up, stateDebug);
+    }
+
+    #endif
 }
