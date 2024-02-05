@@ -61,6 +61,8 @@ public class Entity : MonoBehaviour
             occupiedCell = hit.transform.GetComponent<GridCell>();
             prevOccupiedCell = occupiedCell;
             testCell = occupiedCell;
+            // Set occupant for occupied cell
+            occupiedCell.SetOccupant(this);
         }
         height = collider.bounds.size.z;
         offset = new Vector3(0, -height / 2, 0);
@@ -102,6 +104,8 @@ public class Entity : MonoBehaviour
         linkedPath = path;
         linkedPath.RevertColor();
         occupiedCell = path.PopFront();
+        // Set occupant for occupied cell
+        occupiedCell.SetOccupant(this);
         CalculateMovementTime();
         move = true;
 
@@ -126,11 +130,16 @@ public class Entity : MonoBehaviour
                 return;
             } else if (linkedPath.Count == 0) {
                 move = false;
+                prevOccupiedCell.Unoccupy();
                 prevOccupiedCell = occupiedCell;
                 return;
             } else if (linkedPath.Count > 0) {
+                // Unoccupy prev cell
+                prevOccupiedCell.Unoccupy();
                 prevOccupiedCell = occupiedCell;
                 occupiedCell = linkedPath.PopFront();
+                // Set occupant for occupied cell
+                occupiedCell.SetOccupant(this);
                 CalculateMovementTime();
                 fromRot = transform.rotation;
                 toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
@@ -150,4 +159,14 @@ public class Entity : MonoBehaviour
         }
         return true;
     }
+    
+    #region Grid Cell
+
+    public GridCell OccupiedCell
+    {
+        get => occupiedCell;
+        set => occupiedCell = value;
+    }
+
+    #endregion
 }

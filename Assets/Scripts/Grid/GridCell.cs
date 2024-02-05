@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
@@ -73,4 +74,89 @@ public class GridCell : MonoBehaviour
         H = Vector3.Distance(Position.Position, target.Position.Position);
         return H;
     }
+    
+    #region Occupant
+
+    private Entity entityOccupant;
+    public Entity EntityOccupant => entityOccupant;
+    
+    public void SetOccupant(Entity occupant)
+    {
+        // Log error if cell is occupied
+        if (entityOccupant != null)
+        {
+            Debug.LogError("Attempting to occupy cell " + name + " occupied by " + entityOccupant.name);
+            return;
+        }
+
+        entityOccupant = occupant;
+        
+        // For human occupants, also set wall neighbors to occupied
+        Human human = occupant as Human;
+        if (human != null)
+        {
+            List<GridCell> wallNeighbors = GetWallNeighbors();
+            foreach (var n in wallNeighbors)
+            {
+                n.entityOccupant = occupant;
+            }
+        }
+    }
+    
+    public void Unoccupy()
+    {
+        // For human occupants, also set wall neighbors to occupied
+        Human human = entityOccupant as Human;
+        if (human != null)
+        {
+            List<GridCell> wallNeighbors = GetWallNeighbors();
+            foreach (var n in wallNeighbors)
+            {
+                n.Unoccupy();
+            }
+        }
+        
+        entityOccupant = null;
+    }
+    
+    // A cell is considered occupied when:
+    //  - An entity occupies it
+    //  - A LARGE object occupies it
+    public bool IsOccupied()
+    {
+        // @Add objects stuff
+        return entityOccupant != null;
+    }
+    
+    public List<GridCell> GetWallNeighbors()
+    {
+        List<GridCell> wallNeighbors = new List<GridCell>();
+
+        foreach (var n in _neighbors)
+        {
+            if (n != null && n._position.Position.y != _position.Position.y)
+            {
+                wallNeighbors.Add(n);                    
+            }
+        }
+        
+        return wallNeighbors;
+    }
+
+    #endregion
+    
+    #region Debug
+        #if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            if (IsOccupied())
+            {
+                Handles.color = Color.red;
+                string debugString = string.Format("Occupant: {0}", entityOccupant.name);
+                Handles.Label(transform.position + Vector3.up * 0.5f, debugString);
+                Handles.color = Color.white;
+            }
+        }
+        #endif
+    #endregion
 }
