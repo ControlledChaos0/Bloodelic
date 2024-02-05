@@ -90,10 +90,32 @@ public class GridCell : MonoBehaviour
         }
 
         entityOccupant = occupant;
+        
+        // For human occupants, also set wall neighbors to occupied
+        Human human = occupant as Human;
+        if (human != null)
+        {
+            List<GridCell> wallNeighbors = GetWallNeighbors();
+            foreach (var n in wallNeighbors)
+            {
+                n.entityOccupant = occupant;
+            }
+        }
     }
     
     public void Unoccupy()
     {
+        // For human occupants, also set wall neighbors to occupied
+        Human human = entityOccupant as Human;
+        if (human != null)
+        {
+            List<GridCell> wallNeighbors = GetWallNeighbors();
+            foreach (var n in wallNeighbors)
+            {
+                n.Unoccupy();
+            }
+        }
+        
         entityOccupant = null;
     }
     
@@ -104,6 +126,21 @@ public class GridCell : MonoBehaviour
     {
         // @Add objects stuff
         return entityOccupant != null;
+    }
+    
+    public List<GridCell> GetWallNeighbors()
+    {
+        List<GridCell> wallNeighbors = new List<GridCell>();
+
+        foreach (var n in _neighbors)
+        {
+            if (n != null && n._position.Position.y != _position.Position.y)
+            {
+                wallNeighbors.Add(n);                    
+            }
+        }
+        
+        return wallNeighbors;
     }
 
     #endregion

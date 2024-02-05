@@ -43,6 +43,11 @@ public class Pathfinder
                 if (cell == null) {
                     continue;
                 }
+                // If cell is occupied, skip
+                if (cell.IsOccupied())
+                {
+                    continue;
+                }
                 bool value;
                 if (searched.ContainsKey(cell)) {
                     continue;
