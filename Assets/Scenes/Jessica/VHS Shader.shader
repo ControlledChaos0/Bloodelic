@@ -3,9 +3,11 @@ Shader "Custom/VHSEffect"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _SecondaryTex ("Secondary Texture", 2D) = "white" {}
-        _NoiseAmount("Noise Amount", Range(0.0, 1.0)) = 0.5
-        _VignetteIntensity("Vignette Intensity", Range(0.0, 10.0)) = 1.0
+        _VignetteIntensity("Vignette Intensity", Range(0.0, 4.0)) = 2.0
+        //_contrast("Contrast Intensity", Range(1.0, 1.2)) = 1.0
+        _StripesDensity("Stripes Density", Range(1.0, 10.0)) = 5.0
+        _TrackingSpeed("Tracking Speed", Range(1.0, 15.0)) = 7.0
+        _RedBlueOffset("Red Blue Offset", Range(0.0, 6.0)) = 3.0
     }
     SubShader
     {
@@ -17,7 +19,6 @@ Shader "Custom/VHSEffect"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
             #include "UnityCG.cginc"
 
             struct appdata
@@ -33,77 +34,134 @@ Shader "Custom/VHSEffect"
             };
 
             sampler2D _MainTex;
-            sampler2D _SecondaryTex;
-            float4 _MainTex_ST;
-
-            float _NoiseAmount;
+            float4 _MainTex_TexelSize;
             float _VignetteIntensity;
-
+            float _StripesDensity;
+            float _TrackingSpeed;
+            float _RedBlueOffset;
+            //float _contrast;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
                 return o;
             }
 
-            float noise(float2 p)
+            float4 rgbOffset(float2 uv, sampler2D tex)
             {
-                float s = tex2D(_SecondaryTex, float2(1.0, 2.0 * cos(_Time.y)) * _Time.y * 8.0 + p * 1.0).r;
-                s *= s * _NoiseAmount;
-                return s;
+                float3 color;
+                color.r = tex2D(tex, uv + float2(_RedBlueOffset*0.001, 0)).x;
+                color.g = tex2D(tex, uv).y;
+                color.b = tex2D(tex, uv - float2(_RedBlueOffset*0.001, 0)).z;
+                return float4(color,0.0);
             }
 
-            float onOff(float a, float b, float c)
+            float GoldNoise(float2 xy, float seed)
             {
-                return step(c, sin(_Time.y + a * cos(_Time.y * b)));
+                return frac(sin(dot(xy * seed, float2(12.9898, 78.233))) * 43758.5453);
             }
 
-            float ramp(float y, float start, float end)
+            float2 Tracking(float speed, float offset, float jitter, float2 fragCoord)
             {
-                float inside = step(start, y) - step(end, y);
-                float fact = (y - start) / (end - start) * inside;
-                return (1.0 - fact) * inside;
-            }
-
-            float stripes(float2 uv)
-            {
-                float noi = noise(uv * float2(0.5, 1.0) + float2(1.0, 3.0));
-                return ramp(fmod(uv.y * 2.0 + _Time.y / 2.0 + sin(_Time.y + sin(_Time.y * 0.63)), 1.0), 0.5, 0.6) * noi;
-            }
-
-            float3 getVideo(float2 uv)
-            {
-                float2 look = uv;
-                float window = 1.0 / (1.0 + 20.0 * (look.y - fmod(_Time.y / 4.0, 1.0)) * (look.y - fmod(_Time.y / 4.0, 1.0)));
-    
-
-
-                float3 video = tex2D(_MainTex, look).rgb;
-                return video;
-            }
-
-            float2 screenDistort(float2 uv)
-            {
-                uv -= float2(0.5, 0.5);
-                uv = uv*1.2*(1./1.2+2.*uv.x*uv.x*uv.y*uv.y);
-                uv += float2(0.5, 0.5);
+                float t = 1.0 - fmod(_Time.y, speed) / speed;
+                float trackingStart = fmod(t * _ScreenParams.y, _ScreenParams.y);
+                float trackingJitter = GoldNoise(float2(5000.0, 5000.0), 10.0 + frac(_Time.y)) * jitter;
+                trackingStart += trackingJitter;
+                bool isAboveTrackingLine = fragCoord.y > trackingStart;
+                float proximity = abs(fragCoord.y - trackingStart) / _ScreenParams.y; 
+                float dynamicOffset = offset * (1.0 - smoothstep(0.0, 0.05, proximity)); 
+                float2 uv;
+                if (isAboveTrackingLine)
+                {         
+                    uv = (fragCoord + float2(dynamicOffset, 0.0)) / _ScreenParams;
+                }
+                else
+                {
+                    uv = (fragCoord - float2(dynamicOffset, 0.0)) / _ScreenParams;
+                }
                 return uv;
             }
+
+            float2 WarpBottomUVs(float height, float offset, float jitterExtent,float smoothness, float2 uv)
+            {
+                float uvHeight = height / _ScreenParams.y;
+                float edgeSmoothness = smoothness / _ScreenParams.y; 
+                float smoothStepFactor = smoothstep(uvHeight - edgeSmoothness, uvHeight, uv.y);
+
+                if (uv.y <= uvHeight)
+                {
+                    float t = uv.y / uvHeight;
+                    float offsetUV = t * (offset / _ScreenParams.x);
+                    float jitterUV = (GoldNoise(float2(500.0, 500.0), frac(_Time.y)) * jitterExtent) / _ScreenParams.x; 
+                    uv.x -= (offsetUV + jitterUV) * (1.0 - smoothStepFactor);
+                }
+
+                return uv;
+            }
+
+
+
+            //credit to https://www.shadertoy.com/view/sltBWM
+            float4 WhiteNoise(float lineThickness, float opacity, float4 pixel, float2 fragCoord)
+            {
+                if (GoldNoise(float2(600.0, 500.0), frac(_Time.y) * 10.0) > 0.97)
+                {
+                    float lineStart = floor(GoldNoise(float2(800.0, 50.0), frac(_Time.y)) * _ScreenParams.y);
+                    float lineEnd = floor(lineStart + lineThickness);
+        
+                    if (floor(fragCoord.y) >= lineStart && floor(fragCoord.y) < lineEnd)
+                    {
+                        float frequency = GoldNoise(float2(850.0, 50.0), frac(_Time.y)) * 3.0 + 1.0;
+                        float offset = GoldNoise(float2(900.0, 51.0), frac(_Time.y));            
+                        float x = floor(fragCoord.x) / floor(_ScreenParams.x) + offset;
+                        float white = pow(cos(3.14159265 * frac(x * frequency) / 2.0), 10.0) * opacity;
+                        float grit = GoldNoise(float2(floor(fragCoord.x / 3.0), 800.0), frac(_Time.y));
+                        white = max(white - grit * 0.3, 0.0);
+                        
+                        return pixel + white;
+                    }
+                }
+    
+                return pixel;
+            }
+
+
+            //float3 AdjustContrast(float3 color)
+            //{
+            //    float3 midpoint = float3(0.5, 0.5, 0.5);
+            //    float3 adjustedColor = (color - midpoint) * _contrast + midpoint;
+            //    adjustedColor = clamp(adjustedColor, 0.0, 1.0);
+            //    return adjustedColor;
+            //}
+
 
             float4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.uv;
-                uv = screenDistort(uv);
-                float3 video = getVideo(uv);
-                float vigAmt = _VignetteIntensity + 0.3 * sin(_Time.y + 5.0 * cos(_Time.y * 5.0));
-                float vignette = (1.0 - vigAmt * (uv.y - 0.5) * (uv.y - 0.5)) * (1.0 - vigAmt * (uv.x - 0.5) * (uv.x - 0.5));
-                video += stripes(uv);
-                video += noise(uv * 2.0) / 2.0;
-                video *= vignette;
 
-                return float4(video, 1.0);
+                //tracking line
+                float2 trackedUV = Tracking(_TrackingSpeed, 2.0, 10.0, i.vertex.xy);
+                trackedUV.y = 1.0 - trackedUV.y;
+                //bottom wrap
+                float2 warpedUV = WarpBottomUVs(7.0, 50.0, 30.0, 5.0, trackedUV);
+                //color
+                float4 output = rgbOffset(warpedUV, _MainTex);
+
+                //vignette
+                float vignetteIntensity = _VignetteIntensity + 0.1 * sin(_Time.y);
+                float vignette = (1.0 - vignetteIntensity * (uv.y - 0.5) * (uv.y - 0.5)) * (1.0 - vignetteIntensity * (uv.x - 0.5) * (uv.x - 0.5));
+                output.rgb *= vignette; 
+
+                output = WhiteNoise(3.0, 0.3, output, i.vertex.xy);
+
+                //output = AdjustContrast(output);
+                //stripes
+                output.rgb *= 1.0 + 0.1 * sin(10.0 * _Time.y + uv.y * _StripesDensity * 100.0);
+                output.rgb *= 0.99 + 0.01 * sin(110.0 * _Time.y);
+
+                return output;
             }
             ENDCG
         }

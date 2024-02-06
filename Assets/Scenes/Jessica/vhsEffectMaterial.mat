@@ -86,13 +86,15 @@ Material:
     - _NoiseAmount: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RedBlueOffset: 2.94
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _StripesDensity: 8.75
+    - _StripesDensity: 4.78
     - _Time: 0
+    - _TrackingSpeed: 8.18
     - _UVSec: 0
-    - _VignetteIntensity: 4
+    - _VignetteIntensity: 1.93
     - _ZWrite: 1
     - _contrast: 1
     - _iTime: 0
