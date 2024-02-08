@@ -19,6 +19,10 @@ public class CameraController : Singleton<CameraController>
     private float panSensitivity = 5f;
     [SerializeField]
     private float distanceFrom = 5.0f;
+    [SerializeField]
+    private GameObject corner1;
+    [SerializeField]
+    private GameObject corner2;
 
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
@@ -33,6 +37,9 @@ public class CameraController : Singleton<CameraController>
     private bool _rotateCamera;
     private bool _panCamera;
     private LayerMask _hitMask;
+
+    private Vector3 cornerPos1;
+    private Vector3 cornerPos2;
 
     public Camera MainCamera {
         get => mainCamera;
@@ -89,6 +96,13 @@ public class CameraController : Singleton<CameraController>
 
         _panCamera = false;
         _rotateCamera = false;
+
+        cornerPos1 = new Vector3(Mathf.Max(corner1.transform.position.x, corner2.transform.position.x), 
+                                            Mathf.Max(corner1.transform.position.y, corner2.transform.position.y), 
+                                            Mathf.Max(corner1.transform.position.z, corner2.transform.position.z));
+        cornerPos2 = new Vector3(Mathf.Min(corner1.transform.position.x, corner2.transform.position.x), 
+                                            Mathf.Min(corner1.transform.position.y, corner2.transform.position.y), 
+                                            Mathf.Min(corner1.transform.position.z, corner2.transform.position.z));
     }
 
     public void StartRotateCamera() {
@@ -122,6 +136,14 @@ public class CameraController : Singleton<CameraController>
     }
     public void PanCamera(Vector2 mouseDelta) {
         _currentPos += ((-_lookAt.up * mouseDelta.y) + (-_lookAt.right * mouseDelta.x)) * panSensitivity / 100f;
+
+        _currentPos.x = _currentPos.x > cornerPos1.x ? cornerPos1.x : _currentPos.x;
+        _currentPos.y = _currentPos.y > cornerPos1.y ? cornerPos1.y : _currentPos.y;
+        _currentPos.z = _currentPos.z > cornerPos1.z ? cornerPos1.z : _currentPos.z;
+
+        _currentPos.x = _currentPos.x < cornerPos2.x ? cornerPos2.x : _currentPos.x;
+        _currentPos.y = _currentPos.y < cornerPos2.y ? cornerPos2.y : _currentPos.y;
+        _currentPos.z = _currentPos.z < cornerPos2.z ? cornerPos2.z : _currentPos.z;
     }
 
     public void ZoomCamera(float zoom) {
