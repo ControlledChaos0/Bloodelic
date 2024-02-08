@@ -38,8 +38,8 @@ public class CameraController : Singleton<CameraController>
     private bool _panCamera;
     private LayerMask _hitMask;
 
-    private Vector3 cornerPos1;
-    private Vector3 cornerPos2;
+    private Vector3 cornerMaxPos;
+    private Vector3 cornerMinPos;
 
     public Camera MainCamera {
         get => mainCamera;
@@ -97,10 +97,10 @@ public class CameraController : Singleton<CameraController>
         _panCamera = false;
         _rotateCamera = false;
 
-        cornerPos1 = new Vector3(Mathf.Max(corner1.transform.position.x, corner2.transform.position.x), 
+        cornerMaxPos = new Vector3(Mathf.Max(corner1.transform.position.x, corner2.transform.position.x), 
                                             Mathf.Max(corner1.transform.position.y, corner2.transform.position.y), 
                                             Mathf.Max(corner1.transform.position.z, corner2.transform.position.z));
-        cornerPos2 = new Vector3(Mathf.Min(corner1.transform.position.x, corner2.transform.position.x), 
+        cornerMinPos = new Vector3(Mathf.Min(corner1.transform.position.x, corner2.transform.position.x), 
                                             Mathf.Min(corner1.transform.position.y, corner2.transform.position.y), 
                                             Mathf.Min(corner1.transform.position.z, corner2.transform.position.z));
     }
@@ -137,13 +137,14 @@ public class CameraController : Singleton<CameraController>
     public void PanCamera(Vector2 mouseDelta) {
         _currentPos += ((-_lookAt.up * mouseDelta.y) + (-_lookAt.right * mouseDelta.x)) * panSensitivity / 100f;
 
-        _currentPos.x = _currentPos.x > cornerPos1.x ? cornerPos1.x : _currentPos.x;
-        _currentPos.y = _currentPos.y > cornerPos1.y ? cornerPos1.y : _currentPos.y;
-        _currentPos.z = _currentPos.z > cornerPos1.z ? cornerPos1.z : _currentPos.z;
+        // Limit camera to the bounds given by corner1 and corner2
+        _currentPos.x = _currentPos.x > cornerMaxPos.x ? cornerMaxPos.x : _currentPos.x;
+        _currentPos.y = _currentPos.y > cornerMaxPos.y ? cornerMaxPos.y : _currentPos.y;
+        _currentPos.z = _currentPos.z > cornerMaxPos.z ? cornerMaxPos.z : _currentPos.z;
 
-        _currentPos.x = _currentPos.x < cornerPos2.x ? cornerPos2.x : _currentPos.x;
-        _currentPos.y = _currentPos.y < cornerPos2.y ? cornerPos2.y : _currentPos.y;
-        _currentPos.z = _currentPos.z < cornerPos2.z ? cornerPos2.z : _currentPos.z;
+        _currentPos.x = _currentPos.x < cornerMinPos.x ? cornerMinPos.x : _currentPos.x;
+        _currentPos.y = _currentPos.y < cornerMinPos.y ? cornerMinPos.y : _currentPos.y;
+        _currentPos.z = _currentPos.z < cornerMinPos.z ? cornerMinPos.z : _currentPos.z;
     }
 
     public void ZoomCamera(float zoom) {
