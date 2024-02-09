@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GridPath
 {
@@ -18,7 +19,10 @@ public class GridPath
     public GridPath(LinkedList<GridCell> p) {
         ArgumentNullExceptionUse.ThrowIfNull(p);
 
-        _path = p;
+        _path = new();
+        foreach (GridCell gridCell in p) {
+            _path.AddLast(gridCell);
+        }
     }
     public GridPath(GridCell end) {
         ArgumentNullExceptionUse.ThrowIfNull(end);
@@ -46,9 +50,19 @@ public class GridPath
         }
     }
 
-    public GridCell PopFront() {
+    public GridCell GetFront(){
         ArgumentNullExceptionUse.ThrowIfNull(_path);
-        GridCell gridCell = _path.First.Value;
+        if (_path.First == null) {
+            return null;
+        }
+        return _path.First.Value;
+    }
+
+    public GridCell PopFront() {
+        GridCell gridCell = GetFront();
+        if (gridCell == null) {
+            return null;
+        }
         _path.RemoveFirst();
         return gridCell;
     }
