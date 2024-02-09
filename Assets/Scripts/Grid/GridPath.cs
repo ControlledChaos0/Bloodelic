@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GridPath
 {
@@ -46,9 +47,13 @@ public class GridPath
         }
     }
 
-    public GridCell PopFront() {
+    public GridCell GetFront(){
         ArgumentNullExceptionUse.ThrowIfNull(_path);
-        GridCell gridCell = _path.First.Value;
+        return _path.First.Value;
+    }
+
+    public GridCell PopFront() {
+        GridCell gridCell = GetFront();
         _path.RemoveFirst();
         return gridCell;
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 #pragma warning disable CS3009 // Base type is not CLS-compliant
@@ -33,8 +34,11 @@ public class Entity : MonoBehaviour
     protected float timeOfRotate;
     protected float error = 0.01f;
     protected bool move;
+
+    protected Spline spline;
     //Testing (not intended for use in actual game unless decided otherwise, then move up above)
     public static GridCell testCell;
+    public AnimationCurve curve;
     private static Entity _instance;
     
     public static Entity Instance {
@@ -51,7 +55,6 @@ public class Entity : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    
     protected virtual void Start()
     {
         Vector3 vec = transform.rotation * Vector3.down;
@@ -73,21 +76,25 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        Move();
+        //Move();
     }
     protected virtual void FixedUpdate() {
         
     }
 
-    public void CalculateMovementTime() {
+    private void CalculateMovementTime() {
         float distance = Vector3.Distance(transform.position, OffsetGridPos);
         timeOfMovement = distance / moveSpeed;
         moveTime = 0;
     }
-    public void CalculateRotateTime() {
+    private void CalculateRotateTime() {
         float angle = Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward);
         timeOfRotate = angle / rotateSpeed;
         rotateTime = 0;
+    }
+    private void CalculateTime() {
+        CalculateMovementTime();
+        CalculateRotateTime();
     }
     public virtual GridPath FindPath(GridCell target) {
         return Pathfinder.FindPath(occupiedCell, target);
@@ -101,6 +108,9 @@ public class Entity : MonoBehaviour
     }
     public virtual void Move(GridPath path) {
         ArgumentNullExceptionUse.ThrowIfNull(path);
+
+        SplinePathCreator.CreateSplinePath(path);
+
         linkedPath = path;
         linkedPath.RevertColor();
         occupiedCell = path.PopFront();
@@ -122,6 +132,9 @@ public class Entity : MonoBehaviour
         if (Rotate()) {
             transform.rotation = Quaternion.Slerp(fromRot, toRot, rotateTime / timeOfRotate);
             rotateTime += Time.fixedDeltaTime;
+            return;
+        }
+        if (Transform()) {
             return;
         }
         if (moveTime / timeOfMovement > .9 && Vector3.Distance(transform.position, OffsetGridPos) < error) {
@@ -149,6 +162,10 @@ public class Entity : MonoBehaviour
         transform.position = Vector3.Lerp(OffsetPrevGridPos, OffsetGridPos, moveTime / timeOfMovement);
         moveTime += Time.fixedDeltaTime;
     }
+
+    public virtual bool Transform() {
+        return false;
+    }
     public virtual bool Rotate() {
         Debug.Log($"Angle between: {Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward)}");
         if (Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward) == 0) {
@@ -158,6 +175,10 @@ public class Entity : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    private void CreateSplinePath(GridPath path) {
+
     }
     
     #region Grid Cell
