@@ -5,7 +5,7 @@ using UnityEngine;
 public class LineOfSight : MonoBehaviour
 {
     [SerializeField]
-    private const float angle = 60
+    private const float angle = 60;
 
     [SerializeField]
     private GameObject player;
