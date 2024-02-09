@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Splines;
 using UnityEngine.UI;
 
 #pragma warning disable CS3009 // Base type is not CLS-compliant
@@ -19,6 +19,7 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected float rotateSpeed = 10f;
     public Sprite icon;
+    protected SplineAnimate splineAnimate;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
     protected Vector3 OffsetGridPos => occupiedCell.transform.position + (occupiedCell.transform.rotation * -offset);
     protected Vector3 OffsetPrevGridPos => prevOccupiedCell.transform.position + (prevOccupiedCell.transform.rotation * -offset);
@@ -38,7 +39,6 @@ public class Entity : MonoBehaviour
     protected Spline spline;
     //Testing (not intended for use in actual game unless decided otherwise, then move up above)
     public static GridCell testCell;
-    public AnimationCurve curve;
     private static Entity _instance;
     
     public static Entity Instance {
@@ -57,6 +57,9 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        splineAnimate = GetComponent<SplineAnimate>();
+        splineAnimate.MaxSpeed = moveSpeed;
+
         Vector3 vec = transform.rotation * Vector3.down;
         if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
         {
@@ -109,7 +112,8 @@ public class Entity : MonoBehaviour
     public virtual void Move(GridPath path) {
         ArgumentNullExceptionUse.ThrowIfNull(path);
 
-        SplinePathCreator.CreateSplinePath(path);
+        splineAnimate.Container = SplinePathCreator.CreateSplinePath(path);
+        splineAnimate.Play();
 
         linkedPath = path;
         linkedPath.RevertColor();
