@@ -18,8 +18,7 @@ public class LineOfSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player != null)
-            Debug.Log(DetectEntity(player));
+
     }
 
     public bool DetectEntity(GameObject entity, float viewAngle = angle)
