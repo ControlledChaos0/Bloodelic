@@ -27,7 +27,7 @@ public class Monster : Entity
 
     public void SelectMonster(GameObject gameObject) {
         Debug.Log("SELECTED MONSTER!!!!!!!!!");
-        if (!gameObject.Equals(this.gameObject)) {
+        if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
             return;
         }
         Debug.Log("split");
