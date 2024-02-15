@@ -38,11 +38,20 @@ public class ExternalLightInterceptor : MonoBehaviour
         get {
             if (instance == null || instance.lightReference == null) return Matrix4x4.zero;
             else {
-                return instance.transform.worldToLocalMatrix;
+                // for orthogonal, use transform world to local
+                return instance.cameraReference.projectionMatrix * instance.cameraReference.worldToCameraMatrix;
+                
+                // https://forum.unity.com/threads/reproducing-cameras-worldtocameramatrix.365645/
+                // return Matrix4x4.Inverse(Matrix4x4.TRS(
+                //     instance.transform.position,
+                //     instance.transform.rotation,
+                //     new Vector3(1, 1, -1)
+                // ));
             }
         }
     }
 
+    // Orthographic camera only!
     public static Vector3 TextureScale
     {
         get
@@ -53,7 +62,7 @@ public class ExternalLightInterceptor : MonoBehaviour
             size.y = instance.cameraReference.orthographicSize * 2;
             size.x = instance.cameraReference.aspect * size.y;
             size.z = instance.cameraReference.farClipPlane;
-            size.w = 1.0f / 1024;
+            size.w = 1.0f / resolution;
             return size;
         }
     }
@@ -86,6 +95,8 @@ public class ExternalLightInterceptor : MonoBehaviour
     public Shader depthToColorShader;
 
     public Texture2D cookie;
+    
+    private static readonly int resolution = 512;
 
     void OnEnable()
     {
@@ -95,7 +106,7 @@ public class ExternalLightInterceptor : MonoBehaviour
         
         // https://forum.unity.com/threads/find-worldpos-from-light-depth-texture.869572/
         // format issue corrected by the goat BGolus
-        if (cameraDeposit == null) cameraDeposit = new RenderTexture(1024, 1024, 24, RenderTextureFormat.RGFloat);
+        if (cameraDeposit == null) cameraDeposit = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.RG16);
         cameraDeposit.filterMode = FilterMode.Point;
 
         cameraReference.targetTexture = cameraDeposit;
@@ -106,6 +117,7 @@ public class ExternalLightInterceptor : MonoBehaviour
 
     private void Update()
     {
+        cameraReference.fieldOfView = lightReference.spotAngle;
         cameraReference.RenderWithShader(depthToColorShader, "");
     }
 

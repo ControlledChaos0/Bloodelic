@@ -114,7 +114,7 @@ Shader "Hidden/Custom/ExternalLighting"
 
             int RayCone(
                 float4 light_wpos, float3 light_wdir, float light_angle_deg,
-                float4 ray_wpos, float3 ray_wdir, float ray_depth,
+                float4 ray_wpos, float3 ray_wdir, float ray_patch_depth,
                 out float4 hit_1, out float4 hit_2
             ) {
                 hit_1 = 0;
@@ -157,19 +157,19 @@ Shader "Hidden/Custom/ExternalLighting"
                 bool in_cone = dot(l2cN, light_wdir) > cos_cone;
 
                 float t1 = (-b - sqrt_characteristic) * inv_two_a;
-                float t2 = (-b + sqrt_characteristic) * inv_two_a;
+                float t2 = (-b + sqrt_characteristic) * inv_two_a; 
 
-                float3 p1 = ray_wpos.xyz + t1 * ray_wdir;
-                float3 p2 = ray_wpos.xyz + t2 * ray_wdir;
+                float3 p1 = ray_wpos.xyz + t1 * ray_wdir; // for future reference, p1 is always the one on the *cone* surface instead of the object in the world
+                float3 p2 = ray_wpos.xyz + t2 * ray_wdir; // for future reference, p2 is always the one *on* the surface for any partial cast
                 
                 if (viewingAgainstLight) {
                     // take section from object all the way to the near clip plane
                     if (in_cone) {
-                        hit_1 = ray_wpos + float4(ray_wdir, 0) * ray_depth;
+                        hit_1 = ray_wpos + float4(ray_wdir, 0) * ray_patch_depth;
                         hit_2 = ray_wpos;
                         return 2;
                     } else {
-                        hit_1 = ray_wpos + float4(ray_wdir, 0) * ray_depth;
+                        hit_1 = ray_wpos + float4(ray_wdir, 0) * ray_patch_depth;
                         hit_2 = float4(p2, 1);
                         return 2;
                     }
@@ -231,16 +231,17 @@ Shader "Hidden/Custom/ExternalLighting"
                 return c;
             }
 
-            bool customShadow(float4 p) { // world space position p
+            bool CustomShadow(float4 p, out float light_depth) { // world space position p
                 float4 light_space = mul(_LightMatrix, p);
                 float2 light_uv = light_space.xy; // + stepOffset * 0.2;
-                light_uv += _ShadowTexScale.xy / 2;
-                light_uv /= _ShadowTexScale.xy;
-                float mockDepth = light_space.z / _ShadowTexScale.z;
+                // light_uv += _ShadowTexScale.xy / 2;
+                // light_uv /= _ShadowTexScale.xy;
+                light_depth = light_space.z / _ShadowTexScale.z;
 
                 // float2 light_offset = lightSpaceNorm * _ShadowTexScale.w;
                 float sDepth = tex2D(_ExternalLightCaptureHD, light_uv).r;
-                bool isShadow = (mockDepth - sDepth) > 0.0005; // shadow bias to prevent self-intersection
+                bool isShadow = (light_depth - sDepth) > 0.0005; // shadow bias to prevent self-intersection
+
                 return !isShadow;
             }
 
@@ -258,6 +259,13 @@ Shader "Hidden/Custom/ExternalLighting"
                 }
 
                 float4 position_worldSpace = mul(_InverseView, float4(position_viewSpace, 1));
+
+                float4 light_space = mul(_LightMatrix, position_worldSpace);
+                light_space /= light_space.w;
+                float2 light_uv = light_space.xy; // + stepOffset * 0.2;
+                // float2 light_offset = lightSpaceNorm * _ShadowTexScale.w;
+                float sDepth = tex2D(_ExternalLightCaptureHD, light_uv).r;
+                return light_space;
 
             #if defined(UNITY_REVERSED_Z)
                 float vDepth = -depth;
@@ -287,7 +295,7 @@ Shader "Hidden/Custom/ExternalLighting"
                     return scene_col;
                 }
 
-                return hit_2;
+                // return hit_1;
 
                 float4 acc = 0;
                 float4 acc_ = 0;
@@ -299,16 +307,19 @@ Shader "Hidden/Custom/ExternalLighting"
 
                 float curr_len = 0;
 
-                int inv_lod = 0; // LOD decreases as ray progresses
-                bool last_is_shadow = 0;
+                uint inv_lod = 0; // LOD decreases as ray progresses
                 int step;
+
+                float start_lightDepth;
+                bool start_isNotShadow = CustomShadow(hit_2, start_lightDepth);
+                bool last_isNotShadow = start_isNotShadow;
 
                 for (step = 0; step < 16; step++) {
 
                     // in world units!
                     #define base_step_size 0.3
 
-                    float step_size = (1 << (inv_lod / 4)) * base_step_size;
+                    float step_size = (1 << (inv_lod / 6)) * base_step_size;
                     float4 p = hit_1 + float4(step_Dir, 0) * curr_len; // + stepOffset * step_size * 0.3;
 
                     // float4 p = lerp(hit_1, hit_2, step / (max_steps - 1.0));
@@ -317,9 +328,10 @@ Shader "Hidden/Custom/ExternalLighting"
                         break;
                     }
 
-                    bool isShadow = customShadow(p);
-                    if (!isShadow) {
-                        acc += ray_max_len / 16;
+                    float current_lightDepth;
+                    bool isNotShadow = CustomShadow(p, current_lightDepth);
+                    if (isNotShadow) {
+                        acc += step_size;
                     }
 
                     // float4 p_ = hit_2 + float4(step_Dir, 0) * curr_len;
@@ -340,10 +352,10 @@ Shader "Hidden/Custom/ExternalLighting"
                     //     // acc_ += 1 * stepDist; // lerp(tex2D(_Cookie, light_uv), 1, 0.1)
                     // }
 
-                    if (last_is_shadow != isShadow) {
-                        inv_lod = max(inv_lod-2, 0);
+                    if (last_isNotShadow != isNotShadow) {
+                        inv_lod = max(inv_lod - min(inv_lod, 2), 0); // uint underflow exists and is unchecked by default!
                     }
-                    last_is_shadow = isShadow;
+                    last_isNotShadow = isNotShadow;
 
                     stepOffset = frac(19994 * sin(p.x * 74901 + scene_col.r * 0.1)); // please switch to better hashing
 
@@ -353,7 +365,7 @@ Shader "Hidden/Custom/ExternalLighting"
                 }
 
                 // left-over segment assumed to be all light
-                // acc += max(ray_max_len - curr_len, 0);
+                acc += max(ray_max_len - curr_len, 0);
                 // acc_ += max(ray_max_len - curr_len, 0);
 
                 // return hit_1;
