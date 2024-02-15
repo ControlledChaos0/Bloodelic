@@ -188,6 +188,8 @@ public class KingShaderDriver : MonoBehaviour
 
     void OnDisable() {
         shellTransformAccesses.Dispose();
+        shellPositions.Dispose();
+        shellRotations.Dispose();
 
         // AT: technically not needed as shells are not saved
 
