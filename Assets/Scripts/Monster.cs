@@ -38,12 +38,21 @@ public class Monster : Entity
     }
     public void ShowPath(GridCell gridCell) {
         ArgumentNullExceptionUse.ThrowIfNull(gridCell);
-
+        
         if (gridCell.Equals(currPosCell)) {
             return;
         }
+        
+        // Find next path and store to temporary
+        GridPath nextPath = FindPathWithMoveLimit(gridCell);
+        // Skip here so we maintain visuals of the previous path
+        if (nextPath == null)
+        {
+            return;
+        }    
+        
         currPosPath?.RevertColor();
-        currPosPath = FindPath(gridCell);
+        currPosPath = nextPath;
         currPosPath.TurnBlue();
     }
     public void ChoosePath(GridCell gridCell) {

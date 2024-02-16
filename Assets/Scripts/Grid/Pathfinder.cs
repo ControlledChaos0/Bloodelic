@@ -14,7 +14,15 @@ using UnityEngine;
 */
 public class Pathfinder
 {
-    public static GridPath FindPath(GridCell start, GridCell target) {
+    // Additional variables to adjust pathfinding for entities
+    //   these are all static and need to be set/reset everytime Pathfinder is utilized
+    #region Additional Properties
+    public static float moveLimit = Mathf.Infinity;
+    
+    #endregion
+    
+    public static GridPath FindPath(GridCell start, GridCell target, bool allowsNullIfNoneFound = false) 
+    {
         if (start == null || target == null) {
             throw new ArgumentNullException("GridCell Arguments must not be null");
         }
@@ -61,6 +69,12 @@ public class Pathfinder
                 float h = cell.FindHeuristic(target);
                 float f = g + h;
 
+                // If distance to cell is above move limit
+                if (f > moveLimit)
+                {
+                    continue;
+                }
+                
                 if (toBeSearchedDic.TryGetValue(cell, out value) && value && cell.F <= f) {
                     continue;
                 }
@@ -76,6 +90,12 @@ public class Pathfinder
             searched.Add(current, true);
         }
         UnityEngine.Debug.Log("No path found");
+        
+        if (allowsNullIfNoneFound)
+        {
+            return null;
+        }
+        
         return new GridPath();
     }
 }
