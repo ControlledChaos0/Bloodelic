@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TurnDisplay : MonoBehaviour
 {
     private List<Image> displays;
-    void Awake ()
+    void Awake()
     {
         displays = new List<Image>();
         foreach (Transform child in transform) {
