@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 6770525582405979346}
   - component: {fileID: 8168126668589730172}
   - component: {fileID: 7098542379979664621}
-  - component: {fileID: 6351199806098704695}
-  - component: {fileID: 4784164914666619019}
+  - component: {fileID: 1969537848492505053}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -129,21 +128,7 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6351199806098704695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 640522132528901766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1391d570de55cf4194c6385fc55c240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  postProcessingEffects:
-  - {fileID: 2100000, guid: 3aea6b2122f3ee84da340a894b126f6c, type: 2}
---- !u!114 &4784164914666619019
+--- !u!114 &1969537848492505053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,6 +350,8 @@ MonoBehaviour:
   zoomSensitivity: 0.5
   panSensitivity: 0.5
   distanceFrom: 15
+  corner1: {fileID: 0}
+  corner2: {fileID: 0}
 --- !u!114 &2410078165084143250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa423e6e51293804dbb3ae9bb09127f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraController: {fileID: 0}
+  cameraController: {fileID: 7858714992220958490}
 --- !u!1001 &8905554007174588605
 PrefabInstance:
   m_ObjectHideFlags: 0
