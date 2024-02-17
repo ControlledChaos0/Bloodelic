@@ -12,6 +12,7 @@ public class Monster : Entity
     private PlayerTurnMachine _playerTurnMachine;
     private GridCell currPosCell;
     private GridPath currPosPath;
+    private Transform _lookAt;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -28,6 +29,7 @@ public class Monster : Entity
     public void SelectMonster(GameObject gameObject) {
         Debug.Log("SELECTED MONSTER!!!!!!!!!");
         if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
+            CameraController.Instance.changePosition(this.gameObject.transform.position);
             return;
         }
         Debug.Log("split");
