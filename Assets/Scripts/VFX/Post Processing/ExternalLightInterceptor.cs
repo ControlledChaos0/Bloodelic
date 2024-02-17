@@ -39,7 +39,12 @@ public class ExternalLightInterceptor : MonoBehaviour
             if (instance == null || instance.lightReference == null) return Matrix4x4.zero;
             else {
                 // for orthogonal, use transform world to local
-                return instance.cameraReference.projectionMatrix * instance.cameraReference.worldToCameraMatrix;
+                
+                // for reverse engineered unity matrices, see https://forum.unity.com/threads/calculating-world-to-screen-projection-manully.1197199/
+                // https://forum.unity.com/threads/extracting-depth-value-from-camera-projection-matrix.497782/
+                return 
+                    GL.GetGPUProjectionMatrix(instance.cameraReference.projectionMatrix, false)
+                    * instance.cameraReference.worldToCameraMatrix;
                 
                 // https://forum.unity.com/threads/reproducing-cameras-worldtocameramatrix.365645/
                 // return Matrix4x4.Inverse(Matrix4x4.TRS(
@@ -106,9 +111,9 @@ public class ExternalLightInterceptor : MonoBehaviour
         
         // https://forum.unity.com/threads/find-worldpos-from-light-depth-texture.869572/
         // format issue corrected by the goat BGolus
-        if (cameraDeposit == null) cameraDeposit = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.RG16);
+        if (cameraDeposit == null) cameraDeposit = new RenderTexture(resolution, resolution, 32, RenderTextureFormat.RG32);
         cameraDeposit.filterMode = FilterMode.Point;
-
+        
         cameraReference.targetTexture = cameraDeposit;
         cameraReference.depthTextureMode = DepthTextureMode.Depth;
 
