@@ -20,6 +20,7 @@ public class Entity : MonoBehaviour
     protected float rotateSpeed = 10f;
     public Sprite icon;
     protected SplineAnimate splineAnimate;
+    protected SplineContainer splineContainer;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
     protected Vector3 OffsetGridPos => occupiedCell.transform.position + (occupiedCell.transform.rotation * -offset);
     protected Vector3 OffsetPrevGridPos => prevOccupiedCell.transform.position + (prevOccupiedCell.transform.rotation * -offset);
@@ -124,8 +125,7 @@ public class Entity : MonoBehaviour
     public virtual void Move(GridPath path) {
         ArgumentNullExceptionUse.ThrowIfNull(path);
 
-        splineAnimate.Container = SplinePathCreator.CreateSplinePath(path);
-        splineAnimate.Play();
+        splineContainer = SplinePathCreator.CreateSplinePath(path);
 
         linkedPath = path;
         linkedPath.RevertColor();
@@ -139,61 +139,62 @@ public class Entity : MonoBehaviour
         toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
         CalculateRotateTime();
     }
-    public virtual void Move() {
-        Debug.DrawRay(transform.position, transform.forward, Color.red);
-        Debug.DrawRay(transform.position, OffsetGridPos - OffsetPrevGridPos, Color.blue);
-        if (!move) {
-            return;
-        }
-        if (Rotate()) {
-            transform.rotation = Quaternion.Slerp(fromRot, toRot, rotateTime / timeOfRotate);
-            rotateTime += Time.fixedDeltaTime;
-            return;
-        }
-        if (Transform()) {
-            return;
-        }
-        if (moveTime / timeOfMovement > .9 && Vector3.Distance(transform.position, OffsetGridPos) < error) {
-            if (linkedPath == null) {
-                move = false;
-                return;
-            } else if (linkedPath.Count == 0) {
-                move = false;
-                prevOccupiedCell.Unoccupy();
-                prevOccupiedCell = occupiedCell;
-                return;
-            } else if (linkedPath.Count > 0) {
-                // Unoccupy prev cell
-                prevOccupiedCell.Unoccupy();
-                prevOccupiedCell = occupiedCell;
-                occupiedCell = linkedPath.PopFront();
-                // Set occupant for occupied cell
-                occupiedCell.SetOccupant(this);
-                CalculateMovementTime();
-                fromRot = transform.rotation;
-                toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
-                CalculateRotateTime();
-            }
-        }
-        transform.position = Vector3.Lerp(OffsetPrevGridPos, OffsetGridPos, moveTime / timeOfMovement);
-        moveTime += Time.fixedDeltaTime;
-    }
+    // public virtual void Move() {
+    //     Debug.DrawRay(transform.position, transform.forward, Color.red);
+    //     Debug.DrawRay(transform.position, OffsetGridPos - OffsetPrevGridPos, Color.blue);
+    //     if (!move) {
+    //         return;
+    //     }
+    //     if (Rotate()) {
+    //         transform.rotation = Quaternion.Slerp(fromRot, toRot, rotateTime / timeOfRotate);
+    //         rotateTime += Time.fixedDeltaTime;
+    //         return;
+    //     }
+    //     if (Transform()) {
+    //         return;
+    //     }
+    //     if (moveTime / timeOfMovement > .9 && Vector3.Distance(transform.position, OffsetGridPos) < error) {
+    //         if (linkedPath == null) {
+    //             move = false;
+    //             return;
+    //         } else if (linkedPath.Count == 0) {
+    //             move = false;
+    //             prevOccupiedCell.Unoccupy();
+    //             prevOccupiedCell = occupiedCell;
+    //             return;
+    //         } else if (linkedPath.Count > 0) {
+    //             // Unoccupy prev cell
+    //             prevOccupiedCell.Unoccupy();
+    //             prevOccupiedCell = occupiedCell;
+    //             occupiedCell = linkedPath.PopFront();
+    //             // Set occupant for occupied cell
+    //             occupiedCell.SetOccupant(this);
+    //             CalculateMovementTime();
+    //             fromRot = transform.rotation;
+    //             toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
+    //             CalculateRotateTime();
+    //         }
+    //     }
+    //     transform.position = Vector3.Lerp(OffsetPrevGridPos, OffsetGridPos, moveTime / timeOfMovement);
+    //     moveTime += Time.fixedDeltaTime;
+    // }
 
-    public virtual bool Transform() {
-        return false;
-    }
-    public virtual bool Rotate() {
-        Debug.Log($"Angle between: {Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward)}");
-        if (Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward) == 0) {
-            return false;
-        }
-        if (occupiedCell.Equals(prevOccupiedCell)) {
-            return false;
-        }
-        return true;
-    }
-
-    private void CreateSplinePath(GridPath path) {
+    // public virtual bool Transform() {
+    //     return false;
+    // }
+    // public virtual bool Rotate() {
+    //     Debug.Log($"Angle between: {Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward)}");
+    //     if (Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward) == 0) {
+    //         return false;
+    //     }
+    //     if (occupiedCell.Equals(prevOccupiedCell)) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
+    private void InterateThroughSpline() {
+        Spline spline = splineContainer.Spline;
+        int numKnots = spline.Count;
 
     }
     
