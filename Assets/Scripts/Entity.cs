@@ -73,6 +73,10 @@ public class Entity : MonoBehaviour
         height = collider.bounds.size.z;
         offset = new Vector3(0, -height / 2, 0);
         move = false;
+        
+        // Stats reference
+        stats = GetComponent<Stats>();
+        
         Debug.Log("End of Entity Start!");
     }
 
@@ -99,8 +103,16 @@ public class Entity : MonoBehaviour
         CalculateMovementTime();
         CalculateRotateTime();
     }
-    public virtual GridPath FindPath(GridCell target) {
+    public virtual GridPath FindPath(GridCell target)
+    {
+        Pathfinder.moveLimit = Mathf.Infinity;
         return Pathfinder.FindPath(occupiedCell, target);
+    }
+    
+    public virtual GridPath FindPathWithMoveLimit(GridCell target)
+    {
+        Pathfinder.moveLimit = Movement;
+        return Pathfinder.FindPath(occupiedCell, target, true);
     }
 
     public virtual void Move(GridCell target) {
@@ -194,4 +206,12 @@ public class Entity : MonoBehaviour
     }
 
     #endregion
+    
+    #region Stats
+    protected Stats stats { get; set; }
+    private int defaultMovement = 5;
+    public int Movement => (stats != null) ? stats.Movement : defaultMovement;
+    
+
+    #endregion 
 }
