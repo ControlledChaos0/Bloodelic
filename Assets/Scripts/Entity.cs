@@ -156,6 +156,7 @@ public class Entity : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
         }
+        Destroy(splineContainer.gameObject);
     }
     
     #region Grid Cell
