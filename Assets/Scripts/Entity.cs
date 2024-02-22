@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
 using UnityEngine.UI;
 
 #pragma warning disable CS3009 // Base type is not CLS-compliant
@@ -18,6 +19,9 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected float rotateSpeed = 10f;
     public Sprite icon;
+    protected SplineAnimate splineAnimate;
+    protected SplineContainer splineContainer;
+    protected Spline currSpline;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
     protected Vector3 OffsetGridPos => occupiedCell.transform.position + (occupiedCell.transform.rotation * -offset);
     protected Vector3 OffsetPrevGridPos => prevOccupiedCell.transform.position + (prevOccupiedCell.transform.rotation * -offset);
@@ -27,12 +31,12 @@ public class Entity : MonoBehaviour
     protected Quaternion toRot;
     protected Vector3 offset;
     protected float height;
-    protected float moveTime = 0;
-    protected float rotateTime = 0;
     protected float timeOfMovement;
     protected float timeOfRotate;
     protected float error = 0.01f;
     protected bool move;
+
+    protected Spline spline;
     //Testing (not intended for use in actual game unless decided otherwise, then move up above)
     public static GridCell testCell;
     private static Entity _instance;
@@ -51,7 +55,6 @@ public class Entity : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    
     protected virtual void Start()
     {
         Vector3 vec = transform.rotation * Vector3.down;
@@ -67,30 +70,32 @@ public class Entity : MonoBehaviour
         height = collider.bounds.size.z;
         offset = new Vector3(0, -height / 2, 0);
         move = false;
+        
+        // Stats reference
+        stats = GetComponent<Stats>();
+        
         Debug.Log("End of Entity Start!");
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        Move();
+        //Move();
     }
     protected virtual void FixedUpdate() {
         
     }
 
-    public void CalculateMovementTime() {
-        float distance = Vector3.Distance(transform.position, OffsetGridPos);
-        timeOfMovement = distance / moveSpeed;
-        moveTime = 0;
-    }
-    public void CalculateRotateTime() {
-        float angle = Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward);
-        timeOfRotate = angle / rotateSpeed;
-        rotateTime = 0;
-    }
-    public virtual GridPath FindPath(GridCell target) {
+    public virtual GridPath FindPath(GridCell target)
+    {
+        Pathfinder.moveLimit = Mathf.Infinity;
         return Pathfinder.FindPath(occupiedCell, target);
+    }
+    
+    public virtual GridPath FindPathWithMoveLimit(GridCell target)
+    {
+        Pathfinder.moveLimit = Movement;
+        return Pathfinder.FindPath(occupiedCell, target, true);
     }
 
     public virtual void Move(GridCell target) {
@@ -101,63 +106,57 @@ public class Entity : MonoBehaviour
     }
     public virtual void Move(GridPath path) {
         ArgumentNullExceptionUse.ThrowIfNull(path);
+
+        splineContainer = SplinePathCreator.CreateSplinePath(path);
+
         linkedPath = path;
         linkedPath.RevertColor();
-        occupiedCell = path.PopFront();
+        
+        StartCoroutine(IterateThroughSpline());
+        Debug.Log("MOVE IDIOT");
+    }
+
+    public void SetOccupation(GridCell cell) {
+        occupiedCell.Unoccupy();
+        occupiedCell = cell;
         // Set occupant for occupied cell
         occupiedCell.SetOccupant(this);
-        CalculateMovementTime();
-        move = true;
-
-        fromRot = transform.rotation;
-        toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
-        CalculateRotateTime();
     }
-    public virtual void Move() {
-        Debug.DrawRay(transform.position, transform.forward, Color.red);
-        Debug.DrawRay(transform.position, OffsetGridPos - OffsetPrevGridPos, Color.blue);
-        if (!move) {
-            return;
-        }
-        if (Rotate()) {
-            transform.rotation = Quaternion.Slerp(fromRot, toRot, rotateTime / timeOfRotate);
-            rotateTime += Time.fixedDeltaTime;
-            return;
-        }
-        if (moveTime / timeOfMovement > .9 && Vector3.Distance(transform.position, OffsetGridPos) < error) {
-            if (linkedPath == null) {
-                move = false;
-                return;
-            } else if (linkedPath.Count == 0) {
-                move = false;
-                prevOccupiedCell.Unoccupy();
-                prevOccupiedCell = occupiedCell;
-                return;
-            } else if (linkedPath.Count > 0) {
-                // Unoccupy prev cell
-                prevOccupiedCell.Unoccupy();
-                prevOccupiedCell = occupiedCell;
-                occupiedCell = linkedPath.PopFront();
-                // Set occupant for occupied cell
-                occupiedCell.SetOccupant(this);
-                CalculateMovementTime();
-                fromRot = transform.rotation;
-                toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
-                CalculateRotateTime();
+    
+    private IEnumerator IterateThroughSpline() {
+        int splineCount = splineContainer.Splines.Count;
+        Vector3 pathStartPos = splineContainer.gameObject.transform.position;
+        linkedPath.PopFront();
+
+        for (int i = 0; i < splineCount; i++) {
+            SetOccupation(linkedPath.PopFront());
+            Spline currSpline = splineContainer.Splines[i];
+
+            float t = 0;
+            // Quaternion start = transform.rotation;
+            // Quaternion end = currSpline[0].Rotation;
+            // float rotateTime = Quaternion.Angle(start, end) / rotateSpeed;
+            // while (t < rotateTime) {
+            //     transform.rotation = Quaternion.Lerp(start, end, t / rotateTime);
+            //     t += Time.fixedDeltaTime;
+            //     yield return new WaitForFixedUpdate();
+            // }
+
+            t = 0;
+            float moveTime = currSpline.GetLength() / moveSpeed;
+            float3 pos;
+            float3 tangent;
+            float3 upward;
+            while (t < moveTime) {
+                currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
+                transform.position = (Vector3)pos + pathStartPos;
+                transform.up = upward;
+                transform.forward = tangent;
+                t += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
             }
         }
-        transform.position = Vector3.Lerp(OffsetPrevGridPos, OffsetGridPos, moveTime / timeOfMovement);
-        moveTime += Time.fixedDeltaTime;
-    }
-    public virtual bool Rotate() {
-        Debug.Log($"Angle between: {Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward)}");
-        if (Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward) == 0) {
-            return false;
-        }
-        if (occupiedCell.Equals(prevOccupiedCell)) {
-            return false;
-        }
-        return true;
+        Destroy(splineContainer.gameObject);
     }
     
     #region Grid Cell
@@ -169,4 +168,12 @@ public class Entity : MonoBehaviour
     }
 
     #endregion
+    
+    #region Stats
+    protected Stats stats { get; set; }
+    private int defaultMovement = 5;
+    public int Movement => (stats != null) ? stats.Movement : defaultMovement;
+    
+
+    #endregion 
 }

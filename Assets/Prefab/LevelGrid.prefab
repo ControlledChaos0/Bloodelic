@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 6067195432784082373}
   - component: {fileID: 6067195432784082378}
   - component: {fileID: 4667441472532362571}
+  - component: {fileID: 7527269074842471210}
   m_Layer: 3
   m_Name: LevelGrid
   m_TagString: Untagged
@@ -100,6 +101,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12359f854cc79fe46943580c2226d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7527269074842471210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067195432784082379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42625662c102e3242981d2a14da21643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splinePrefab: {fileID: 844214141575430498, guid: d3179d9526ac5b44aae44005e95c275d, type: 3}
 --- !u!1 &6067195433143577395
 GameObject:
   m_ObjectHideFlags: 0
