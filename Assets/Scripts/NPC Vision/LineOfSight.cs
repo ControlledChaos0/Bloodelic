@@ -156,7 +156,7 @@ public class LineOfSight : MonoBehaviour
      */
     private void OnClick(Human h)
     {
-        if (h != null)
+        if (h != null && h.Equals(this.gameObject.GetComponent<Human>()))
         {
             if (state == State.HIDESIGHT)
             {
