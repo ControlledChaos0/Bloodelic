@@ -38,34 +38,37 @@ public class SplinePathCreator : MonoBehaviour
     }
 
     private static void EditSplineContainer(SplineContainer splineContainer, GridPath path) {
-        Spline spline = splineContainer.Spline;
+        Spline prevSpline = splineContainer.Spline;
+        Spline currSpline = splineContainer.AddSpline();
         GridCell currCell = path.PopFront();
         GridCell prevCell = currCell;
         Vector3 worldPos = currCell.transform.position;
 
         BezierKnot prevKnot = new BezierKnot(Vector3.zero, Vector3.zero, Vector3.zero, prevCell.transform.rotation);
-        spline.Add(prevKnot);
+        prevSpline.Add(prevKnot);
         BezierKnot currKnot;
-        int prevIndex = 0;
 
         while (path.Count != 0) {
             currCell = path.PopFront();
             currKnot = new(currCell.transform.position - worldPos, Vector3.zero, Vector3.zero, currCell.transform.rotation);
 
-            
-            //prevKnot.Rotation = Quaternion.Inverse(prevAdditionalRot) * Quaternion.Normalize((Quaternion)prevKnot.Rotation) * prevAdditionalRot;
-
             BezierKnot[] knots = CurrKnotCheck(currKnot, prevKnot, currCell, prevCell);
             currKnot = knots[0];
             prevKnot = knots[1];
 
-            spline.SetKnot(prevIndex, prevKnot);
-            spline.Add(currKnot);
+            prevSpline.SetKnot(0, prevKnot);
+            prevSpline.Add(currKnot);
+            if (path.Count != 0) {
+                currSpline.Add(currKnot);
+            }
 
             prevKnot = currKnot;
             prevCell = currCell;
 
-            prevIndex++;
+            prevSpline = currSpline;
+            if (path.Count > 1) {
+                currSpline = splineContainer.AddSpline();
+            }
         }
     }
 

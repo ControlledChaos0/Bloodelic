@@ -20,6 +20,8 @@ public class Entity : MonoBehaviour
     protected float rotateSpeed = 10f;
     public Sprite icon;
     protected SplineAnimate splineAnimate;
+    protected SplineContainer splineContainer;
+    protected Spline currSpline;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
     protected Vector3 OffsetGridPos => occupiedCell.transform.position + (occupiedCell.transform.rotation * -offset);
     protected Vector3 OffsetPrevGridPos => prevOccupiedCell.transform.position + (prevOccupiedCell.transform.rotation * -offset);
@@ -29,8 +31,6 @@ public class Entity : MonoBehaviour
     protected Quaternion toRot;
     protected Vector3 offset;
     protected float height;
-    protected float moveTime = 0;
-    protected float rotateTime = 0;
     protected float timeOfMovement;
     protected float timeOfRotate;
     protected float error = 0.01f;
@@ -57,9 +57,6 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        splineAnimate = GetComponent<SplineAnimate>();
-        splineAnimate.MaxSpeed = moveSpeed;
-
         Vector3 vec = transform.rotation * Vector3.down;
         if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
         {
@@ -89,20 +86,6 @@ public class Entity : MonoBehaviour
         
     }
 
-    private void CalculateMovementTime() {
-        float distance = Vector3.Distance(transform.position, OffsetGridPos);
-        timeOfMovement = distance / moveSpeed;
-        moveTime = 0;
-    }
-    private void CalculateRotateTime() {
-        float angle = Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward);
-        timeOfRotate = angle / rotateSpeed;
-        rotateTime = 0;
-    }
-    private void CalculateTime() {
-        CalculateMovementTime();
-        CalculateRotateTime();
-    }
     public virtual GridPath FindPath(GridCell target)
     {
         Pathfinder.moveLimit = Mathf.Infinity;
@@ -124,77 +107,56 @@ public class Entity : MonoBehaviour
     public virtual void Move(GridPath path) {
         ArgumentNullExceptionUse.ThrowIfNull(path);
 
-        splineAnimate.Container = SplinePathCreator.CreateSplinePath(path);
-        splineAnimate.Play();
+        splineContainer = SplinePathCreator.CreateSplinePath(path);
 
         linkedPath = path;
         linkedPath.RevertColor();
-        occupiedCell = path.PopFront();
+        
+        StartCoroutine(IterateThroughSpline());
+        Debug.Log("MOVE IDIOT");
+    }
+
+    public void SetOccupation(GridCell cell) {
+        occupiedCell.Unoccupy();
+        occupiedCell = cell;
         // Set occupant for occupied cell
         occupiedCell.SetOccupant(this);
-        CalculateMovementTime();
-        move = true;
-
-        fromRot = transform.rotation;
-        toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
-        CalculateRotateTime();
     }
-    public virtual void Move() {
-        Debug.DrawRay(transform.position, transform.forward, Color.red);
-        Debug.DrawRay(transform.position, OffsetGridPos - OffsetPrevGridPos, Color.blue);
-        if (!move) {
-            return;
-        }
-        if (Rotate()) {
-            transform.rotation = Quaternion.Slerp(fromRot, toRot, rotateTime / timeOfRotate);
-            rotateTime += Time.fixedDeltaTime;
-            return;
-        }
-        if (Transform()) {
-            return;
-        }
-        if (moveTime / timeOfMovement > .9 && Vector3.Distance(transform.position, OffsetGridPos) < error) {
-            if (linkedPath == null) {
-                move = false;
-                return;
-            } else if (linkedPath.Count == 0) {
-                move = false;
-                prevOccupiedCell.Unoccupy();
-                prevOccupiedCell = occupiedCell;
-                return;
-            } else if (linkedPath.Count > 0) {
-                // Unoccupy prev cell
-                prevOccupiedCell.Unoccupy();
-                prevOccupiedCell = occupiedCell;
-                occupiedCell = linkedPath.PopFront();
-                // Set occupant for occupied cell
-                occupiedCell.SetOccupant(this);
-                CalculateMovementTime();
-                fromRot = transform.rotation;
-                toRot = Quaternion.LookRotation(OffsetGridPos - OffsetPrevGridPos, transform.up);
-                CalculateRotateTime();
+    
+    private IEnumerator IterateThroughSpline() {
+        int splineCount = splineContainer.Splines.Count;
+        Vector3 pathStartPos = splineContainer.gameObject.transform.position;
+        linkedPath.PopFront();
+
+        for (int i = 0; i < splineCount; i++) {
+            SetOccupation(linkedPath.PopFront());
+            Spline currSpline = splineContainer.Splines[i];
+
+            float t = 0;
+            // Quaternion start = transform.rotation;
+            // Quaternion end = currSpline[0].Rotation;
+            // float rotateTime = Quaternion.Angle(start, end) / rotateSpeed;
+            // while (t < rotateTime) {
+            //     transform.rotation = Quaternion.Lerp(start, end, t / rotateTime);
+            //     t += Time.fixedDeltaTime;
+            //     yield return new WaitForFixedUpdate();
+            // }
+
+            t = 0;
+            float moveTime = currSpline.GetLength() / moveSpeed;
+            float3 pos;
+            float3 tangent;
+            float3 upward;
+            while (t < moveTime) {
+                currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
+                transform.position = (Vector3)pos + pathStartPos;
+                transform.up = upward;
+                transform.forward = tangent;
+                t += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
             }
         }
-        transform.position = Vector3.Lerp(OffsetPrevGridPos, OffsetGridPos, moveTime / timeOfMovement);
-        moveTime += Time.fixedDeltaTime;
-    }
-
-    public virtual bool Transform() {
-        return false;
-    }
-    public virtual bool Rotate() {
-        Debug.Log($"Angle between: {Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward)}");
-        if (Vector3.Angle((OffsetGridPos - OffsetPrevGridPos).normalized, transform.forward) == 0) {
-            return false;
-        }
-        if (occupiedCell.Equals(prevOccupiedCell)) {
-            return false;
-        }
-        return true;
-    }
-
-    private void CreateSplinePath(GridPath path) {
-
+        Destroy(splineContainer.gameObject);
     }
     
     #region Grid Cell
