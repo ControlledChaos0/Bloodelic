@@ -6,34 +6,63 @@ using KevinCastejon.ConeMesh;
 
 public class LineOfSight : MonoBehaviour
 {
+    //Viewing angle for line-of-sight
     private const float ANGLE = 45;
-    private const int CONE_HEIGHT = 10;
+
+    //Vars for scanning environment for the line-of-sight visual
+    private const int scanFreq = 20;
+    private float scanTimer;
+    private float scanInterval;
 
     [SerializeField]
     private GameObject player;
 
-    [SerializeField]
-    private GameObject cone;
-
     //For detection of the tiles
     private const float OVERLAP_SPHERE_RADIUS = 50;
-    
     private List<GameObject> tileList = new List<GameObject>();
 
+    //Basic state machine for showing/hiding line of sight
+    private enum State
+    {
+        REVEALSIGHT,
+        HIDESIGHT
+    }
+    private State state = State.HIDESIGHT;
+    private State prevState = State.HIDESIGHT;
 
+    void OnDestroy()
+    {
+        HumanManager.Instance.ClickAction -= OnClick;
+    }
 
-    private Cone coneScript;
     // Start is called before the first frame update
     void Start()
     {
-
+        scanInterval = 1.0f / scanFreq;
+        HumanManager.Instance.ClickAction += OnClick;
     }
 
     // Update is called once per frame
     void Update()
     {
-        OnRevealSightLine();
-        Debug.Log(DetectEntitySight(player));
+        if (state == State.REVEALSIGHT)
+        {
+            scanTimer -= Time.deltaTime;
+            if (scanTimer < 0)
+            {
+                scanTimer += scanInterval;
+                OnRevealSightLine();
+            }
+            prevState = State.REVEALSIGHT;
+        }
+        else
+        {
+            if (prevState != State.HIDESIGHT)
+            {
+                ClearTiles();
+            }
+            prevState = State.HIDESIGHT;
+        }
     }
 
     /**
@@ -74,14 +103,13 @@ public class LineOfSight : MonoBehaviour
 
     
 
-    //TODO: Method is incomplete
-    //Will be a helper for when the npc is clicked
+    /**
+     * Reveals line of sight for NPC.
+     * Detects nearby tiles and turns the ones in its viewing angle blue.
+     * TODO: Update this method if we want to do something other than turn tiles blue.
+     */
     private void OnRevealSightLine()
     {
-        /*coneScript = cone.GetComponent<Cone>();
-        coneScript.ConeHeight = CONE_HEIGHT;
-        coneScript.ConeRadius = ((float)(coneScript.ConeHeight * Math.Tan(ANGLE * (Math.PI / 180))));
-        */
         Collider[] overlap = null;
         overlap = Physics.OverlapSphere(transform.position, OVERLAP_SPHERE_RADIUS, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Ignore);
         Debug.Log(overlap.Length);
@@ -109,6 +137,10 @@ public class LineOfSight : MonoBehaviour
 
     }
 
+    /**
+     * Clears all tiles highlighted by the line of sight visualization.
+     * Does nothing if tileList is empty
+     */
     public void ClearTiles()
     {
         for (int i = tileList.Count - 1; i >= 0; i--)
@@ -119,9 +151,25 @@ public class LineOfSight : MonoBehaviour
         }
     }
 
-    IEnumerator ClearTilesAfterFiveSeconds()
+    /**
+     * Updates state when NPC is clicked. 'Nuff said.
+     */
+    private void OnClick(Human h)
     {
-        yield return new WaitForSeconds(5);
-        ClearTiles();
+        if (h != null)
+        {
+            if (state == State.HIDESIGHT)
+            {
+                state = State.REVEALSIGHT;
+            }
+            else
+            {
+                state = State.HIDESIGHT;
+            }
+        }
+        else
+        {
+            state = State.HIDESIGHT;
+        }
     }
 }
