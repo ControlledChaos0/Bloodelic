@@ -22,7 +22,7 @@ public class Human : Entity
         StartCoroutine(DummyTurnBehavior());
 
     }
-    
+
     IEnumerator DummyTurnBehavior() {
         Debug.Log("human turn! :D");
         yield return new WaitForSeconds(2.0f);
