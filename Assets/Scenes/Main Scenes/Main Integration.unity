@@ -11741,7 +11741,6 @@ GameObject:
   - component: {fileID: 262263501}
   - component: {fileID: 262263500}
   - component: {fileID: 262263505}
-  - component: {fileID: 262263506}
   m_Layer: 0
   m_Name: DummyNPC
   m_TagString: Untagged
@@ -11869,29 +11868,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1737648097}
   cone: {fileID: 294560028}
---- !u!114 &262263506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262263499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_LoopMode: 0
-  m_Method: 0
-  m_Duration: 1
-  m_MaxSpeed: 10
-  m_EasingMode: 0
-  m_AlignmentMode: 1
-  m_ObjectForwardAxis: 2
-  m_ObjectUpAxis: 1
-  m_StartOffset: 0
 --- !u!1 &264097414
 GameObject:
   m_ObjectHideFlags: 0
@@ -80172,6 +80148,10 @@ PrefabInstance:
     - target: {fileID: 7798424355312581927, guid: 378726646a28750419352b59d136006e, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640880018814909043, guid: 378726646a28750419352b59d136006e, type: 3}
+      propertyPath: moveSpeed
+      value: 2.62
       objectReference: {fileID: 0}
     - target: {fileID: 8870877066132251728, guid: 378726646a28750419352b59d136006e, type: 3}
       propertyPath: m_Layer
