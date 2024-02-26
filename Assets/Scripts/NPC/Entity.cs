@@ -20,7 +20,7 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected float rotateSpeed = 10f;
     public Sprite icon;
-    protected SplineAnimate splineAnimate;
+    protected Selectable selectable;
     protected SplineContainer splineContainer;
     protected Spline currSpline;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
@@ -58,6 +58,8 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        selectable = GetComponent<Selectable>();
+
         Vector3 vec = transform.rotation * Vector3.down;
         if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
         {
@@ -85,6 +87,10 @@ public class Entity : MonoBehaviour
     }
     protected virtual void FixedUpdate() {
         
+    }
+
+    public virtual void Select() {
+        return;
     }
 
     public virtual GridPath FindPath(GridCell target)
