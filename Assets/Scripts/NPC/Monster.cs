@@ -18,6 +18,7 @@ public class Monster : Entity
     protected override void Start()
     {
         base.Start();
+        selectable.Selection += Select;
     }
 
     // Update is called once per frame
@@ -26,12 +27,9 @@ public class Monster : Entity
         base.Update();
     }
 
-    public void SelectMonster(GameObject gameObject) {
+    public override void Select() {
         Debug.Log("SELECTED MONSTER!!!!!!!!!");
-        if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
-            CameraController.Instance.changePosition(this.gameObject.transform.position);
-            return;
-        }
+        CameraController.Instance.changePosition(gameObject.transform.position);
         Debug.Log("split");
         if (!_playerTurnMachine.moveState.canSwitch) {
             return;

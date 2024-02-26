@@ -51,6 +51,9 @@ public class GridCell : MonoBehaviour
         _renderer.material.color = Color.blue;
     }
     public void SaveColor() {
+        if (_renderer == null) {
+            _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        }
         _savedColor = _renderer.material.color;
     }
     public void RevertColor() {
