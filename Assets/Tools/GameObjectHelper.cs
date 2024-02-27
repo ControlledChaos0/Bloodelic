@@ -12,4 +12,9 @@ public class GameObjectHelper
             return gameObject;
         }
     }
+
+    // public static bool GetSelectableObject(GameObject gameObject) {
+    //     if (gameObject.GetComponent<Selectable>())
+    //     Transform parent = gameObject.transform.parent;
+    // }
 }
