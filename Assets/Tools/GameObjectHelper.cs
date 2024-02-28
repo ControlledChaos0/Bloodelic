@@ -13,8 +13,14 @@ public class GameObjectHelper
         }
     }
 
-    // public static bool GetSelectableObject(GameObject gameObject) {
-    //     if (gameObject.GetComponent<Selectable>())
-    //     Transform parent = gameObject.transform.parent;
-    // }
+    public static Selectable GetSelectableObject(GameObject gameObject) {
+        Selectable selectable = gameObject.GetComponent<Selectable>();
+        if (selectable == null) {
+            Transform parent = gameObject.transform.parent;
+            if (parent != null) {
+                return GetSelectableObject(parent.gameObject);
+            }
+        }
+        return selectable;
+    }
 }
