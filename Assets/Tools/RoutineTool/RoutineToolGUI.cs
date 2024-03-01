@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -14,13 +15,29 @@ public class RoutineToolGUI : EditorWindow {
     public static void LaunchRoutineTool(NPCManager npcManager) {
         mainWindow = GetWindow<RoutineToolGUI>("NPC Routine Tool");
         mainWindow.Init(npcManager);
+        SceneView.duringSceneGui += OnSceneView;
+    }
+
+    void OnDisable() {
+        mainWindow = null;
+        SceneView.duringSceneGui -= OnSceneView;
+    }
+
+    private static void OnSceneView(SceneView sceneView) {
+        if (mainWindow != null && mainWindow.selectedNPC != null) {
+            for (int i = 0; i < mainWindow.selectedNPC.Routine.Count; i++) {
+                mainWindow.selectedNPC.Routine[i].ShowSceneGUI(i);
+            }
+        }
     }
 
     private NPCManager npcManager;
     private DummyNPC[] registeredNPCs;
 
     private DummyNPC selectedNPC;
+    public DummyNPC SelectedNPC => selectedNPC;
     private EntityAction selectedAction;
+    public EntityAction SelectedAction => selectedAction;
 
     private void Init(NPCManager npcManager) {
         this.npcManager = npcManager;
@@ -28,10 +45,15 @@ public class RoutineToolGUI : EditorWindow {
     }
 
     void OnGUI() {
+        if (npcManager == null) {
+            EditorUtils.DrawScopeCenteredText("Assembly Reload Detected (Or Equivalent);"
+                                              + "\nClose & Reopen this Window to Continue;");
+            return ;
+        }
         using (var scope = new EditorGUI.ChangeCheckScope()) {
             using (new EditorGUILayout.HorizontalScope()) {
                 DrawGUI();
-            }
+            } if (scope.changed && selectedNPC != null) EditorUtility.SetDirty(selectedNPC);
         }
     }
 
@@ -155,3 +177,4 @@ public class RoutineToolGUI : EditorWindow {
         }
     }
 }
+#endif

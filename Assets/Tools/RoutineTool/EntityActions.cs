@@ -4,9 +4,11 @@ using UnityEditor;
 using CJUtils;
 #endif
 
+[System.Serializable]
 public abstract class EntityAction {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public abstract void ShowGUI();
+    public virtual void ShowSceneGUI(int actionIndex) { }
     #endif
 }
 
@@ -69,6 +71,16 @@ public class ActionMove : EntityAction {
         } else {
             EditorGUILayout.HelpBox("Static Position Not Assigned;", MessageType.Warning);
         }
+    }
+
+    public override void ShowSceneGUI(int actionIndex) {
+        if (targetCell == null) return;
+        Handles.color = this == RoutineToolGUI.mainWindow.SelectedAction ? Color.red : new Color(0.92f, 0.5f, 0.32f, 0.8f);
+        Handles.DrawSolidDisc(targetCell.transform.position, Vector3.up, 0.4f);
+        Handles.Label(targetCell.transform.position, $"<b>{actionIndex}</b>", new GUIStyle(GUI.skin.label) { richText = true,
+                                                                                                             fontSize = 20,
+                                                                                                             alignment = TextAnchor.MiddleCenter});
+        Handles.color = Color.white;
     }
     #endif
 }
