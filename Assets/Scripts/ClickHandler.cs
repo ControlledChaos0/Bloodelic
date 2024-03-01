@@ -54,7 +54,6 @@ public class ClickHandler : Singleton<ClickHandler>
             return;
         }
         selectable.Select();
-        Deactivate();
     }
     private void HoverUnselected(GameObject gO) {
         //Debug.Log(gO);

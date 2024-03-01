@@ -7,14 +7,14 @@ using UnityEngine;
 public class Selectable : MonoBehaviour
 {
     private Outline _outline;
-    public event Action Selection;
+    public event Action<GameObject> ClickAction;
+    public event Action<GameObject> HoverAction;
+    public event Action SelectionAction;
     // Start is called before the first frame update
     void Start()
     {
         _outline = GetComponent<Outline>();
         _outline.enabled = false;
-        //CameraController.Instance.ClickAction -= Select;
-        //CameraController.Instance.ClickAction += Select;
     }
     // Update is called once per frame
     void Update()
@@ -22,32 +22,26 @@ public class Selectable : MonoBehaviour
         
     }
 
-    private void OnEnable() {
-        if (CameraController.Instance != null) {
-            //CameraController.Instance.ClickAction += Select;
-        }
+    public void Activate() {
+        CameraController.Instance.ClickAction += ClickAction;
+        CameraController.Instance.HoverAction += HoverAction;
+        ClickHandler.Instance.Deactivate();
     }
-    private void OnDisable() {
-        //CameraController.Instance.ClickAction -= Select;
+
+    public void Deactivate() {
+        CameraController.Instance.ClickAction -= ClickAction;
+        CameraController.Instance.HoverAction -= HoverAction;
+        ClickHandler.Instance.Activate();
     }
 
     public void Select() {
-        // if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
-        //     return;
-        // }
-        Selection.Invoke();
+        SelectionAction.Invoke();
     }
 
     public void HoverSelect() {
-        // if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
-        //     return;
-        // }
         _outline.enabled = true;
     }
     public void HoverDeselect() {
-        // if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
-        //     return;
-        // }
         Debug.Log("Is this call??>>>>>>>>>>");
         _outline.enabled = false;
     }
