@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Selectable))]
 public class BehaviorController : MonoBehaviour
 {
+    private List<Behavior> behaviors;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,5 +16,9 @@ public class BehaviorController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AddBehavior(Behavior behavior) {
+        behaviors.Add(behavior);
     }
 }

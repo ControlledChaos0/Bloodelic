@@ -19,7 +19,7 @@ public class TurnDisplay : MonoBehaviour
 
     public void UpdateDisplays(Entity[] turnOrder, int currentIdx) {
         for (int i = 0; i < displays.Count; i++) {
-            displays[i].sprite = turnOrder[(i + currentIdx) % turnOrder.Length].icon;
+            //displays[i].sprite = turnOrder[(i + currentIdx) % turnOrder.Length].icon;
         }
     }
 }
