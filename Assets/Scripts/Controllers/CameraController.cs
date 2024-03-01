@@ -208,7 +208,7 @@ public class CameraController : Singleton<CameraController>
 
     private RaycastHit SetHit(Ray ray)
     {
-        RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, _hitMask);
+        RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity);
         float closestDistance = Mathf.Infinity;
         RaycastHit hit = new();
         foreach (RaycastHit cameraRayHit in cameraRayHits)
