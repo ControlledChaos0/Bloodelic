@@ -43,17 +43,10 @@ public class ClickHandler : Singleton<ClickHandler>
     }
 
     private void Select(GameObject gO) {
-        if (gO == null) {
+        if (_hoveredSelectable == null) {
             return;
         }
-        /*
-            Place to put UI checking as well
-        */
-        Selectable selectable = GameObjectHelper.GetSelectableObject(gO);
-        if (selectable == null) {
-            return;
-        }
-        selectable.Select();
+        _hoveredSelectable.Select();
     }
     private void HoverUnselected(GameObject gO) {
         //Debug.Log(gO);

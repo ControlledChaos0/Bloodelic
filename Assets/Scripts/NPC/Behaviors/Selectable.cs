@@ -7,11 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(Outline))]
 public class Selectable : MonoBehaviour
 {
-    
+    [SerializeField]
+    private GameObject _uiObject; //Will be a part of the object prefab, so will be added with it
+
+    private WorldUI _uiScript;
     private Outline _outline;
+
     public event Action<GameObject> ClickAction;
     public event Action<GameObject> HoverAction;
-    public static Action<GameObject> SelectedUI;
     public event Action SelectionAction;
 
     // Start is called before the first frame update
@@ -19,6 +22,14 @@ public class Selectable : MonoBehaviour
     {
         _outline = GetComponent<Outline>();
         _outline.enabled = false;
+
+        //Lord this is ugly
+        //I hate this
+        //Maybe there's a way to separate these two things, but I've been brainstorming for hours
+        //And I just need something
+        //Fuck cohesion
+        _uiScript = _uiObject.GetComponent<WorldUI>();
+        _uiScript.ObjSelect = this;
     }
     // Update is called once per frame
     void Update()
@@ -39,7 +50,7 @@ public class Selectable : MonoBehaviour
     }
 
     public void Select() {
-        SelectionAction.Invoke();
+        Activate();
     }
     
     public void Select(GameObject gameObject) {
@@ -48,7 +59,6 @@ public class Selectable : MonoBehaviour
             return;
         }
         SelectionAction.Invoke();
-        SelectedUI?.Invoke(gameObject);
     }
 
     public void HoverSelect() {
