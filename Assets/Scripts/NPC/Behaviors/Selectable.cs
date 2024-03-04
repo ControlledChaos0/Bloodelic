@@ -29,7 +29,6 @@ public class Selectable : MonoBehaviour
         //And I just need something
         //Fuck cohesion
         _uiScript = _uiObject.GetComponent<WorldUI>();
-        _uiScript.ObjSelect = this;
     }
     // Update is called once per frame
     void Update()
@@ -41,12 +40,14 @@ public class Selectable : MonoBehaviour
         CameraController.Instance.ClickAction += ClickAction;
         CameraController.Instance.HoverAction += HoverAction;
         ClickHandler.Instance.Deactivate();
+        _uiScript.Activate();
     }
 
     public void Deactivate() {
         CameraController.Instance.ClickAction -= ClickAction;
         CameraController.Instance.HoverAction -= HoverAction;
         ClickHandler.Instance.Activate();
+        _uiScript.Deactivate();
     }
 
     public void Select() {

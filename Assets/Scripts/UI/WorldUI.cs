@@ -18,15 +18,35 @@ public class WorldUI : MonoBehaviour
     {
         m_Camera = CameraController.Instance.MainCamera;
 
+        m_Parent = transform.parent.gameObject;
+        ObjSelect = m_Parent.GetComponent<Selectable>();
+
+        Deactivate();
         //World UI needs to operate without worrying about rotation of parent gameobject
         //Therefore, needs to disconnect from parent on runtime to operate not in local worldspace
-        m_Parent = transform.parent.gameObject;
-        transform.parent = null;
+        Disconnect();
     }
 
     protected void LateUpdate()
     {
-        transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.forward, m_Camera.transform.rotation * Vector3.up);
+        //transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.forward, m_Camera.transform.rotation * Vector3.up);
+    }
+
+    public void Activate() {
+        Debug.Log("Activate UI");
+        gameObject.SetActive(true);
+        ObjSelect.ClickAction += Click;
+    }
+    public void Deactivate() {
+        gameObject.SetActive(false);
+        ObjSelect.ClickAction -= Click;
+    }
+
+    private void Disconnect() {
+        Vector3 parentPos = m_Parent.transform.position;
+        Vector3 curPos = transform.position;
+        transform.parent = null;
+        transform.position = parentPos + curPos;
     }
 
     public void PresentWorldUI(GameObject gameObject)
@@ -35,6 +55,12 @@ public class WorldUI : MonoBehaviour
         transform.position = gameObject.transform.position + new Vector3(0, 2f, 0);
     }
 
+    public void Click(GameObject gO) {
+        if (!CheckIfUIObject(gO)) {
+            ObjSelect.Deactivate();
+            return;
+        }
+    }
     public bool CheckIfUIObject(GameObject gameObject) {
         if (gameObject == null) {
             return false;

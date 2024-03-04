@@ -50,21 +50,29 @@ public class ClickHandler : Singleton<ClickHandler>
     }
     private void HoverUnselected(GameObject gO) {
         //Debug.Log(gO);
-        if (gO == null || gO.Equals(_hoveredObject)) {
+        if (gO == null) {
+            HoverClear();
+            return;
+        }
+        if (gO.Equals(_hoveredObject)) {
             return;
         }
         Debug.Log("HoverUnselected Running");
         Selectable selectable = GameObjectHelper.GetSelectableObject(gO);
         if (selectable == null) {
-            if (_hoveredSelectable != null) {
-                _hoveredSelectable.HoverDeselect();
-                _hoveredSelectable = null;
-                _hoveredObject = null;
-            }
+            HoverClear();
             return;
         }
         selectable.HoverSelect();
         _hoveredObject = gO;
         _hoveredSelectable = selectable;
+    }
+
+    private void HoverClear() {
+        if (_hoveredSelectable != null) {
+            _hoveredSelectable.HoverDeselect();
+        }
+        _hoveredSelectable = null;
+        _hoveredObject = null;
     }
 }
