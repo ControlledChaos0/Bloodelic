@@ -18,7 +18,7 @@ public class Monster : Entity
     protected override void Start()
     {
         base.Start();
-        selectable.Selection += Select;
+        selectable.SelectionAction += Select;
     }
 
     // Update is called once per frame

@@ -14,8 +14,8 @@ public class GridManager : Singleton<GridManager>
         InitializeSingleton();
     }
     private void Start() {
-        CameraController.Instance.HoverAction += HoverGrid;
-        CameraController.Instance.ClickAction += ClickGrid;
+        //CameraController.Instance.HoverAction += HoverGrid;
+        //CameraController.Instance.ClickAction += ClickGrid;
     }
     private void Update() {
         
@@ -27,8 +27,8 @@ public class GridManager : Singleton<GridManager>
         
     }
     private void OnDestroy() {
-        CameraController.Instance.HoverAction -= HoverGrid;
-        CameraController.Instance.ClickAction -= ClickGrid;
+        //CameraController.Instance.HoverAction -= HoverGrid;
+        //CameraController.Instance.ClickAction -= ClickGrid;
     }
 
     private void HoverGrid(GameObject gameObject) {

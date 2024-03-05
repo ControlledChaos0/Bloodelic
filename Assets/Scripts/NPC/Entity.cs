@@ -40,16 +40,6 @@ public class Entity : MonoBehaviour
     protected Spline spline;
     //Testing (not intended for use in actual game unless decided otherwise, then move up above)
     public static GridCell testCell;
-    private static Entity _instance;
-    
-    public static Entity Instance {
-        get {
-            if (_instance == null) {
-                _instance = new();
-            }
-            return _instance;
-        }
-    }
 
     public bool IsMoving {
         get { return move; }
@@ -90,6 +80,9 @@ public class Entity : MonoBehaviour
     }
 
     public virtual void Select() {
+        return;
+    }
+    public virtual void HoverSelect(GameObject gO) {
         return;
     }
 

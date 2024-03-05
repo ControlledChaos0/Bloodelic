@@ -15,7 +15,7 @@ public class HumanManager : Singleton<HumanManager>
     // Start is called before the first frame update
     void Start()
     {
-        CameraController.Instance.ClickAction += OnClick;
+        //CameraController.Instance.ClickAction += OnClick;
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class HumanManager : Singleton<HumanManager>
 
     private void OnDestroy()
     {
-        CameraController.Instance.ClickAction -= OnClick;
+        //CameraController.Instance.ClickAction -= OnClick;
     }
 
     private void OnClick(GameObject gameObject)
