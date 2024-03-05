@@ -27,6 +27,7 @@ public class CameraController : Singleton<CameraController>
     private CinemachineVirtualCamera _cinemachineCam;
     private RaycastHit _closestHit;
     private Transform _lookAt;
+    private Transform _cameraTransform;
     private Vector3 _oldRot;
     private Vector3 _defaultPos;
     private Vector3 _currentPos;
@@ -44,6 +45,9 @@ public class CameraController : Singleton<CameraController>
     {
         get => mainCamera;
         private set => mainCamera = value;
+    }
+    public Transform CameraTransform {
+        get => mainCamera.transform;
     }
     public RaycastHit ClosestHit
     {
@@ -229,6 +233,7 @@ public class CameraController : Singleton<CameraController>
         if (_closestHit.Equals(new RaycastHit()))
         {
             ClickAction?.Invoke(null);
+            Debug.Log($"Click gameobject: null");
             return;
         }
         GameObject hitGO = _closestHit.transform.gameObject;
