@@ -16,19 +16,20 @@ public class LineOfSight : MonoBehaviour
 
     [SerializeField]
     private GameObject player;
+    public bool canSeePlayer;
 
     //For detection of the tiles
     private const float OVERLAP_SPHERE_RADIUS = 50;
     private List<GameObject> tileList = new List<GameObject>();
 
     //Basic state machine for showing/hiding line of sight
-    private enum State
+    private enum SightLineShowState
     {
         REVEALSIGHT,
         HIDESIGHT
     }
-    private State state = State.HIDESIGHT;
-    private State prevState = State.HIDESIGHT;
+    private SightLineShowState state = SightLineShowState.HIDESIGHT;
+    private SightLineShowState prevState = SightLineShowState.HIDESIGHT;
 
     void OnDestroy()
     {
@@ -45,23 +46,25 @@ public class LineOfSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == State.REVEALSIGHT)
+        scanTimer -= Time.deltaTime;
+        if (scanTimer < 0.0f)
         {
-            scanTimer -= Time.deltaTime;
-            if (scanTimer < 0)
+            scanTimer += scanInterval;
+            canSeePlayer = DetectEntitySight(player, ANGLE);
+            Debug.Log(canSeePlayer);
+            if (state == SightLineShowState.REVEALSIGHT)
             {
-                scanTimer += scanInterval;
                 OnRevealSightLine();
+                prevState = SightLineShowState.REVEALSIGHT;
             }
-            prevState = State.REVEALSIGHT;
-        }
-        else
-        {
-            if (prevState != State.HIDESIGHT)
+            else
             {
-                ClearTiles();
+                if (prevState != SightLineShowState.HIDESIGHT)
+                {
+                    ClearTiles();
+                }
+                prevState = SightLineShowState.HIDESIGHT;
             }
-            prevState = State.HIDESIGHT;
         }
     }
 
@@ -73,6 +76,7 @@ public class LineOfSight : MonoBehaviour
      * @param entity - A GameObject to detect
      * @param viewAngle - the viewing angle to check with.
      *      should normally be the same as the angle field of this class.
+     * @param mask selects layers that the Raycast can interact with. By default, interacts with all layers.
      * @return bool representing whether the item is within viewing radius.
      */
     public bool DetectEntitySight(GameObject entity, float viewAngle = ANGLE, int mask = Physics.AllLayers)
@@ -158,18 +162,18 @@ public class LineOfSight : MonoBehaviour
     {
         if (h != null && h.Equals(this.gameObject.GetComponent<Human>()))
         {
-            if (state == State.HIDESIGHT)
+            if (state == SightLineShowState.HIDESIGHT)
             {
-                state = State.REVEALSIGHT;
+                state = SightLineShowState.REVEALSIGHT;
             }
             else
             {
-                state = State.HIDESIGHT;
+                state = SightLineShowState.HIDESIGHT;
             }
         }
         else
         {
-            state = State.HIDESIGHT;
+            state = SightLineShowState.HIDESIGHT;
         }
     }
 }
