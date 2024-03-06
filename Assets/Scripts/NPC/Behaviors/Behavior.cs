@@ -1,16 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public abstract class Behavior : MonoBehaviour
 {
     //no idea if we actually need it, temp variable
-    private BehaviorController controller;
+    protected BehaviorController controller;
+    protected Button behaviorButton;
+    protected string name;
+
+    public Button BehaviorButton {
+        get => behaviorButton;
+        set => behaviorButton = value;
+    }
+
+    public UnityAction StartBehaviorAction;
+    protected virtual void Awake() {
+        controller = GetComponent<BehaviorController>();
+        controller.AddBehavior(this);
+    }
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        controller = GetComponent<BehaviorController>();
-        controller.AddBehavior(this);
+        
     }
 
     // Update is called once per frame
@@ -20,4 +35,5 @@ public abstract class Behavior : MonoBehaviour
     }
 
     public abstract void StartBehavior();
+    public abstract void CheckValid();
 }

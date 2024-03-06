@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorldUI : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _button;
+
     private GameObject m_Parent;
     private GameObject m_Canvas;
+    private GameObject m_OptionsContainer;
     private Selectable m_Selectable;
     private Camera m_Camera {
         get {
@@ -28,6 +33,7 @@ public class WorldUI : MonoBehaviour
         m_Canvas = transform.GetChild(0).gameObject;
         m_Parent = transform.parent.gameObject;
         ObjSelect = m_Parent.GetComponent<Selectable>();
+        m_OptionsContainer = m_Canvas.transform.parent.gameObject;
 
         Deactivate();
         //World UI needs to operate without worrying about rotation of parent gameobject
@@ -94,5 +100,13 @@ public class WorldUI : MonoBehaviour
             return false;
         }
         return CheckIfUIObject(parent.gameObject);
+    }
+
+    public void AddButton(Behavior behavior) {
+        GameObject buttonObj = GameObject.Instantiate(_button);
+        Button button = buttonObj.GetComponent<Button>();
+        behavior.BehaviorButton = button;
+        button.onClick.AddListener(behavior.StartBehaviorAction);
+        buttonObj.transform.parent = m_OptionsContainer.transform;
     }
 }
