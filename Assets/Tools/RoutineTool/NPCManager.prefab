@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6498509210189420127}
   - component: {fileID: 8294864509026825574}
+  - component: {fileID: 5822278955196880440}
+  - component: {fileID: 4075342556692312094}
+  - component: {fileID: 3631296611290376636}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -49,10 +52,74 @@ MonoBehaviour:
   moveSpeed: 10
   rotateSpeed: 10
   icon: {fileID: 0}
-  routine: []
+  routine:
+  - rid: 8792096440821219328
+  - rid: 8792096440821219329
+  - rid: 8792096440821219330
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8792096440821219328
+      type: {class: ActionMove, ns: , asm: Assembly-CSharp}
+      data:
+        targetCell: {fileID: 0}
+        staticPosition:
+          positionE: 0
+          position: {x: 0, y: 1, z: 0}
+    - rid: 8792096440821219329
+      type: {class: ActionMove, ns: , asm: Assembly-CSharp}
+      data:
+        targetCell: {fileID: 0}
+        staticPosition:
+          positionE: 0
+          position: {x: 0, y: 1, z: 0}
+    - rid: 8792096440821219330
+      type: {class: ActionWait, ns: , asm: Assembly-CSharp}
+      data:
+        waitTime: 0
+--- !u!114 &5822278955196880440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637888501034173236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42eeb63a5191a304fb322c3989fe2a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &4075342556692312094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637888501034173236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20663f57102c7e147a579e9b4031393a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiObject: {fileID: 0}
+--- !u!114 &3631296611290376636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637888501034173236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8a38d3bd8932e428296ab7299c9283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2553039494534220861
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,6 +104,29 @@ public class Entity : MonoBehaviour
         GridPath path = FindPath(target);
         Move(path);
     }
+    
+    // This version is used by NPCs and tells the game to wait until the movement is complete
+    public IEnumerator MoveCoroutine(GridCell target)
+    {
+        ArgumentNullExceptionUse.ThrowIfNull(target);
+
+        Debug.Log(name + " begins moving to " + target.name);
+        
+        GridPath path = FindPath(target);
+        ArgumentNullExceptionUse.ThrowIfNull(path);
+
+        splineContainer = SplinePathCreator.CreateSplinePath(path);
+        if (splineContainer == null)
+        {
+            yield break;
+        }
+        
+        linkedPath = path;
+        linkedPath.RevertColor();
+        
+        yield return StartCoroutine(IterateThroughSpline());
+    }
+    
     public virtual void Move(GridPath path) {
         ArgumentNullExceptionUse.ThrowIfNull(path);
 

@@ -45,6 +45,13 @@ public class GridCell : MonoBehaviour
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
         _savedColor = _renderer.material.color;
+
+        //GridManager.OnCellOccupantChanged += OnCellOccupantChanged;
+    }
+
+    private void OnDestroy()
+    {
+        //GridManager.OnCellOccupantChanged -= OnCellOccupantChanged;
     }
 
     public void TurnBlue() {
@@ -106,22 +113,26 @@ public class GridCell : MonoBehaviour
         }
     }
     
-    public void Unoccupy()
+    public void Unoccupy(bool alsoUnoccupyWallNeighbors = true)
     {
-        // For human occupants, also set wall neighbors to occupied
-        Human human = entityOccupant as Human;
-        if (human != null)
+        if (alsoUnoccupyWallNeighbors)
         {
-            List<GridCell> wallNeighbors = GetWallNeighbors();
-            foreach (var n in wallNeighbors)
+            // For human occupants, also set wall neighbors to occupied
+            Human human = entityOccupant as Human;
+            if (human != null)
             {
-                n.Unoccupy();
+                List<GridCell> wallNeighbors = GetWallNeighbors();
+                foreach (var n in wallNeighbors)
+                {
+                    n.Unoccupy(false);
+                }
             }
         }
         
         entityOccupant = null;
     }
     
+
     // A cell is considered occupied when:
     //  - An entity occupies it
     //  - A LARGE object occupies it
