@@ -10,4 +10,20 @@ public class DummyNPC : Entity {
             return routine;
         }
     }
+
+    // Keeps track of which action in the routine should the NPC execute, starts at -1
+    private int routineActionIndex = -1;
+    
+    public EntityAction GetNextActionInRoutine()
+    {
+        if (Routine.Count == 0)
+        {
+            Debug.LogWarning("NPC " + name + " has no routines!");
+            return null;
+        }
+
+        routineActionIndex = (routineActionIndex + 1) % routine.Count;
+        return routine[routineActionIndex];
+    }
+
 }
