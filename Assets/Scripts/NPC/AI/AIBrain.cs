@@ -169,7 +169,7 @@ public class AIBrain : MonoBehaviour
 
         Handles.color = debugColor;
         string debugString = string.Format("AI State: {0}", currentState);
-        Handles.Label(transform.position + Vector3.up, debugString);
+        Handles.Label(transform.position + Vector3.up * 1.3f, debugString);
         
         // Action debug
         if (npc != null && npc.NextAction != null)
@@ -191,7 +191,7 @@ public class AIBrain : MonoBehaviour
             }
 
             debugString = string.Format("Next Action: {0}", npc.NextAction.ToString());
-            Handles.Label(transform.position + Vector3.up * 0.75f, debugString);
+            Handles.Label(transform.position + Vector3.up * 1f, debugString);
         }
         
         Handles.color = Color.white;
