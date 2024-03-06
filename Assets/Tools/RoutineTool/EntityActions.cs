@@ -9,7 +9,11 @@ public abstract class EntityAction {
 #if UNITY_EDITOR
     public abstract void ShowGUI();
     public virtual void ShowSceneGUI(int actionIndex) { }
-    #endif
+    public virtual string ToString()
+    {
+        return "";
+    }
+#endif
 }
 
 [System.Serializable]
@@ -18,8 +22,17 @@ public class ActionMove : EntityAction {
     public GridCellPosition staticPosition;
     public ActionMove() => targetCell = null;
     public ActionMove(GridCell targetCell) => this.targetCell = targetCell;
+    public override string ToString()
+    {
+        if (targetCell != null)
+        {
+            return "Move to: " + targetCell.name;
+        }
 
-    #if UNITY_EDITOR
+        return "Move to: null";
+    }
+
+#if UNITY_EDITOR
 
     bool retargeting; 
     GridCell uncommittedCell;
@@ -91,7 +104,12 @@ public class ActionWait : EntityAction {
     public ActionWait() => waitTime = 0;
     public ActionWait(int waitTime) => this.waitTime = waitTime;
 
-    #if UNITY_EDITOR
+    public override string ToString()
+    {
+        return "Wait: " + waitTime;
+    }
+
+#if UNITY_EDITOR
     public override void ShowGUI() {
         EditorUtils.WindowBoxLabel("Wait Duration");
         EditorGUIUtility.labelWidth = 48;
