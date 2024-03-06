@@ -139,12 +139,18 @@ public class Entity : MonoBehaviour
         Debug.Log("MOVE IDIOT");
     }
 
-    public void SetOccupation(GridCell cell) {
+    public void SetOccupation(GridCell cell)
+    {
+        if (cell == null) { return; }
         occupiedCell.Unoccupy();
         occupiedCell = cell;
         // Set occupant for occupied cell
         occupiedCell.SetOccupant(this);
+        PostGridMovement();
     }
+
+    // Things that need to occur after entity occupies a new cell, implement in child classes
+    protected virtual void PostGridMovement() {}
     
     private IEnumerator IterateThroughSpline() {
         int splineCount = splineContainer.Splines.Count;

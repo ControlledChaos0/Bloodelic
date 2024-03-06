@@ -157,6 +157,11 @@ public class GridCell : MonoBehaviour
         return wallNeighbors;
     }
 
+    public bool IsWall()
+    {
+        return Position.PositionE != GridCellPositionEnum.BOTTOM;
+    }
+
     #endregion
     
     #region Debug
