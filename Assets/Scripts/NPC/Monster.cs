@@ -64,7 +64,7 @@ public class Monster : Entity
     #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        string stateDebug = string.Format("State: " + _playerTurnMachine.currentState);
+        string stateDebug = string.Format("Monster State: " + _playerTurnMachine.currentState);
         Handles.Label(transform.position + Vector3.up, stateDebug);
     }
 

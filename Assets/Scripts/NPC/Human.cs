@@ -6,7 +6,7 @@ using UnityEngine;
 public class Human : DummyNPC
 {
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         base.Start();
         HumanManager.Instance.ClickAction += Select;
@@ -29,10 +29,15 @@ public class Human : DummyNPC
     }
 
     public void PerformAction() {
-        // // idk you'll probably have some more complicated AI stuff here, but for now it just prints a statement
-        // StartCoroutine(DummyTurnBehavior());
-
-        StartCoroutine(DefaultBehavior());
+        if (aiBrain)
+        {
+            StartCoroutine(aiBrain.PerformAICoroutine());
+        }
+        // Just do default behavior if no AI Brain component is assigned to NPC
+        else
+        {
+            StartCoroutine(DefaultBehavior());
+        }
     }
 
     IEnumerator DummyTurnBehavior() {

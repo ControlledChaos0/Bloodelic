@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ public class TurnSystem : Singleton<TurnSystem>
     public Entity activeEntity;
     private int _activeEntityIdx;
 
+    // Tells all NPC AIs to update state once
+    public event Action OnNewTurn;
+    
     void Awake ()
     {
         InitializeSingleton();
@@ -27,24 +31,25 @@ public class TurnSystem : Singleton<TurnSystem>
             SwitchTurn();
         }
         UpdateInputController();
-        ActiveEntityAction();
+        HandleNPCTurn();
     }
 
     public void SwitchTurn() {
+        OnNewTurn?.Invoke();
         _activeEntityIdx = (_activeEntityIdx + 1) % turnOrder.Count;
         activeEntity = turnOrder[_activeEntityIdx];
         turnDisplay.UpdateDisplays(turnOrder, _activeEntityIdx);
         UpdateInputController();
-        ActiveEntityAction();
+        HandleNPCTurn();
     }
 
-    public void HandlePlayerTurn() {
+    public void EndPlayerTurn() {
         if (activeEntity is Monster && !activeEntity.IsMoving) {
             SwitchTurn();
         }
     }
 
-    private void ActiveEntityAction() {
+    private void HandleNPCTurn() {
         if (activeEntity is Human) {
             ((Human)activeEntity).PerformAction();
         }
