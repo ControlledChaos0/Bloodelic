@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class TurnDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject entityTurnDisplayPrefab;
-    
     private List<UIEntityTurnPanel> entityTurnPanels = new List<UIEntityTurnPanel>();
+
+    [SerializeField] Button endTurnButton;
     
     void Awake()
     {
@@ -36,7 +37,6 @@ public class TurnDisplay : MonoBehaviour
         }
     }
     
-    
     public void UpdateDisplays(List<Entity> turnOrder, int currentIdx) {
         for (int i = 0; i < entityTurnPanels.Count; i++) 
         {
@@ -52,6 +52,11 @@ public class TurnDisplay : MonoBehaviour
         
         // Update 
         UpdateDebugText(entityTurnPanels[currentIdx].entityName);
+    }
+
+    public void UpdateEndTurnButton(bool isActive)
+    {
+        endTurnButton.interactable = isActive;
     }
     
     #region Debugstuff

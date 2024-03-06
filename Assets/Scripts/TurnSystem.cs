@@ -51,11 +51,13 @@ public class TurnSystem : Singleton<TurnSystem>
     }
 
     private void UpdateInputController() {
-        if (activeEntity is Monster) {
-            InputController.Instance.enabled = true;
-        } else {
-            InputController.Instance.enabled = false;
-        }
+        InputController.Instance.enabled = IsPlayersTurn();
+        turnDisplay.UpdateEndTurnButton(IsPlayersTurn());
+    }
+
+    public bool IsPlayersTurn()
+    {
+        return activeEntity is Monster;
     }
 
     void PopulateEntitiesAndTurnOrder()
