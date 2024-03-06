@@ -11669,6 +11669,7 @@ GameObject:
   - component: {fileID: 262263507}
   - component: {fileID: 262263506}
   - component: {fileID: 262263508}
+  - component: {fileID: 262263509}
   m_Layer: 0
   m_Name: DummyNPC
   m_TagString: Untagged
@@ -11883,6 +11884,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &262263509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262263499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc41f0c83dafdb4199aef10847bad4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
 --- !u!1 &264097414
 GameObject:
   m_ObjectHideFlags: 0
