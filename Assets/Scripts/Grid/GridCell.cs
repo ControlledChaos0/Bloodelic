@@ -45,6 +45,13 @@ public class GridCell : MonoBehaviour
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
         _savedColor = _renderer.material.color;
+
+        //GridManager.OnCellOccupantChanged += OnCellOccupantChanged;
+    }
+
+    private void OnDestroy()
+    {
+        //GridManager.OnCellOccupantChanged -= OnCellOccupantChanged;
     }
 
     public void TurnBlue() {
@@ -122,6 +129,7 @@ public class GridCell : MonoBehaviour
         entityOccupant = null;
     }
     
+
     // A cell is considered occupied when:
     //  - An entity occupies it
     //  - A LARGE object occupies it
