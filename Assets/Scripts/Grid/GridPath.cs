@@ -77,4 +77,16 @@ public class GridPath
             gridCell.RevertColor();
         }
     }
+    public void ShowPath()
+    {
+        foreach (GridCell gridCell in _path) {
+            gridCell.ShowCell();
+        }
+    }
+    public void HidePath()
+    {
+        foreach (GridCell gridCell in _path) {
+            gridCell.HideCell();
+        }
+    }
 }

@@ -27,6 +27,12 @@ public class Human : DummyNPC
             MapExit exitUsed = gridCellMapExitsDictionary[occupiedCell];
             Debug.Log(name + " escaped using Exit at " + occupiedCell.name);
             // Game Over...
+            
+            OccupiedCell.Unoccupy();
+            StopAllCoroutines();
+            gameObject.SetActive(false);
+            TurnSystem.Instance.RemoveEntity(this);
+            TurnSystem.Instance.SwitchTurn();
         }
 
         // Update AI responses

@@ -399,28 +399,32 @@ public class AIBrain : MonoBehaviour
         Handles.Label(transform.position + Vector3.up * 2f, debugString, textStyle);
         
         // Action debug
-        if (npc != null && npc.NextAction != null)
+        if (currentState == AIState.Default)
         {
-            if (npc.NextAction is ActionMove)
+            if (npc != null && npc.NextAction != null)
             {
-                debugColor = Color.cyan;
-                Handles.color = debugColor;
-                Handles.DrawAAPolyLine(transform.position, ((ActionMove)npc.NextAction).targetCell.transform.position);
-                Handles.SphereHandleCap(0,  ((ActionMove)npc.NextAction).targetCell.transform.position, Quaternion.identity, 0.3f, EventType.Repaint);
-            }
-            else if (npc.NextAction is ActionInteract)
-            {
-                debugColor = new Color(1f, 0.8f, 0.5f);
-            }
-            else if (npc.NextAction is ActionWait)
-            {
-                debugColor = Color.gray;
-            }
+           
+                if (npc.NextAction is ActionMove)
+                {
+                    debugColor = Color.cyan;
+                    Handles.color = debugColor;
+                    Handles.DrawAAPolyLine(transform.position, ((ActionMove)npc.NextAction).targetCell.transform.position);
+                    Handles.SphereHandleCap(0,  ((ActionMove)npc.NextAction).targetCell.transform.position, Quaternion.identity, 0.3f, EventType.Repaint);
+                }
+                else if (npc.NextAction is ActionInteract)
+                {
+                    debugColor = new Color(1f, 0.8f, 0.5f);
+                }
+                else if (npc.NextAction is ActionWait)
+                {
+                    debugColor = Color.gray;
+                }
 
-            textStyle.fontSize = 12;
-            textStyle.normal.textColor = debugColor;
-            debugString = string.Format("Next Action: {0}", npc.NextAction.ToString());
-            Handles.Label(transform.position + Vector3.up * 1.35f, debugString, textStyle);
+                textStyle.fontSize = 12;
+                textStyle.normal.textColor = debugColor;
+                debugString = string.Format("Next Action: {0}", npc.NextAction.ToString());
+                Handles.Label(transform.position + Vector3.up * 1.35f, debugString, textStyle);
+            }  
         }
         
         Handles.color = Color.white;
