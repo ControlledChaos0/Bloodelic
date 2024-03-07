@@ -396,7 +396,7 @@ public class AIBrain : MonoBehaviour
         textStyle.fontStyle = FontStyle.Bold;
         textStyle.fontSize = 16;
         textStyle.normal.textColor = debugColor;
-        Handles.Label(transform.position + Vector3.up * 1.5f, debugString, textStyle);
+        Handles.Label(transform.position + Vector3.up * 2f, debugString, textStyle);
         
         // Action debug
         if (npc != null && npc.NextAction != null)
@@ -420,7 +420,7 @@ public class AIBrain : MonoBehaviour
             textStyle.fontSize = 12;
             textStyle.normal.textColor = debugColor;
             debugString = string.Format("Next Action: {0}", npc.NextAction.ToString());
-            Handles.Label(transform.position + Vector3.up * 1.25f, debugString, textStyle);
+            Handles.Label(transform.position + Vector3.up * 1.35f, debugString, textStyle);
         }
         
         Handles.color = Color.white;
