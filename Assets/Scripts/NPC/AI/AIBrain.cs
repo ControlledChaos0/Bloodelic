@@ -312,6 +312,9 @@ public class AIBrain : MonoBehaviour
                 // Skip cells that are outside movement range
                 Vector3 posToCell = (cell.transform.position - this.transform.position);
                 if (posToCell.magnitude > npc.Movement) { continue; }
+                // Skip cells with higher elevations for now
+                if (posToCell.y != 0) { continue;}
+                
                 // // Skip cells that are not in the direction of movement (experimental)
                 // Vector3 dirToCell = posToCell.normalized;
                 // if (Vector3.Dot(dirToCell, dirToExit) < -0.5f) { continue; }

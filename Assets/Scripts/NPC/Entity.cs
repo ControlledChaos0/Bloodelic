@@ -89,12 +89,14 @@ public class Entity : MonoBehaviour
     public virtual GridPath FindPath(GridCell target)
     {
         Pathfinder.moveLimit = Mathf.Infinity;
+        Pathfinder.entity = this;
         return Pathfinder.FindPath(occupiedCell, target);
     }
     
     public virtual GridPath FindPathWithMoveLimit(GridCell target)
     {
         Pathfinder.moveLimit = Movement;
+        Pathfinder.entity = this;
         return Pathfinder.FindPath(occupiedCell, target, true);
     }
 
