@@ -345,7 +345,7 @@ public class AIBrain : MonoBehaviour
 
 #region Debug
 
-    public bool debugMode;
+    public bool debugMode = true;
 
     #if UNITY_EDITOR
     void OnDrawGizmos()
