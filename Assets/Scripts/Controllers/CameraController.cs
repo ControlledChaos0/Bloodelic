@@ -219,15 +219,17 @@ public class CameraController : Singleton<CameraController>
         int x = 1;
         foreach (RaycastHit cameraRayHit in cameraRayHits)
         {
-            test += (x + ". " + cameraRayHit.transform.gameObject.name + "||| ");
-            x++;
+            Transform rayTransform = cameraRayHit.transform;
             float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
-            //Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
+
+            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Angle: " + angle + " ||| ");
+            
             if (angle >= 90f && cameraRayHit.distance < closestDistance)
             {
                 hit = cameraRayHit;
                 closestDistance = cameraRayHit.distance;
             }
+            x++;
         }
         Debug.Log(test);
         return hit;

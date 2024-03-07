@@ -35,7 +35,7 @@ public class ClickHandler : Singleton<ClickHandler>
     public void Activate() {
         CameraController.Instance.ClickAction += Select;
         CameraController.Instance.HoverAction += HoverUnselected;
-        _hoveredObject = null;
+        HoverClear();
     }
     public void Deactivate() {
         CameraController.Instance.ClickAction -= Select;

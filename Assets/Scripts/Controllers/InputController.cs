@@ -89,11 +89,12 @@ public class InputController : Singleton<InputController>
     private void OnDeltaCursor(InputValue inputValue) {
         _mouseDelta = inputValue.Get<Vector2>();
         MouseMove?.Invoke(_mouseDelta);
-        OnHover();
+        OnHover(_mouseDelta.magnitude);
     }
     private void OnScroll(InputValue inputValue) {
         _scrollDelta = inputValue.Get<float>();
         Scroll?.Invoke(_scrollDelta);
+        OnHover(_scrollDelta);
     }
     private void OnMiddleClickStarted(InputAction.CallbackContext context) {
         _middleClickTime = Time.time;
@@ -136,8 +137,8 @@ public class InputController : Singleton<InputController>
         LeftClick?.Invoke();
     }
 
-    private void OnHover() {
-        if (!_mouseDelta.Equals(Vector2.zero))
+    private void OnHover(float d) {
+        if (d != 0f)
             Hover?.Invoke(_screenPosition);
     }
 }
