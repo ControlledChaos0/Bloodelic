@@ -73,11 +73,11 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay, Range(0.0f, 50.0f)]
     private float shellSpecularAmount;
 
-    [SerializeField, SaveDuringPlay]
-    private Texture2D bodyColor;
-
     [SerializeField, SaveDuringPlay, Range(0.1f, 20.0f)]
     private float eyeGlow;
+    
+    [SerializeField, SaveDuringPlay]
+    private Color bodyColor;
 
     [SerializeField, SaveDuringPlay]
     private Color spikeTipColor;
@@ -226,7 +226,7 @@ public class KingShaderDriver : MonoBehaviour
                 .SetFloatParam(ShaderIDs.SpikeShadowSmoothnessFactor, spikeShadowSmoothnessFactor)
                 .SetFloatParam(ShaderIDs.EyeGlow, eyeGlow)
                 .SetVectorParam(ShaderIDs.SpikeTipColor, spikeTipColor)
-                .SetTextureParam(ShaderIDs.BodyColor, bodyColor)
+                .SetVectorParam(ShaderIDs.BodyColor, bodyColor)
                 .SetTextureParam(ShaderIDs.SpikeHeightMap, spikeHeightMap);
         });
     }
