@@ -175,6 +175,7 @@ public class KingShaderDriver : MonoBehaviour
             positionLerpFactor = positionResponsiveness * Time.deltaTime,
             rotationLerpFactor = rotationResponsiveness * Time.deltaTime,
             masDistSquared = positionMaxDelta * positionMaxDelta,
+            scale = bodyMesh.transform.localScale
         };
 
         currentBufferSyncJob = fetchTransforms.Schedule(shellTransformAccesses);
@@ -257,6 +258,8 @@ public class KingShaderDriver : MonoBehaviour
         [ReadOnly] public float rotationLerpFactor;
         [ReadOnly] public float masDistSquared;
 
+        [ReadOnly] public Vector3 scale;
+
         public void Execute(int index, TransformAccess transform)
         {
             int prev = index - 1;
@@ -274,6 +277,8 @@ public class KingShaderDriver : MonoBehaviour
             }
 
             transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, lastRotation[prev], rotationLerpFactor);
+
+            transform.localScale = scale;
         }
     }
     
