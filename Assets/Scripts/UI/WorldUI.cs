@@ -8,10 +8,14 @@ public class WorldUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject _button;
+    [SerializeField]
+    private Vector2 _sizeCanvas;
 
     private GameObject m_Parent;
     private GameObject m_Canvas;
     private GameObject m_OptionsContainer;
+    private RectTransform m_CanvasTransform;
+    private BoxCollider m_CanvasCollider;
     private Selectable m_Selectable;
     private Camera m_Camera {
         get {
@@ -31,6 +35,9 @@ public class WorldUI : MonoBehaviour
     protected void Start()
     {
         m_Canvas = transform.GetChild(0).gameObject;
+        m_CanvasTransform = m_Canvas.GetComponent<RectTransform>();
+        m_CanvasCollider = m_Canvas.GetComponent<BoxCollider>();
+        m_CanvasTransform.sizeDelta = _sizeCanvas;
         m_Parent = transform.parent.gameObject;
         ObjSelect = m_Parent.GetComponent<Selectable>();
         m_OptionsContainer = m_Canvas.transform.parent.gameObject;
@@ -83,6 +90,7 @@ public class WorldUI : MonoBehaviour
 
     public void Click(GameObject gO) {
         Debug.Log("Do you work :D");
+        Debug.Log(CheckIfUIObject(gO));
         if (!CheckIfUIObject(gO)) {
             ObjSelect.Deactivate();
             return;

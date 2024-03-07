@@ -33,14 +33,14 @@ public class LineOfSight : MonoBehaviour
 
     void OnDestroy()
     {
-        HumanManager.Instance.ClickAction -= OnClick;
+        //HumanManager.Instance.ClickAction -= OnClick;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         scanInterval = 1.0f / scanFreq;
-        HumanManager.Instance.ClickAction += OnClick;
+        //HumanManager.Instance.ClickAction += OnClick;
     }
 
     // Update is called once per frame

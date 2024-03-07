@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1023662992064884630}
   - component: {fileID: 8640880018814909043}
   - component: {fileID: 3235729291255236016}
+  - component: {fileID: 1540164436461744794}
+  - component: {fileID: 6653902025185503811}
   m_Layer: 7
   m_Name: Monster
   m_TagString: Untagged
@@ -50,7 +52,7 @@ MonoBehaviour:
   occupiedCell: {fileID: 0}
   moveSpeed: 1.26
   rotateSpeed: 31.75
-  icon: {fileID: 21300000, guid: e93211f1fbcb8c74f8123bdb39b004dc, type: 3}
+  icon: {fileID: 21300000, guid: f43d0da3fee2d1342a432d8669b75c5e, type: 3}
   _playerTurnMachine: {fileID: 3235729291255236016}
 --- !u!114 &3235729291255236016
 MonoBehaviour:
@@ -65,6 +67,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster: {fileID: 8640880018814909043}
+--- !u!114 &1540164436461744794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555479912763524226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20663f57102c7e147a579e9b4031393a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _modelObject: {fileID: 0}
+  _uiObject: {fileID: 0}
+--- !u!114 &6653902025185503811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555479912763524226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8a38d3bd8932e428296ab7299c9283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7798424355312581927
 GameObject:
   m_ObjectHideFlags: 0

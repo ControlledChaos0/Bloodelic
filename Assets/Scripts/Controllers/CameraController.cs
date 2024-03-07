@@ -105,7 +105,7 @@ public class CameraController : Singleton<CameraController>
         InputController.Instance.LeftClick += ScreenClick;
         InputController.Instance.Scroll += ZoomCamera;
         InputController.Instance.Hover += Hover;
-        HitMask = ConstantValues.EntityMask;
+        HitMask = ConstantValues.AllClickMasks;
     }
 
     private void DeactivateCamera() {
@@ -215,8 +215,12 @@ public class CameraController : Singleton<CameraController>
         RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, HitMask);
         float closestDistance = Mathf.Infinity;
         RaycastHit hit = new();
+        string test = "";
+        int x = 1;
         foreach (RaycastHit cameraRayHit in cameraRayHits)
         {
+            test += (x + ". " + cameraRayHit.transform.gameObject.name + "||| ");
+            x++;
             float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
             //Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
             if (angle >= 90f && cameraRayHit.distance < closestDistance)
@@ -225,6 +229,7 @@ public class CameraController : Singleton<CameraController>
                 closestDistance = cameraRayHit.distance;
             }
         }
+        Debug.Log(test);
         return hit;
     }
 
