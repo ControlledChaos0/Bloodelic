@@ -224,7 +224,7 @@ public class CameraController : Singleton<CameraController>
 
             test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Angle: " + angle + " ||| ");
             
-            if (angle >= 90f && cameraRayHit.distance < closestDistance)
+            if (cameraRayHit.distance < closestDistance)
             {
                 hit = cameraRayHit;
                 closestDistance = cameraRayHit.distance;

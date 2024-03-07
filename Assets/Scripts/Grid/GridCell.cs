@@ -45,7 +45,7 @@ public class GridCell : MonoBehaviour
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
         _savedColor = _renderer.material.color;
-
+        _collider.enabled = false;
         //GridManager.OnCellOccupantChanged += OnCellOccupantChanged;
     }
 
