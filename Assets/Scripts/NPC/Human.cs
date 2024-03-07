@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // basic human class that does the PerformAction
@@ -18,6 +19,29 @@ public class Human : DummyNPC
         
     }
 
+    protected override void PostGridMovement()
+    {
+        // If human occupies an exit cell
+        if (gridCellMapExitsDictionary.ContainsKey(occupiedCell))
+        {
+            MapExit exitUsed = gridCellMapExitsDictionary[occupiedCell];
+            Debug.Log(name + " escaped using Exit at " + occupiedCell.name);
+            // Game Over...
+            
+            OccupiedCell.Unoccupy();
+            StopAllCoroutines();
+            gameObject.SetActive(false);
+            TurnSystem.Instance.RemoveEntity(this);
+            TurnSystem.Instance.SwitchTurn();
+        }
+
+        // Update AI responses
+        if (aiBrain != null)
+        {
+            aiBrain.UpdateResponses(aiBrain.currentState);
+        }
+    }
+
     private void OnEnable() {
         if (HumanManager.Instance != null) {
             HumanManager.Instance.ClickAction -= Select;
@@ -31,7 +55,7 @@ public class Human : DummyNPC
     public void PerformAction() {
         if (aiBrain)
         {
-            StartCoroutine(aiBrain.PerformAICoroutine());
+            StartCoroutine(currentCoroutine = aiBrain.PerformAICoroutine());
         }
         // Just do default behavior if no AI Brain component is assigned to NPC
         else

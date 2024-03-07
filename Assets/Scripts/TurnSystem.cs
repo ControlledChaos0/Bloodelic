@@ -92,4 +92,9 @@ public class TurnSystem : Singleton<TurnSystem>
 
         turnOrder = entitiesFound;
     }
+    
+    public void RemoveEntity(Entity entity)
+    {
+        turnOrder.Remove(entity);
+    }
 }

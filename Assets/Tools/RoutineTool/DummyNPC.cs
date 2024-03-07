@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DummyNPC : Entity {
@@ -13,10 +15,20 @@ public class DummyNPC : Entity {
     }
     
     protected AIBrain aiBrain { get; set; }
+    
+    public List<MapExit> mapExits = new List<MapExit>();
+    public Dictionary<GridCell, MapExit> gridCellMapExitsDictionary = new Dictionary<GridCell, MapExit>();
+    
+    protected IEnumerator currentCoroutine;
+
     protected virtual void Start()
     {
         base.Start();
         aiBrain = GetComponent<AIBrain>();
+        
+        // Cache all map exits
+        FindMapExits();
+        
         // Update state once after entity is fully initialized
         aiBrain.UpdateCurrentState();
     }
@@ -102,5 +114,25 @@ public class DummyNPC : Entity {
         }
 
         return false;
+    }
+    
+    public void FindMapExits()
+    {
+        mapExits = FindObjectsOfType<MapExit>().ToList();
+
+        foreach (var e in mapExits)
+        {
+            if (!e.isInitialized)
+            {
+                e.RegisterGridCell();
+            }
+            
+            gridCellMapExitsDictionary.Add(e.cell, e);
+        }
+    }
+    
+    public void StopCurrentBehaviorCoroutine()
+    {
+        StopCoroutine(currentCoroutine);
     }
 }
