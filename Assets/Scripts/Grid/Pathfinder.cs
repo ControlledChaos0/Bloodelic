@@ -18,7 +18,7 @@ public class Pathfinder
     //   these are all static and need to be set/reset everytime Pathfinder is utilized
     #region Additional Properties
     public static float moveLimit = Mathf.Infinity;
-    
+    public static Entity entity;
     #endregion
     
     public static GridPath FindPath(GridCell start, GridCell target, bool allowsNullIfNoneFound = false) 
@@ -51,7 +51,7 @@ public class Pathfinder
                 if (cell == null) {
                     continue;
                 }
-                // If cell is occupied, skip
+                // If cell is occupied
                 if (cell.IsOccupied())
                 {
                     continue;

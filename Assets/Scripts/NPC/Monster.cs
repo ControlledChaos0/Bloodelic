@@ -51,9 +51,11 @@ public class Monster : Entity
             return;
         }    
         
+        currPosPath?.HidePath();
         currPosPath?.RevertColor();
         currPosPath = nextPath;
         currPosPath.TurnBlue();
+        currPosPath.ShowPath();
     }
     public void ChoosePath(GridCell gridCell) {
         ArgumentNullExceptionUse.ThrowIfNull(gridCell);
