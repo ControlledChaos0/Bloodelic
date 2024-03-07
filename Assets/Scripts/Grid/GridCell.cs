@@ -76,6 +76,14 @@ public class GridCell : MonoBehaviour
             }
         }
     }
+    public void ShowCell()
+    {
+        _renderer.enabled = true;
+    }
+    public void HideCell()
+    {
+        _renderer.enabled = false;
+    }
     public void SetF(float g, float h) {
         G = g;
         H = h;
@@ -155,6 +163,11 @@ public class GridCell : MonoBehaviour
         }
         
         return wallNeighbors;
+    }
+
+    public bool IsWall()
+    {
+        return Position.PositionE != GridCellPositionEnum.BOTTOM;
     }
 
     #endregion

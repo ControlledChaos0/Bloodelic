@@ -33,6 +33,9 @@ public class LevelGrid : Singleton<LevelGrid>
     private Dictionary<GridCell, GridCell[]> grid;
     private int layerMask = 1 << 6;
 
+    public List<GridCell> allGridCells = new List<GridCell>();
+    public bool hideAllCellsOnStart = true;
+    
     //TESTING VARIABLES
     private string testName = "GridCell; Position: 0.5, 0.5, 0; Enum: FRONT";
     private GridCell testGridCell;
@@ -51,6 +54,15 @@ public class LevelGrid : Singleton<LevelGrid>
         Debug.Log($"What is going on: {gridCellExistence.Keys.Count}");
         DebugGrid();
         //TurnAllWhite(testGridCell);
+
+        allGridCells = pGrid.Keys.ToList();
+        if (hideAllCellsOnStart)
+        {
+            foreach (var c in allGridCells)
+            {
+                c.HideCell();
+            }
+        }
     }
 
     // Update is called once per frame

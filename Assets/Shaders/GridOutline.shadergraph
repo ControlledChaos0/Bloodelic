@@ -266,6 +266,7 @@
     "m_OutputNode": {
         "m_Id": ""
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": [
         {
             "m_Id": "485a864de98f4f0ba8a28f98bb9d86ff"
@@ -1331,7 +1332,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Z",
     "m_StageCapability": 3,
-    "m_Value": -0.009999999776482582,
+    "m_Value": -0.0010000000474974514,
     "m_DefaultValue": 0.0,
     "m_Labels": [
         "Z"

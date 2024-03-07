@@ -40,6 +40,13 @@ public class TurnDisplay : MonoBehaviour
     public void UpdateDisplays(List<Entity> turnOrder, int currentIdx) {
         for (int i = 0; i < entityTurnPanels.Count; i++) 
         {
+            // Collapse unused panels
+            if (i >= turnOrder.Count)
+            {
+                entityTurnPanels[i].gameObject.SetActive(false);
+                continue;
+            }
+            
             if (i != currentIdx)
             {
                 entityTurnPanels[i].SetInactive();
