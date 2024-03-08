@@ -59,16 +59,12 @@ public class Selectable : MonoBehaviour
     public void Activate() {
         CameraController.Instance.ClickAction += Click;
         CameraController.Instance.HoverAction += Hover;
-        ClickHandler.Instance.Deactivate();
-        _uiScript.Activate();
     }
 
     public void Deactivate() {
         CameraController.Instance.ClickAction -= Click;
         CameraController.Instance.HoverAction -= Hover;
-        ClickHandler.Instance.Activate();
         _outline.enabled = false;
-        _uiScript.Deactivate();
     }
     //These two probably repeative, and might be better to just go directly to CameraController action
     //But like having a middle man for now just in case there needs to be additional functionality and filtering

@@ -13,6 +13,18 @@ public class UISelectState : SelectState
 
     }
     public override void ExitState() {
-
+        stateMachine.CurrUI.Deactivate();
     }
+
+    // public void Activate() {
+    //     Debug.Log("Activate UI");
+    //     gameObject.SetActive(true);
+    //     AddButtons(ObjSelect.GetBehaviorController.PollBehaviors(_button));
+    //     ObjSelect.ClickAction += Click;
+    // }
+    // public void Deactivate() {
+    //     ObjSelect.GetBehaviorController?.DestroyButtons();
+    //     ObjSelect.ClickAction -= Click;
+    //     gameObject.SetActive(false);
+    // }
 }
