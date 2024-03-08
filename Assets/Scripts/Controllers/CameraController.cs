@@ -16,6 +16,10 @@ public class CameraController : Singleton<CameraController>
     private float zoomSensitivity = 0.5f;
     [SerializeField]
     private float panSensitivity = 5f;
+
+    public static float DistanceFromInitial => Instance._distanceFromInitial;
+    private float _distanceFromInitial;
+    public static float DistanceFrom => Instance.distanceFrom;
     [SerializeField]
     private float distanceFrom = 5.0f;
     [SerializeField]
@@ -129,7 +133,9 @@ public class CameraController : Singleton<CameraController>
         _oldRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles;
         _rotX = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.x;
         _rotY = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.y;
-        distanceFrom = _cinemachineCam.m_Lens.OrthographicSize;
+
+        _distanceFromInitial = _cinemachineCam.m_Lens.OrthographicSize;
+        distanceFrom = _distanceFromInitial;
 
         _panCamera = false;
         _rotateCamera = false;
