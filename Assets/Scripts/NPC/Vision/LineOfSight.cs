@@ -51,7 +51,7 @@ public class LineOfSight : MonoBehaviour
         {
             scanTimer += scanInterval;
             canSeePlayer = DetectEntitySight(player, ANGLE);
-            Debug.Log(canSeePlayer);
+            //Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
             {
                 OnRevealSightLine();

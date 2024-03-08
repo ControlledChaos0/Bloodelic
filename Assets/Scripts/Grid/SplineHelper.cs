@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SplineHelper
 {
-    public Quaternion ConvertSplineQuat(quaternion fakeQuat) {
+    public static Quaternion ConvertSplineQuat(quaternion fakeQuat) {
         float4 values = fakeQuat.value;
         return new Quaternion(values.x, values.y, values.z, values.w);
     }

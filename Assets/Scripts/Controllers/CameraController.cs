@@ -220,18 +220,21 @@ public class CameraController : Singleton<CameraController>
         foreach (RaycastHit cameraRayHit in cameraRayHits)
         {
             Transform rayTransform = cameraRayHit.transform;
-            float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
+            float angle = Vector3.Angle(ray.direction, rayTransform.up);
+            float dot = Vector3.Dot(ray.direction, rayTransform.up);
 
-            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Angle: " + angle + " ||| ");
-            
-            if (cameraRayHit.distance < closestDistance)
+            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
+            x++;
+            if (GridHelper.CheckGrid(rayTransform.gameObject, ray.direction)) {
+                continue;
+            }
+            if (cameraRayHit.distance < closestDistance && cameraRayHit.distance > mainCamera.nearClipPlane)
             {
                 hit = cameraRayHit;
                 closestDistance = cameraRayHit.distance;
             }
-            x++;
         }
-        Debug.Log(test);
+        //Debug.Log(test);
         return hit;
     }
 

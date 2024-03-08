@@ -57,7 +57,7 @@ public class ClickHandler : Singleton<ClickHandler>
         if (gO.Equals(_hoveredObject)) {
             return;
         }
-        Debug.Log("HoverUnselected Running");
+        //Debug.Log("HoverUnselected Running");
         Selectable selectable = GameObjectHelper.GetSelectableObject(gO);
         if (selectable == null) {
             HoverClear();

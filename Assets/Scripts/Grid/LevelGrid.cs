@@ -265,6 +265,8 @@ public class LevelGrid : Singleton<LevelGrid>
         gridCell.Position = new GridCellPosition(pos, posE);
         gridCellExistence.Add(gridCell.Position, gridCell);
         grid.Add(gridCell, new GridCell[4]);
+
+        Debug.Log($"Enum: {posE}; UpVec: {temp.transform.up}");
     }
 
     private void ConnectGridCells() {
