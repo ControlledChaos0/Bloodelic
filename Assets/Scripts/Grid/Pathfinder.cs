@@ -98,4 +98,25 @@ public class Pathfinder
         
         return new GridPath();
     }
+
+    public static List<GridCell> ShowCellsInRange(GridCell start, int numOfCells) {
+        List<GridCell> gridCells = new();
+        GetNeighbors(start, gridCells, 0, numOfCells);
+        return gridCells;
+    }
+    
+    private static void GetNeighbors(GridCell gridCell, List<GridCell> list, int steps, int max) {
+        gridCell.ShowCell();
+        list.Add(gridCell);
+        if (steps == max) {
+            return;
+        }
+        GridCell[] neighbors = gridCell.Neighbors;
+        foreach (GridCell cell in neighbors) {
+            if (cell.IsShowing()) {
+                continue;
+            }
+            GetNeighbors(cell, list, steps + 1, max);
+        }
+    }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.Profiling;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour
@@ -13,12 +14,19 @@ public class Selectable : MonoBehaviour
 
     private WorldUI _uiScript;
     private Outline _outline;
+    private BehaviorController _behaviorController;
 
     public GameObject ModelObject {
         get => _modelObject;
     }
     public GameObject UIObject {
         get => _uiObject;
+    }
+    public WorldUI UIScript {
+        get => _uiScript;
+    }
+    public BehaviorController GetBehaviorController {
+        get => _behaviorController;
     }
 
     public event Action<GameObject> ClickAction;
@@ -40,6 +48,7 @@ public class Selectable : MonoBehaviour
         //And I just need something
         //Fuck cohesion
         _uiScript = _uiObject.GetComponent<WorldUI>();
+        _behaviorController = GetComponent<BehaviorController>();
     }
     // Update is called once per frame
     void Update()

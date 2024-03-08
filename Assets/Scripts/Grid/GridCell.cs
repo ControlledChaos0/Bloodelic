@@ -84,6 +84,9 @@ public class GridCell : MonoBehaviour
     {
         _renderer.enabled = false;
     }
+    public bool IsShowing() {
+        return _renderer.enabled;
+    }
     public void SetF(float g, float h) {
         G = g;
         H = h;

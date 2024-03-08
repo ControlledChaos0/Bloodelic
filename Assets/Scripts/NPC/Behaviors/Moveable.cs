@@ -24,7 +24,7 @@ public class Moveable : Behavior
     }
     public override void StartBehavior()
     {
-        throw new System.NotImplementedException();
+        base.StartBehavior();
     }
     public override void CheckValid()
     {

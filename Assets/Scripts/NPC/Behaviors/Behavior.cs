@@ -34,6 +34,8 @@ public abstract class Behavior : MonoBehaviour
         
     }
 
-    public abstract void StartBehavior();
+    public virtual void StartBehavior() {
+        
+    }
     public abstract void CheckValid();
 }
