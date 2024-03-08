@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class UISelectState : SelectState
 {
+    private WorldUI _worldUI;
     public override void EnterState() {
-        stateMachine.Selectable.UIScript.Activate();
+        stateMachine.UIState = this;
+        stateMachine.CurrUI.Activate();
     }
     public override void UpdateState() {
 
