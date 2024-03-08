@@ -40,7 +40,7 @@ public class WorldUI : MonoBehaviour
         m_CanvasTransform.sizeDelta = _sizeCanvas;
         m_Parent = transform.parent.gameObject;
         ObjSelect = m_Parent.GetComponent<Selectable>();
-        m_OptionsContainer = m_Canvas.transform.parent.gameObject;
+        m_OptionsContainer = m_Canvas.transform.GetChild(0).gameObject;
 
         Deactivate();
         //World UI needs to operate without worrying about rotation of parent gameobject
@@ -68,11 +68,13 @@ public class WorldUI : MonoBehaviour
     public void Activate() {
         Debug.Log("Activate UI");
         gameObject.SetActive(true);
+        AddButtons(ObjSelect.GetBehaviorController.PollBehaviors(_button));
         ObjSelect.ClickAction += Click;
     }
     public void Deactivate() {
-        gameObject.SetActive(false);
+        ObjSelect.GetBehaviorController?.DestroyButtons();
         ObjSelect.ClickAction -= Click;
+        gameObject.SetActive(false);
     }
 
     private void Disconnect() {
@@ -110,11 +112,10 @@ public class WorldUI : MonoBehaviour
         return CheckIfUIObject(parent.gameObject);
     }
 
-    public void AddButton(Behavior behavior) {
-        GameObject buttonObj = GameObject.Instantiate(_button);
-        Button button = buttonObj.GetComponent<Button>();
-        behavior.BehaviorButton = button;
-        button.onClick.AddListener(behavior.StartBehaviorAction);
-        buttonObj.transform.parent = m_OptionsContainer.transform;
+    public void AddButtons(List<GameObject> buttons) {
+        foreach (GameObject buttonObj in buttons) {
+            buttonObj.transform.parent = m_OptionsContainer.transform;
+        }
+        Debug.Log(m_OptionsContainer.name);
     }
 }

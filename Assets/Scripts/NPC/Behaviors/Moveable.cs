@@ -7,14 +7,12 @@ using UnityEngine;
 //huh
 public class Moveable : Behavior
 {
-    public string Name {
-        get => name = "Move";
-    }
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         StartBehaviorAction += StartBehavior;
+        name = "Move";
     }
 
     // Update is called once per frame
@@ -26,8 +24,8 @@ public class Moveable : Behavior
     {
         base.StartBehavior();
     }
-    public override void CheckValid()
+    public override bool CheckValid()
     {
-        throw new System.NotImplementedException();
+        return GetComponent<Entity>().Movement > 0;
     }
 }

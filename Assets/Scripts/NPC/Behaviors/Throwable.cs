@@ -19,7 +19,7 @@ public class Throwable : Behavior
     public override void StartBehavior() {
 
     }
-    public override void CheckValid()
+    public override bool CheckValid()
     {
         throw new System.NotImplementedException();
     }

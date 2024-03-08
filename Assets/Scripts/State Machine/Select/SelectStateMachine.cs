@@ -6,12 +6,12 @@ using UnityEngine;
 //Can't derive from StateMachine bc it's a Singleton
 public class SelectStateMachine : Singleton<SelectStateMachine>
 {
-    private static Selectable _selectable;
-    public static Selectable Selectable {
+    private Selectable _selectable;
+    public Selectable Selectable {
         get => _selectable;
         set => _selectable = value;
     }
-    public static SelectState currentState;
+    public SelectState currentState;
     protected virtual void Awake() {
         InitializeSingleton();
     }
@@ -28,20 +28,25 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
     }
 
     
-    public static void StartState(SelectState state) {
+    public void StartState(SelectState state) {
         ArgumentNullExceptionUse.ThrowIfNull(state); 
 
         currentState = state;
         currentState.StartState(Instance);
     }
-    public static void ChangeState(SelectState state) {
+    public void ChangeState(SelectState state) {
         ArgumentNullExceptionUse.ThrowIfNull(state); 
 
         currentState?.ExitState();
         StartState(state);
     }
 
-    public static void ClearSelectable() {
+    public void StartSelectable(Selectable selectable) {
+        _selectable = selectable;
+        StartState(new UISelectState());
+    }
+
+    public void ClearSelectable() {
         _selectable.Deactivate();
         _selectable = null;
         currentState?.ExitState();

@@ -11,6 +11,9 @@ public abstract class Behavior : MonoBehaviour
     protected BehaviorController controller;
     protected Button behaviorButton;
     protected string name;
+    public string Name {
+        get => name;
+    }
 
     public Button BehaviorButton {
         get => behaviorButton;
@@ -37,5 +40,5 @@ public abstract class Behavior : MonoBehaviour
     public virtual void StartBehavior() {
         
     }
-    public abstract void CheckValid();
+    public abstract bool CheckValid();
 }
