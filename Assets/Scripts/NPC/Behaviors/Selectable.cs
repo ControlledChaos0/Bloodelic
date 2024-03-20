@@ -42,11 +42,6 @@ public class Selectable : MonoBehaviour
         }
         _outline.enabled = false;
 
-        //Lord this is ugly
-        //I hate this
-        //Maybe there's a way to separate these two things, but I've been brainstorming for hours
-        //And I just need something
-        //Fuck cohesion
         _uiScript = _uiObject.GetComponent<WorldUI>();
         _behaviorController = GetComponent<BehaviorController>();
     }
