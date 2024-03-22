@@ -12,6 +12,9 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
     private Selectable _selectable;
     private WorldUI _currUI;
     private BehaviorController _currBehavCont;
+    public SearchSelectState SearchState {
+        get => _searchState;
+    }
     public UISelectState UIState {
         get => _uiState;
         set => _uiState = value;
@@ -20,22 +23,15 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
         get => _selectable;
         set {
             _selectable = value;
-            if (_selectable != null) {
-                _currUI = _selectable.UIScript;
-                _currBehavCont = _selectable.GetBehaviorController;
-            } else {
-                _currUI = null;
-                _currBehavCont = null;
-            }
         }
     }
     public WorldUI CurrUI {
         get => _currUI;
-        private set => _currUI = value;
+        set => _currUI = value;
     }
     public BehaviorController CurrBehavCont {
         get => _currBehavCont;
-        private set => _currBehavCont = value;
+        set => _currBehavCont = value;
     }
 
     protected virtual void Awake() {
@@ -44,6 +40,7 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        _searchState = new();
         StartState(_searchState);
     }
 

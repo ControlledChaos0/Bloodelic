@@ -50,6 +50,9 @@ public class BehaviorController : MonoBehaviour
         return buttons;
     }
     public void DestroyButtons() {
+        if (_behaviors == null) {
+            return;
+        }
         foreach (Behavior behavior in _behaviors) {
             Destroy(behavior.BehaviorButton?.gameObject);
         }

@@ -7,24 +7,35 @@ public class UISelectState : SelectState
     private WorldUI _worldUI;
     public override void EnterState() {
         stateMachine.UIState = this;
-        stateMachine.CurrUI.Activate();
+        Activate();
     }
     public override void UpdateState() {
 
     }
     public override void ExitState() {
-        stateMachine.CurrUI.Deactivate();
+        Deactivate();
     }
 
-    // public void Activate() {
-    //     Debug.Log("Activate UI");
-    //     gameObject.SetActive(true);
-    //     AddButtons(ObjSelect.GetBehaviorController.PollBehaviors(_button));
-    //     ObjSelect.ClickAction += Click;
-    // }
-    // public void Deactivate() {
-    //     ObjSelect.GetBehaviorController?.DestroyButtons();
-    //     ObjSelect.ClickAction -= Click;
-    //     gameObject.SetActive(false);
-    // }
+    public void Activate() {
+        Debug.Log("Activate UI");
+        stateMachine.CurrUI = stateMachine.Selectable.UIScript;
+        stateMachine.CurrBehavCont = stateMachine.Selectable.GetBehaviorController;
+
+        stateMachine.CurrUI.gameObject.SetActive(true);
+        //AddButtons(ObjSelect.GetBehaviorController.PollBehaviors(_button));
+        stateMachine.Selectable.ClickAction += Click;
+    }
+    public void Deactivate() {
+        stateMachine.CurrBehavCont.DestroyButtons();
+        stateMachine.Selectable.ClickAction -= Click;
+        stateMachine.CurrUI.gameObject.SetActive(false);
+    }
+
+    public void Click(GameObject gO) {
+        Debug.Log("Do you work :D");
+        if (!stateMachine.CurrUI.CheckIfUIObject(gO)) {
+            stateMachine.Selectable.Deactivate();
+            stateMachine.ChangeState(stateMachine.SearchState);
+        }
+    }
 }

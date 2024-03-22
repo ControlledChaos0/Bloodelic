@@ -70,18 +70,6 @@ public class Selectable : MonoBehaviour
         HoverAction?.Invoke(gO);
     }
 
-    public void Select() {
-        Activate();
-    }
-    
-    public void Select(GameObject gameObject) {
-        Debug.Log(gameObject + "is selected");
-        if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
-            return;
-        }
-        SelectionAction.Invoke();
-    }
-
     public void HoverSelect() {
         _outline.enabled = true;
     }

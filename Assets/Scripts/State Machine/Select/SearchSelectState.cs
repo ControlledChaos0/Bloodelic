@@ -9,9 +9,17 @@ public class SearchSelectState : SelectState
 
     public override void EnterState()
     {
+        if (stateMachine.Selectable != null) {
+            stateMachine.Selectable.Deactivate();
+            stateMachine.Selectable = null;
+        }
+        if (stateMachine.UIState != null) {
+            stateMachine.CurrUI = null;
+            stateMachine.CurrBehavCont = null;
+            stateMachine.UIState = null;
+        }
         Deactivate();
         Activate();
-        stateMachine.Selectable = null;
     }
     public override void UpdateState()
     {
@@ -19,8 +27,9 @@ public class SearchSelectState : SelectState
     }
     public override void ExitState()
     {
-        Deactivate();
         stateMachine.Selectable = _hoveredSelectable;
+        stateMachine.Selectable.Activate();
+        Deactivate();
     }
 
     public void Activate() {

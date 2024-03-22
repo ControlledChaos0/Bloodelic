@@ -42,7 +42,7 @@ public class WorldUI : MonoBehaviour
         ObjSelect = m_Parent.GetComponent<Selectable>();
         m_OptionsContainer = m_Canvas.transform.GetChild(0).gameObject;
 
-        Deactivate();
+        gameObject.SetActive(false);
         //World UI needs to operate without worrying about rotation of parent gameobject
         //Therefore, needs to disconnect from parent on runtime to operate not in local worldspace
         Disconnect();
