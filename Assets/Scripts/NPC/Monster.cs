@@ -27,15 +27,6 @@ public class Monster : Entity
         base.Update();
     }
 
-    public override void Select() {
-        Debug.Log("SELECTED MONSTER!!!!!!!!!");
-        CameraController.Instance.changePosition(gameObject.transform.position);
-        Debug.Log("split");
-        if (!_playerTurnMachine.moveState.canSwitch) {
-            return;
-        }        
-        _playerTurnMachine.ChangeState(_playerTurnMachine.moveState);
-    }
     public void ShowPath(GridCell gridCell) {
         ArgumentNullExceptionUse.ThrowIfNull(gridCell);
         
@@ -59,7 +50,6 @@ public class Monster : Entity
     }
     public void ChoosePath(GridCell gridCell) {
         ArgumentNullExceptionUse.ThrowIfNull(gridCell);
-        _playerTurnMachine.ChangeState(_playerTurnMachine.idleState);
         Move(currPosPath);
     }
     

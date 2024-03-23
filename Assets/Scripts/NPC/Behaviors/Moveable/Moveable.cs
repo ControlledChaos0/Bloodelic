@@ -7,11 +7,15 @@ using UnityEngine;
 //huh
 public class Moveable : Behavior
 {
+    private Monster _monster;
+    public Monster Monster {
+        get => _monster;
+    }
+
     // Start is called before the first frame update
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
-        StartBehaviorAction += StartBehavior;
+        SetRoutine(new MoveableRoutine());
         name = "Move";
     }
 
@@ -19,10 +23,6 @@ public class Moveable : Behavior
     void Update()
     {
         
-    }
-    public override void StartBehavior()
-    {
-        base.StartBehavior();
     }
     public override bool CheckValid()
     {

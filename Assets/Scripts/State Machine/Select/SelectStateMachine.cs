@@ -9,9 +9,11 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
     public SelectState currentState;
     private SearchSelectState _searchState = new();
     private UISelectState _uiState;
+    private BehaviorState _behaviorState;
     private Selectable _selectable;
     private WorldUI _currUI;
     private BehaviorController _currBehavCont;
+    private BehaviorRoutine _currBehavRoutine;
     public SearchSelectState SearchState {
         get => _searchState;
     }
@@ -32,6 +34,10 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
     public BehaviorController CurrBehavCont {
         get => _currBehavCont;
         set => _currBehavCont = value;
+    }
+    public BehaviorRoutine CurrBehavRoutine {
+        get => _currBehavRoutine;
+        set => _currBehavRoutine = value;
     }
 
     protected virtual void Awake() {
@@ -74,5 +80,14 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
         _selectable = null;
         currentState?.ExitState();
         currentState = null;
+    }
+
+    public void StartRoutine(BehaviorRoutine behaviorRoutine) {
+        _currBehavRoutine = behaviorRoutine;
+        ChangeState(_currBehavRoutine.StartState);
+    }
+    public void EndRoutine() {
+        _currBehavRoutine = null;
+        ChangeState(_uiState);
     }
 }

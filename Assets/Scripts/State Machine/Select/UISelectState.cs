@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UISelectState : SelectState
 {
-    private WorldUI _worldUI;
     public override void EnterState() {
         stateMachine.UIState = this;
         Activate();
@@ -22,11 +21,11 @@ public class UISelectState : SelectState
         stateMachine.CurrBehavCont = stateMachine.Selectable.GetBehaviorController;
 
         stateMachine.CurrUI.gameObject.SetActive(true);
-        //AddButtons(ObjSelect.GetBehaviorController.PollBehaviors(_button));
+        stateMachine.CurrUI.AddButtons(stateMachine.CurrBehavCont.Behaviors);
         stateMachine.Selectable.ClickAction += Click;
     }
     public void Deactivate() {
-        stateMachine.CurrBehavCont.DestroyButtons();
+        stateMachine.CurrUI.DestroyButtons(stateMachine.CurrBehavCont.Behaviors);
         stateMachine.Selectable.ClickAction -= Click;
         stateMachine.CurrUI.gameObject.SetActive(false);
     }

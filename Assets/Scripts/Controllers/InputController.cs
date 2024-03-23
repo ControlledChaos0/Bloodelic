@@ -17,6 +17,7 @@ public class InputController : Singleton<InputController>
     private InputAction _middleClickAction;
     private InputAction _cursorAction;
     private InputAction _deltaCursorAction;
+    private InputAction _cancelAction;
     private Vector2 _mouseDelta;
     private Vector2 _screenPosition;
     private float _scrollDelta;
@@ -35,6 +36,7 @@ public class InputController : Singleton<InputController>
     public event Action RightCancel;
     public event Action LeftClick;
     public event Action LeftHold;
+    public event Action Cancel;
     public event Action<float> Scroll;
     public event Action<Vector2> Hover;
     public event Action<Vector2> MouseMove;
@@ -49,6 +51,7 @@ public class InputController : Singleton<InputController>
         _leftClickAction = _mainControls.FindAction("LeftClick");
         _cursorAction = _mainControls.FindAction("Cursor");
         _deltaCursorAction = _mainControls.FindAction("DeltaCursor");
+        _cancelAction = _mainControls.FindAction("Cancel");
 
         int holdIndex = _middleClickAction.interactions.IndexOf("Hold(duration=");
         _pressTime = float.Parse(_middleClickAction.interactions.Substring(holdIndex + 14, 3));
@@ -96,6 +99,9 @@ public class InputController : Singleton<InputController>
         Scroll?.Invoke(_scrollDelta);
         OnHover(_scrollDelta);
     }
+    private void OnCancel(InputValue inputValue) {
+        Cancel.Invoke();
+    }
     private void OnMiddleClickStarted(InputAction.CallbackContext context) {
         _middleClickTime = Time.time;
     }
@@ -136,7 +142,6 @@ public class InputController : Singleton<InputController>
         Debug.Log("Just a click!!!");
         LeftClick?.Invoke();
     }
-
     private void OnHover(float d) {
         if (d != 0f)
             Hover?.Invoke(_screenPosition);

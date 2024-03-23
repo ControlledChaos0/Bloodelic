@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +16,12 @@ public class WorldUI : MonoBehaviour
     private GameObject m_Canvas;
     private GameObject m_OptionsContainer;
     private RectTransform m_CanvasTransform;
+    private RectTransform m_OptionsTransform;
     private BoxCollider m_CanvasCollider;
     private Selectable m_Selectable;
+    public GameObject Button {
+        get => _button;
+    }
     private Camera m_Camera {
         get {
             if (CameraController.Instance != null) {
@@ -26,12 +31,6 @@ public class WorldUI : MonoBehaviour
             }
         }
     }
-
-    //Set on Selectable start
-    public Selectable ObjSelect {
-        get => m_Selectable;
-        set => m_Selectable = value;
-    }
     protected void Start()
     {
         m_Canvas = transform.GetChild(0).gameObject;
@@ -39,8 +38,8 @@ public class WorldUI : MonoBehaviour
         m_CanvasCollider = m_Canvas.GetComponent<BoxCollider>();
         m_CanvasTransform.sizeDelta = _sizeCanvas;
         m_Parent = transform.parent.gameObject;
-        ObjSelect = m_Parent.GetComponent<Selectable>();
         m_OptionsContainer = m_Canvas.transform.GetChild(0).gameObject;
+        m_OptionsTransform = m_OptionsContainer.GetComponent<RectTransform>();
 
         gameObject.SetActive(false);
         //World UI needs to operate without worrying about rotation of parent gameobject
@@ -65,18 +64,6 @@ public class WorldUI : MonoBehaviour
         m_Canvas.transform.LookAt((-lookVec * 2) + m_Camera.transform.position, m_Camera.transform.up);
     }
 
-    public void Activate() {
-        Debug.Log("Activate UI");
-        gameObject.SetActive(true);
-        AddButtons(ObjSelect.GetBehaviorController.PollBehaviors(_button));
-        ObjSelect.ClickAction += Click;
-    }
-    public void Deactivate() {
-        ObjSelect.GetBehaviorController?.DestroyButtons();
-        ObjSelect.ClickAction -= Click;
-        gameObject.SetActive(false);
-    }
-
     private void Disconnect() {
         Vector3 parentPos = m_Parent.transform.position;
         Vector3 curPos = transform.position;
@@ -90,14 +77,6 @@ public class WorldUI : MonoBehaviour
         transform.position = gameObject.transform.position + new Vector3(0, 2f, 0);
     }
 
-    public void Click(GameObject gO) {
-        Debug.Log("Do you work :D");
-        Debug.Log(CheckIfUIObject(gO));
-        if (!CheckIfUIObject(gO)) {
-            ObjSelect.Deactivate();
-            return;
-        }
-    }
     public bool CheckIfUIObject(GameObject gameObject) {
         if (gameObject == null) {
             return false;
@@ -112,10 +91,24 @@ public class WorldUI : MonoBehaviour
         return CheckIfUIObject(parent.gameObject);
     }
 
-    public void AddButtons(List<GameObject> buttons) {
-        foreach (GameObject buttonObj in buttons) {
-            buttonObj.transform.parent = m_OptionsContainer.transform;
+    public void AddButtons(List<Behavior> behaviors) {
+        foreach (Behavior behavior in behaviors) {
+            if (behavior.CheckValid()) {
+                GameObject buttonRealObj = Instantiate(_button, m_OptionsTransform);
+                buttonRealObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(behavior.Name);
+                Button button = buttonRealObj.GetComponent<Button>();
+                behavior.BehaviorButton = button;
+                button.onClick.AddListener(behavior.StartBehaviorAction);
+            }
         }
-        Debug.Log(m_OptionsContainer.name);
+    }
+
+    public void DestroyButtons(List<Behavior> behaviors) {
+        if (behaviors == null) {
+            return;
+        }
+        foreach (Behavior behavior in behaviors) {
+            Destroy(behavior.BehaviorButton?.gameObject);
+        }
     }
 }
