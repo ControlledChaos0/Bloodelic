@@ -9,18 +9,16 @@ public class BehaviorController : MonoBehaviour
 {
     private List<Behavior> _behaviors;
     public List<Behavior> Behaviors {
-        get => _behaviors;
+        get {
+            _behaviors ??= new();
+            return _behaviors;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        _behaviors = new();
-        Behavior[] arr = GetComponents<Behavior>();
-        foreach (Behavior item in arr)
-        {
-            _behaviors.Add(item);
-        }
+        
         //This is probably something to do before Start is even called, but good for now :)
         //Editor tools are a bitch :')
     }
@@ -29,6 +27,24 @@ public class BehaviorController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void InitializeBehaviors() {
+        _behaviors = new();
+        Behavior[] arr = GetComponents<Behavior>();
+        Debug.Log($"Length of Behavior Array: {arr.Length}");
+        foreach (Behavior item in arr)
+        {
+            item.InitializeBehavior();
+            _behaviors.Add(item);
+            Debug.Log(item);
+        }
+    }
+
+    public void ResetBehaviors() {
+        foreach (Behavior behavior in Behaviors) {
+            behavior.ResetBehavior();
+        }
     }
     
 }

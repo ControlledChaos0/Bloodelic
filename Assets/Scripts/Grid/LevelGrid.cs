@@ -37,6 +37,7 @@ public class LevelGrid : Singleton<LevelGrid>
     public bool hideAllCellsOnStart = true;
     
     //TESTING VARIABLES
+    private bool debugColors = false;
     private string testName = "GridCell; Position: 0.5, 0.5, 0; Enum: FRONT";
     private GridCell testGridCell;
     
@@ -52,7 +53,9 @@ public class LevelGrid : Singleton<LevelGrid>
         grid = pGrid.ToDictionary();
         gridCellExistence = pGridCellExistence.ToDictionary();
         Debug.Log($"What is going on: {gridCellExistence.Keys.Count}");
-        DebugGrid();
+        if (debugColors) {
+            DebugGrid();
+        }
         //TurnAllWhite(testGridCell);
 
         allGridCells = pGrid.Keys.ToList();
@@ -60,6 +63,7 @@ public class LevelGrid : Singleton<LevelGrid>
         {
             foreach (var c in allGridCells)
             {
+                c.SaveColor();
                 c.HideCell();
             }
         }

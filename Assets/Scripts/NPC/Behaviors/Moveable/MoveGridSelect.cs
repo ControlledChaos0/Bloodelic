@@ -5,6 +5,8 @@ using UnityEngine;
 public class MoveGridSelect : BehaviorState {
     private LayerMask _prevLayerMask;
     private Moveable _moveable;
+    private List<GridCell> _gridCells;
+    private MoveableRoutine _moveableRoutine;
 
     public override void EnterState()
     {
@@ -21,16 +23,31 @@ public class MoveGridSelect : BehaviorState {
 
     public void Activate() {
         _moveable = behaviorRoutine.Behavior as Moveable;
+        _moveableRoutine = behaviorRoutine as MoveableRoutine;
         _prevLayerMask = CameraController.Instance.HitMask;
         CameraController.Instance.HitMask = ConstantValues.GridMask;
         GridManager.Instance.Activate();
-        GridManager.Instance.HoverAction += _moveable.Monster.ShowPath;
-        GridManager.Instance.ClickAction += _moveable.Monster.ChoosePath;
+        _gridCells = Pathfinder.ActivateCells(_moveable.Monster.OccupiedCell, _moveableRoutine.TempMovement);
+        // Debug.Log(_moveable.Monster);
+        GridManager.Instance.HoverAction += ShowPath;
+        GridManager.Instance.ClickAction += ChoosePath;
     }
     public void Deactivate() {
         CameraController.Instance.HitMask = _prevLayerMask;
         GridManager.Instance.Deactivate();
-        GridManager.Instance.HoverAction -= _moveable.Monster.ShowPath;
-        GridManager.Instance.ClickAction -= _moveable.Monster.ChoosePath;
+        foreach(GridCell cell in _gridCells) {
+            cell.HideCell();
+        }
+        GridManager.Instance.HoverAction -= ShowPath;
+        GridManager.Instance.ClickAction -= ChoosePath;
+    }
+
+    private void ShowPath(GridCell cell) {
+        _moveable.Monster.ShowPath(cell);
+    }
+
+    private void ChoosePath(GridCell cell) {
+        _moveable.Monster.ChoosePath(cell);
+        Deactivate();
     }
 }

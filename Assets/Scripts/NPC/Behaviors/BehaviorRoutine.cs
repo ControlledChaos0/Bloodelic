@@ -16,21 +16,26 @@ public abstract class BehaviorRoutine
         get;
     }
 
-    public virtual void StartBehavior() {
+    public virtual void StartBehaviorRoutine() {
+        GetTemporaries();
         InputController.Instance.Cancel += CancelBehavior;
         SelectStateMachine.Instance.StartRoutine(this);
     }
-    public virtual void EndBehavior() {
+    public virtual void EndBehaviorRoutine() {
         InputController.Instance.Cancel -= CancelBehavior;
         SelectStateMachine.Instance.EndRoutine();
     }
     public virtual void ExecuteBehavior() {
-        EndBehavior();
+        SetTemporaries();
+        EndBehaviorRoutine();
     }
     public virtual void CancelBehavior() {
-        EndBehavior();
+        EndBehaviorRoutine();
     }
     public virtual void Start(BehaviorState behaviorState) {
         currentState = behaviorState;
     }
+
+    public abstract void GetTemporaries();
+    public abstract void SetTemporaries();
 }

@@ -20,6 +20,27 @@ public class Pathfinder
     public static float moveLimit = Mathf.Infinity;
     public static Entity entity;
     #endregion
+
+    public static List<GridCell> ActivateCells(GridCell start, int distance) {
+        List<GridCell> list = new();
+        ActivateCellsHelper(start, distance, 0, list);
+        return list;
+    }
+
+    public static void ActivateCellsHelper(GridCell curr, int distance, int currDistance, List<GridCell> gridCells) {
+        if (currDistance < distance) {
+            GridCell[] neighbors = curr.Neighbors;
+            foreach (GridCell cell in neighbors) {
+                gridCells.Add(cell);
+                ActivateCellsHelper(cell, distance, currDistance + 1, gridCells);
+                if (cell.IsShowing()) {
+                     continue;
+                }
+                UnityEngine.Debug.Log($"{cell}: Distance is {currDistance}");
+                cell.ShowCell();
+            }
+        }
+    }
     
     public static GridPath FindPath(GridCell start, GridCell target, bool allowsNullIfNoneFound = false) 
     {
@@ -97,26 +118,5 @@ public class Pathfinder
         }
         
         return new GridPath();
-    }
-
-    public static List<GridCell> ShowCellsInRange(GridCell start, int numOfCells) {
-        List<GridCell> gridCells = new();
-        GetNeighbors(start, gridCells, 0, numOfCells);
-        return gridCells;
-    }
-    
-    private static void GetNeighbors(GridCell gridCell, List<GridCell> list, int steps, int max) {
-        gridCell.ShowCell();
-        list.Add(gridCell);
-        if (steps == max) {
-            return;
-        }
-        GridCell[] neighbors = gridCell.Neighbors;
-        foreach (GridCell cell in neighbors) {
-            if (cell.IsShowing()) {
-                continue;
-            }
-            GetNeighbors(cell, list, steps + 1, max);
-        }
     }
 }

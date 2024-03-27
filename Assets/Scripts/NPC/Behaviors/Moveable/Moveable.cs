@@ -7,16 +7,33 @@ using UnityEngine;
 //huh
 public class Moveable : Behavior
 {
+    /**
+        Controlling Thing
+    **/
     private Monster _monster;
     public Monster Monster {
         get => _monster;
+        set => _monster = value;
     }
 
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        SetRoutine(new MoveableRoutine());
-        name = "Move";
+    /**
+        Behavior Specific Variables
+    **/
+    private int _movement;
+
+    public int Movement {
+        get => _movement;
+        set => _movement = value;
+    }
+
+    /**
+        Identifiers
+    **/
+    public override string Name {
+        get => "Move";
+    }
+    public override bool NPCInteract {
+        get => false;
     }
 
     // Update is called once per frame
@@ -24,8 +41,23 @@ public class Moveable : Behavior
     {
         
     }
+
+    public override void InitializeBehavior()
+    {
+        base.InitializeBehavior();
+        _movement = _monster.Movement;
+    }
+
+    public override BehaviorRoutine CreateRoutine()
+    {
+        return new MoveableRoutine();
+    }
     public override bool CheckValid()
     {
-        return GetComponent<Entity>().Movement > 0;
+        return _movement > 0;
+    }
+    public override void ResetBehaviorSpecifics()
+    {
+        _movement = Monster.Movement;
     }
 }

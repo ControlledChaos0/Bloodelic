@@ -21,6 +21,7 @@ public class UISelectState : SelectState
         stateMachine.CurrBehavCont = stateMachine.Selectable.GetBehaviorController;
 
         stateMachine.CurrUI.gameObject.SetActive(true);
+        Debug.Log(stateMachine.CurrBehavCont.Behaviors.Count);
         stateMachine.CurrUI.AddButtons(stateMachine.CurrBehavCont.Behaviors);
         stateMachine.Selectable.ClickAction += Click;
     }

@@ -21,6 +21,7 @@ public class Entity : MonoBehaviour
     protected float rotateSpeed = 10f;
     public Sprite icon;
     protected Selectable selectable;
+    protected BehaviorController behaviorController;
     protected SplineContainer splineContainer;
     protected Spline currSpline;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
@@ -49,6 +50,7 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         selectable = GetComponent<Selectable>();
+        behaviorController = GetComponent<BehaviorController>();
 
         Vector3 vec = transform.rotation * Vector3.down;
         if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
@@ -66,6 +68,8 @@ public class Entity : MonoBehaviour
         
         // Stats reference
         stats = GetComponent<Stats>();
+
+        behaviorController.InitializeBehaviors();
         
         Debug.Log("End of Entity Start!");
     }

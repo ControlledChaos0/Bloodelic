@@ -31,7 +31,6 @@ public class Selectable : MonoBehaviour
 
     public event Action<GameObject> ClickAction;
     public event Action<GameObject> HoverAction;
-    public event Action SelectionAction;
 
     // Start is called before the first frame update
     void Start()

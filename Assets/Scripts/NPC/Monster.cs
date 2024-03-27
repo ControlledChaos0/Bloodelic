@@ -6,10 +6,12 @@ using UnityEditor;
 using UnityEditor.Recorder.Input;
 using UnityEngine;
 
+[RequireComponent(typeof(Moveable))]
 public class Monster : Entity
 {
+    [Header("Behaviors")]
     [SerializeField]
-    private PlayerTurnMachine _playerTurnMachine;
+    private Moveable _moveable;
     private GridCell currPosCell;
     private GridPath currPosPath;
     private Transform _lookAt;
@@ -17,14 +19,19 @@ public class Monster : Entity
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
-        selectable.SelectionAction += Select;
+        _moveable.Monster = this;
+        base.Start(); 
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
+        StartMonster();
+    }
+
+    private void StartMonster() {
+        _moveable.Monster = this;
     }
 
     public void ShowPath(GridCell gridCell) {
@@ -42,22 +49,24 @@ public class Monster : Entity
             return;
         }    
         
-        currPosPath?.HidePath();
+        //currPosPath?.HidePath();
         currPosPath?.RevertColor();
         currPosPath = nextPath;
         currPosPath.TurnBlue();
-        currPosPath.ShowPath();
+        //currPosPath.ShowPath();
     }
     public void ChoosePath(GridCell gridCell) {
         ArgumentNullExceptionUse.ThrowIfNull(gridCell);
+        foreach (GridCell cell in currPosPath.Path) {
+            Debug.Log(cell);
+        }
         Move(currPosPath);
     }
     
     #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        string stateDebug = string.Format("Monster State: " + _playerTurnMachine.currentState);
-        Handles.Label(transform.position + Vector3.up, stateDebug);
+        
     }
 
     #endif
