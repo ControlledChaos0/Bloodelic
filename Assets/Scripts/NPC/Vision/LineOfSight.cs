@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using KevinCastejon.ConeMesh;
+using System.Resources;
 
-public class LineOfSight : MonoBehaviour
+public class LineOfSight : MonoBehaviour, ISubscriber<GameObject, GridCell>
 {
     //Viewing angle for line-of-sight
     private const float ANGLE = 45;
@@ -42,6 +43,15 @@ public class LineOfSight : MonoBehaviour
         scanInterval = 1.0f / scanFreq;
         HumanManager.Instance.ClickAction += OnClick;
     }
+
+    // Enum of states based on sight
+    public enum ItemSpotted {
+        NEUTRAL,
+        SUSPICION,
+        MONSTER_SEEN
+    }
+    
+    public ItemSpotted sightState = ItemSpotted.NEUTRAL;
 
     // Update is called once per frame
     void Update()
@@ -175,5 +185,29 @@ public class LineOfSight : MonoBehaviour
         {
             state = SightLineShowState.HIDESIGHT;
         }
+    }
+
+    
+    public void ReceiveMessage(GameObject o, GridCell g)
+    {
+        if (o == null || g == null)
+        {
+            return;
+        }
+
+        if (o.GetComponent<Monster>() != null && DetectEntitySight(o)) {
+            sightState = ItemSpotted.MONSTER_SEEN;
+        } else if (o.GetComponent<Human>() != null) {
+            return;
+        } else {
+            if (DetectEntitySight(o)) {
+                sightState = ItemSpotted.SUSPICION;
+            }
+        }
+
+    }
+
+    public void LowerSuspicion() {
+        if (sightState > 0) sightState--;
     }
 }
