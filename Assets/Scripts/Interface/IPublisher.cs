@@ -5,6 +5,4 @@ using UnityEngine;
 
 public interface IPublisher <T, U> {
     public void Publish(T data, U data2);
-    public void Subscribe(MonoBehaviour subscriber);
-    public void Unsubscribe(MonoBehaviour subscriber);
 }

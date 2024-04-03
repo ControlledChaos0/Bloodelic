@@ -4,9 +4,25 @@ using System;
 using UnityEngine;
 using KevinCastejon.ConeMesh;
 using System.Resources;
+using Unity.VisualScripting;
 
-public class LineOfSight : MonoBehaviour, ISubscriber<GameObject, GridCell>
+public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
+    IPublisher<GridCellPosition, LineOfSight.ItemSpotted>
 {
+    //Sight subscription/Publishing things
+    // Enum of states based on sight
+    public enum ItemSpotted {
+        NEUTRAL,
+        SUSPICION,
+        MONSTER_SEEN
+    }
+
+    public ItemSpotted sightState = ItemSpotted.NEUTRAL;
+
+    [SerializeField]
+    private LevelGrid grid;
+
+    public DetectionEvent movementEvent = new DetectionEvent();
     //Viewing angle for line-of-sight
     private const float ANGLE = 45;
 
@@ -22,6 +38,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<GameObject, GridCell>
     //For detection of the tiles
     private const float OVERLAP_SPHERE_RADIUS = 50;
     private List<GameObject> tileList = new List<GameObject>();
+    private List<GridCell> publishers = new List<GridCell>();
 
     //Basic state machine for showing/hiding line of sight
     private enum SightLineShowState
@@ -35,6 +52,11 @@ public class LineOfSight : MonoBehaviour, ISubscriber<GameObject, GridCell>
     void OnDestroy()
     {
         HumanManager.Instance.ClickAction -= OnClick;
+        foreach (GridCell child in publishers) {
+            if (child.GetComponent<GridCell>() != null) {
+                child.GetComponent<GridCell>().ItemMoved.RemoveListener(ReceiveMessage);
+            }
+        }
     }
 
     // Start is called before the first frame update
@@ -42,25 +64,31 @@ public class LineOfSight : MonoBehaviour, ISubscriber<GameObject, GridCell>
     {
         scanInterval = 1.0f / scanFreq;
         HumanManager.Instance.ClickAction += OnClick;
+        if (grid != null) {
+            foreach (GridCell child in publishers) {
+                if (child.GetComponent<GridCell>() != null) {
+                    child.GetComponent<GridCell>().ItemMoved.AddListener(ReceiveMessage);
+                    publishers.Add(child.GetComponent<GridCell>());
+                }
+            }
+        }
     }
 
-    // Enum of states based on sight
-    public enum ItemSpotted {
-        NEUTRAL,
-        SUSPICION,
-        MONSTER_SEEN
-    }
-    
-    public ItemSpotted sightState = ItemSpotted.NEUTRAL;
+
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(sightState);
         scanTimer -= Time.deltaTime;
         if (scanTimer < 0.0f)
         {
             scanTimer += scanInterval;
             canSeePlayer = DetectEntitySight(player, ANGLE);
+            if (canSeePlayer) {
+                sightState = ItemSpotted.MONSTER_SEEN;
+                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
+            }
             Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
             {
@@ -188,23 +216,29 @@ public class LineOfSight : MonoBehaviour, ISubscriber<GameObject, GridCell>
     }
 
     
-    public void ReceiveMessage(GameObject o, GridCell g)
+    public void ReceiveMessage(Entity o, GridCell g)
     {
         if (o == null || g == null)
         {
             return;
         }
 
-        if (o.GetComponent<Monster>() != null && DetectEntitySight(o)) {
+        if (o.GetComponent<Monster>() != null && DetectEntitySight(o.GetComponent<GameObject>())) {
             sightState = ItemSpotted.MONSTER_SEEN;
+            Publish(g.Position, sightState);
         } else if (o.GetComponent<Human>() != null) {
             return;
         } else {
-            if (DetectEntitySight(o)) {
+            if (DetectEntitySight(o.GetComponent<GameObject>())) {
                 sightState = ItemSpotted.SUSPICION;
+                Publish(g.Position, sightState);
             }
         }
 
+    }
+
+    public void Publish(GridCellPosition g, ItemSpotted i) {
+        movementEvent?.Invoke(g, i);
     }
 
     public void LowerSuspicion() {

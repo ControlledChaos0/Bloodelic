@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MovementEvent : UnityEvent <GameObject, GridCell>
+public class MovementEvent : UnityEvent <Entity, GridCell>
 {
 }
