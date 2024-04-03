@@ -45,7 +45,7 @@ public class GridCell : MonoBehaviour
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
         _savedColor = _renderer.material.color;
-
+        //_collider.enabled = false;
         //GridManager.OnCellOccupantChanged += OnCellOccupantChanged;
     }
 
@@ -55,7 +55,7 @@ public class GridCell : MonoBehaviour
     }
 
     public void TurnBlue() {
-        _renderer.material.color = Color.blue;
+        _renderer.material.color = Color.red;
     }
     public void SaveColor() {
         if (_renderer == null) {
@@ -83,6 +83,9 @@ public class GridCell : MonoBehaviour
     public void HideCell()
     {
         _renderer.enabled = false;
+    }
+    public bool IsShowing() {
+        return _renderer.enabled;
     }
     public void SetF(float g, float h) {
         G = g;

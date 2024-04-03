@@ -2,33 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.Profiling;
 using UnityEngine;
 
-[RequireComponent(typeof(Outline))]
 public class Selectable : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _modelObject;
     [SerializeField]
     private GameObject _uiObject; //Will be a part of the object prefab, so will be added with it
 
     private WorldUI _uiScript;
     private Outline _outline;
+    private BehaviorController _behaviorController;
+
+    public GameObject ModelObject {
+        get => _modelObject;
+    }
+    public GameObject UIObject {
+        get => _uiObject;
+    }
+    public WorldUI UIScript {
+        get => _uiScript;
+    }
+    public BehaviorController GetBehaviorController {
+        get => _behaviorController;
+    }
 
     public event Action<GameObject> ClickAction;
     public event Action<GameObject> HoverAction;
-    public event Action SelectionAction;
 
     // Start is called before the first frame update
     void Start()
     {
-        _outline = GetComponent<Outline>();
+        _outline = _modelObject.GetComponent<Outline>();
+        if (_outline == null) {
+            _outline = _modelObject.AddComponent<Outline>();
+        }
         _outline.enabled = false;
 
-        //Lord this is ugly
-        //I hate this
-        //Maybe there's a way to separate these two things, but I've been brainstorming for hours
-        //And I just need something
-        //Fuck cohesion
         _uiScript = _uiObject.GetComponent<WorldUI>();
+        _behaviorController = GetComponent<BehaviorController>();
     }
     // Update is called once per frame
     void Update()
@@ -39,15 +53,12 @@ public class Selectable : MonoBehaviour
     public void Activate() {
         CameraController.Instance.ClickAction += Click;
         CameraController.Instance.HoverAction += Hover;
-        ClickHandler.Instance.Deactivate();
-        _uiScript.Activate();
     }
 
     public void Deactivate() {
         CameraController.Instance.ClickAction -= Click;
         CameraController.Instance.HoverAction -= Hover;
-        ClickHandler.Instance.Activate();
-        _uiScript.Deactivate();
+        _outline.enabled = false;
     }
     //These two probably repeative, and might be better to just go directly to CameraController action
     //But like having a middle man for now just in case there needs to be additional functionality and filtering
@@ -56,18 +67,6 @@ public class Selectable : MonoBehaviour
     }
     public void Hover(GameObject gO) {
         HoverAction?.Invoke(gO);
-    }
-
-    public void Select() {
-        Activate();
-    }
-    
-    public void Select(GameObject gameObject) {
-        Debug.Log(gameObject + "is selected");
-        if (!this.gameObject.Equals(GameObjectHelper.GetParentGameObject(gameObject))) {
-            return;
-        }
-        SelectionAction.Invoke();
     }
 
     public void HoverSelect() {

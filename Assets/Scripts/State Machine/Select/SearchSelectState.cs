@@ -1,54 +1,54 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClickHandler : Singleton<ClickHandler>
+public class SearchSelectState : SelectState
 {
     private GameObject _hoveredObject;
     private Selectable _hoveredSelectable;
 
-    private void Awake() {
-        InitializeSingleton();
-    }
-    // Start is called before the first frame update
-    void Start()
+    public override void EnterState()
     {
-        OnEnable();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private void OnEnable() {
-        if (CameraController.Instance != null) {
-            Deactivate();
-            Activate();
+        if (stateMachine.Selectable != null) {
+            stateMachine.Selectable.Deactivate();
+            stateMachine.Selectable = null;
         }
+        if (stateMachine.UIState != null) {
+            stateMachine.CurrUI = null;
+            stateMachine.CurrBehavCont = null;
+            stateMachine.UIState = null;
+        }
+        Deactivate();
+        Activate();
     }
-    private void OnDisable() {
+    public override void UpdateState()
+    {
+        //dunno if it does anything
+    }
+    public override void ExitState()
+    {
+        stateMachine.Selectable = _hoveredSelectable;
+        stateMachine.Selectable.Activate();
         Deactivate();
     }
 
     public void Activate() {
         CameraController.Instance.ClickAction += Select;
-        CameraController.Instance.HoverAction += HoverUnselected;
+        CameraController.Instance.HoverAction += Hover;
         HoverClear();
     }
     public void Deactivate() {
         CameraController.Instance.ClickAction -= Select;
-        CameraController.Instance.HoverAction -= HoverUnselected;
+        CameraController.Instance.HoverAction -= Hover;
     }
 
     private void Select(GameObject gO) {
         if (_hoveredSelectable == null) {
             return;
         }
-        //_hoveredSelectable.Select();
+        stateMachine.ChangeState(new UISelectState());
     }
-    private void HoverUnselected(GameObject gO) {
+    private void Hover(GameObject gO) {
         //Debug.Log(gO);
         if (gO == null) {
             HoverClear();
@@ -63,9 +63,9 @@ public class ClickHandler : Singleton<ClickHandler>
             HoverClear();
             return;
         }
-        selectable.HoverSelect();
         _hoveredObject = gO;
         _hoveredSelectable = selectable;
+        _hoveredSelectable.HoverSelect();
     }
 
     private void HoverClear() {

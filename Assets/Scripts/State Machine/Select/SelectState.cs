@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class State : IGameState
+public abstract class SelectState : IGameState
 {
-    protected StateMachine stateMachine;
+    protected SelectStateMachine stateMachine;
 
-    public virtual void StartState(StateMachine sm) {
+    public virtual void StartState(SelectStateMachine sm) {
         stateMachine = sm;
         EnterState();
     }

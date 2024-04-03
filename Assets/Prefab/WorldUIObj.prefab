@@ -159,8 +159,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.17}
-  m_SizeDelta: {x: 100, y: 125}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7868222328972701454
 CanvasRenderer:
@@ -781,6 +781,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 832a82c4316742041b5dc6962eda727a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _button: {fileID: 6472543963168146843, guid: ccd3fa069d7f6e141891dba364b12452, type: 3}
+  _sizeCanvas: {x: 100, y: 150}
 --- !u!1 &8201069221774807699
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,6 +795,7 @@ GameObject:
   - component: {fileID: 3810160731539306170}
   - component: {fileID: 1583488944298902146}
   - component: {fileID: 2963920767123057283}
+  - component: {fileID: 1000145194086689747}
   m_Layer: 5
   m_Name: WorldUICanvas
   m_TagString: Untagged
@@ -883,6 +886,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!65 &1000145194086689747
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201069221774807699}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 150, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8314977126129075228
 GameObject:
   m_ObjectHideFlags: 0

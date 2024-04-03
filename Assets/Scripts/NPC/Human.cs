@@ -10,7 +10,7 @@ public class Human : DummyNPC
     protected virtual void Start()
     {
         base.Start();
-        HumanManager.Instance.ClickAction += Select;
+        //HumanManager.Instance.ClickAction += Select;
     }
 
     // Update is called once per frame
@@ -43,13 +43,13 @@ public class Human : DummyNPC
     }
 
     private void OnEnable() {
-        if (HumanManager.Instance != null) {
-            HumanManager.Instance.ClickAction -= Select;
-            HumanManager.Instance.ClickAction += Select;
-        }
+        // if (HumanManager.Instance != null) {
+        //     HumanManager.Instance.ClickAction -= Select;
+        //     HumanManager.Instance.ClickAction += Select;
+        // }
     }
     private void OnDisable() {
-        HumanManager.Instance.ClickAction -= Select;
+        // HumanManager.Instance.ClickAction -= Select;
     }
 
     public void PerformAction() {
