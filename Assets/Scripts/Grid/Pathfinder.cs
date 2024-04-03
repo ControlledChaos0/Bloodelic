@@ -91,7 +91,7 @@ public class Pathfinder
                 float f = g + h;
 
                 // If distance to cell is above move limit
-                if (f > moveLimit)
+                if (f >= moveLimit)
                 {
                     continue;
                 }

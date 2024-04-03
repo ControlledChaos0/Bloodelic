@@ -22,20 +22,21 @@ public abstract class Behavior : MonoBehaviour
     }
     public UnityAction StartBehaviorAction;
 
-    protected virtual void Start()
-    {
-        
-    }
 
     public virtual void InitializeBehavior() {
         SetRoutine();
-    }
-    public virtual void ResetBehavior() {
-        InitializeBehavior();
         ResetBehaviorSpecifics();
     }
 
+    public virtual void ExecuteBehavior() {
+        behaviorRoutine.ExecuteBehaviorRoutine();
+        StartCoroutine(ExecuteBehaviorCoroutine());
+    }
+
     protected virtual void SetRoutine() {
+        if (behaviorRoutine != null) {
+            StartBehaviorAction -= behaviorRoutine.StartBehaviorRoutine;
+        }
         behaviorRoutine = CreateRoutine();
         behaviorRoutine.Behavior = this;
         StartBehaviorAction += behaviorRoutine.StartBehaviorRoutine;
@@ -43,4 +44,5 @@ public abstract class Behavior : MonoBehaviour
     public abstract BehaviorRoutine CreateRoutine();
     public abstract bool CheckValid();
     public abstract void ResetBehaviorSpecifics();
+    public abstract IEnumerator ExecuteBehaviorCoroutine();
 }

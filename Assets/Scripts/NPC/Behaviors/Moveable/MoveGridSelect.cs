@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MoveGridSelect : BehaviorState {
     private LayerMask _prevLayerMask;
@@ -18,7 +19,7 @@ public class MoveGridSelect : BehaviorState {
     }
     public override void ExitState()
     {
-        Deactivate();
+        
     }
 
     public void Activate() {
@@ -47,7 +48,9 @@ public class MoveGridSelect : BehaviorState {
     }
 
     private void ChoosePath(GridCell cell) {
+        _moveableRoutine.TempMovement -= _moveable.Monster.LengthOfPath;
         _moveable.Monster.ChoosePath(cell);
         Deactivate();
+        _moveable.ExecuteBehavior();
     }
 }

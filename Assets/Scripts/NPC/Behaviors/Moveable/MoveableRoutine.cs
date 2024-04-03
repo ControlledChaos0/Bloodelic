@@ -17,12 +17,15 @@ public class MoveableRoutine : BehaviorRoutine
         set => _tempMovement = value;
     }
 
+    
     public override void GetTemporaries()
     {
         TempMovement = (behavior as Moveable).Movement;
     }
     public override void SetTemporaries()
     {
+        Debug.Log("Bro are you running");
         (behavior as Moveable).Movement = TempMovement;
+        Debug.Log($"Movement: {(behavior as Moveable).Movement}");
     }
 }

@@ -6371,7 +6371,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 0
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -36820,28 +36820,28 @@ MonoBehaviour:
     - rid: 3129491726785576960
       type: {class: ActionMove, ns: , asm: Assembly-CSharp}
       data:
-        targetCell: {fileID: 0}
+        targetCell: {fileID: 2107868648}
         staticPosition:
           positionE: 0
           position: {x: 2.5, y: 0, z: -2.5}
     - rid: 3129491726785576961
       type: {class: ActionMove, ns: , asm: Assembly-CSharp}
       data:
-        targetCell: {fileID: 0}
+        targetCell: {fileID: 331797533}
         staticPosition:
           positionE: 0
           position: {x: 0.5, y: -0, z: 3.5}
     - rid: 3129491726785576962
       type: {class: ActionMove, ns: , asm: Assembly-CSharp}
       data:
-        targetCell: {fileID: 0}
+        targetCell: {fileID: 1998829507}
         staticPosition:
           positionE: 0
           position: {x: -4.5, y: -0, z: 0.5}
     - rid: 3129491726785576963
       type: {class: ActionMove, ns: , asm: Assembly-CSharp}
       data:
-        targetCell: {fileID: 0}
+        targetCell: {fileID: 1378273319}
         staticPosition:
           positionE: 0
           position: {x: -0.5, y: 0, z: -3.5}

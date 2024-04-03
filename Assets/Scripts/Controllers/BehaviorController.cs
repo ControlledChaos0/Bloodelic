@@ -43,7 +43,7 @@ public class BehaviorController : MonoBehaviour
 
     public void ResetBehaviors() {
         foreach (Behavior behavior in Behaviors) {
-            behavior.ResetBehavior();
+            behavior.InitializeBehavior();
         }
     }
     
