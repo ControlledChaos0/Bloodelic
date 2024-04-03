@@ -19,8 +19,6 @@ public class BehaviorController : MonoBehaviour
     void Start()
     {
         
-        //This is probably something to do before Start is even called, but good for now :)
-        //Editor tools are a bitch :')
     }
 
     // Update is called once per frame
