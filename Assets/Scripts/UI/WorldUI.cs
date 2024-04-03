@@ -109,7 +109,10 @@ public class WorldUI : MonoBehaviour
             return;
         }
         foreach (Behavior behavior in behaviors) {
-            Destroy(behavior.BehaviorButton?.gameObject);
+            Button button = behavior.BehaviorButton;
+            if (button != null) {
+                Destroy(button.gameObject);
+            }
         }
     }
 }

@@ -16,6 +16,10 @@ public class Monster : Entity
     private GridPath currPosPath;
     private Transform _lookAt;
 
+    public int LengthOfPath {
+        get => currPosPath.Count - 1;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
