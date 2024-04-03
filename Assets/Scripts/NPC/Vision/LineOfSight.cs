@@ -22,7 +22,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
     [SerializeField]
     private LevelGrid grid;
 
-    public DetectionEvent movementEvent = new DetectionEvent();
+    public DetectionEvent detectionEvent = new DetectionEvent();
     //Viewing angle for line-of-sight
     private const float ANGLE = 45;
 
@@ -79,7 +79,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(sightState);
+        //Debug.Log(sightState);
         scanTimer -= Time.deltaTime;
         if (scanTimer < 0.0f)
         {
@@ -89,7 +89,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
                 sightState = ItemSpotted.MONSTER_SEEN;
                 Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
             }
-            Debug.Log(canSeePlayer);
+            //Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
             {
                 OnRevealSightLine();
@@ -238,7 +238,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
     }
 
     public void Publish(GridCellPosition g, ItemSpotted i) {
-        movementEvent?.Invoke(g, i);
+        detectionEvent?.Invoke(g, i);
     }
 
     public void LowerSuspicion() {
