@@ -41,7 +41,9 @@ public class BehaviorController : MonoBehaviour
 
     public void ResetBehaviors() {
         foreach (Behavior behavior in Behaviors) {
-            behavior.InitializeBehavior();
+            if (behavior.Resetable) {
+                behavior.InitializeBehavior();
+            }
         }
     }
     
