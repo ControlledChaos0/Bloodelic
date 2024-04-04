@@ -45,6 +45,9 @@ public class Entity : MonoBehaviour
     public bool IsMoving {
         get { return move; }
     }
+    public BehaviorController BehavCon {
+        get => behaviorController;
+    }
 
     // Start is called before the first frame update
     protected virtual void Start()
