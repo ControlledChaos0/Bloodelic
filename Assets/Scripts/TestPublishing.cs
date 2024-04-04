@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TestPublishing : MonoBehaviour,
-    ISubscriber<GridCellPosition, LineOfSight.ItemSpotted>
+    ISubscriber<GridCellPosition, LineOfSight.ItemSpotted>//,
+    //ISubscriber<Entity, GridCell>
 {
     public LevelGrid grid;
     public LineOfSight lineOfSight;
@@ -11,6 +12,16 @@ public class TestPublishing : MonoBehaviour,
     void Start()
     {
         lineOfSight.detectionEvent.AddListener(ReceiveMessage);
+        /*
+        foreach (Transform child in grid.transform)
+        {
+            if (child.GetComponent<GridCell>() != null)
+            {
+                child.GetComponent<GridCell>().ItemMoved.AddListener(ReceiveMessage);
+            }
+        }
+        */
+        
     }
 
     // Update is called once per frame
@@ -23,6 +34,10 @@ public class TestPublishing : MonoBehaviour,
         Debug.Log(g);
         Debug.Log(i);
     }
-
-
+    /*
+    public void ReceiveMessage(Entity e, GridCell g)
+    {
+        Debug.Log("Moved " + e.ToString() + " to " + g.Position);
+    }
+    */
 }

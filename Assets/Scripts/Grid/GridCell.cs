@@ -105,6 +105,7 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
     
     public void SetOccupant(Entity occupant)
     {
+        Debug.Log("SetOccupant called");
         // Log error if cell is occupied
         if (entityOccupant != null)
         {

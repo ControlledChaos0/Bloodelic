@@ -51,7 +51,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
 
     void OnDestroy()
     {
-        HumanManager.Instance.ClickAction -= OnClick;
+        //HumanManager.Instance.ClickAction -= OnClick;
         foreach (GridCell child in publishers) {
             if (child.GetComponent<GridCell>() != null) {
                 child.GetComponent<GridCell>().ItemMoved.RemoveListener(ReceiveMessage);
@@ -63,9 +63,9 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
     void Start()
     {
         scanInterval = 1.0f / scanFreq;
-        HumanManager.Instance.ClickAction += OnClick;
+        //HumanManager.Instance.ClickAction += OnClick;
         if (grid != null) {
-            foreach (GridCell child in publishers) {
+            foreach (Transform child in grid.transform) {
                 if (child.GetComponent<GridCell>() != null) {
                     child.GetComponent<GridCell>().ItemMoved.AddListener(ReceiveMessage);
                     publishers.Add(child.GetComponent<GridCell>());
@@ -86,8 +86,8 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
             scanTimer += scanInterval;
             canSeePlayer = DetectEntitySight(player, ANGLE);
             if (canSeePlayer) {
-                sightState = ItemSpotted.MONSTER_SEEN;
-                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
+                //sightState = ItemSpotted.MONSTER_SEEN;
+                //Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
             }
             //Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
@@ -128,6 +128,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
             mask,
             QueryTriggerInteraction.Ignore
         ))
+        //Debug.Log(hit.collider);
         {
             if (hit.transform.Equals(entity.transform))
             {
@@ -218,26 +219,36 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
     
     public void ReceiveMessage(Entity o, GridCell g)
     {
+        Debug.Log("In ReceiveMessage");
         if (o == null || g == null)
         {
+            Debug.Log("Nope");
             return;
         }
-
-        if (o.GetComponent<Monster>() != null && DetectEntitySight(o.GetComponent<GameObject>())) {
+        Debug.Log("Check");
+        if (o.GetComponent<Monster>() != null && DetectEntitySight(player)) {
+            Debug.Log("Perhaps there?");
             sightState = ItemSpotted.MONSTER_SEEN;
             Publish(g.Position, sightState);
         } else if (o.GetComponent<Human>() != null) {
+            Debug.Log("Certainly not");
             return;
         } else {
-            if (DetectEntitySight(o.GetComponent<GameObject>())) {
+            Debug.Log("Are we here?");
+            if (DetectEntitySight(o.gameObject)) {
                 sightState = ItemSpotted.SUSPICION;
                 Publish(g.Position, sightState);
+            }
+            else
+            {
+                Debug.Log("NAh");
             }
         }
 
     }
 
     public void Publish(GridCellPosition g, ItemSpotted i) {
+        Debug.Log("Well, we're at line 242");
         detectionEvent?.Invoke(g, i);
     }
 
