@@ -13,25 +13,20 @@ public class GridManager : Singleton<GridManager>
     private void Awake() {
         InitializeSingleton();
     }
-    private void Start() {
-        //CameraController.Instance.HoverAction += HoverGrid;
-        //CameraController.Instance.ClickAction += ClickGrid;
-    }
-    private void Update() {
-        
-    }
-    private void OnEnable() {
 
+    public void Activate() {
+        CameraController.Instance.HoverAction += HoverGrid;
+        CameraController.Instance.ClickAction += ClickGrid;
     }
-    private void OnDisable() {
-        
-    }
-    private void OnDestroy() {
-        //CameraController.Instance.HoverAction -= HoverGrid;
-        //CameraController.Instance.ClickAction -= ClickGrid;
+    public void Deactivate() {
+        CameraController.Instance.HoverAction -= HoverGrid;
+        CameraController.Instance.ClickAction -= ClickGrid;
     }
 
     private void HoverGrid(GameObject gameObject) {
+        if (gameObject == null) {
+            return;
+        }
         GridCell gridCell = gameObject.GetComponent<GridCell>();
         if (gridCell == null) {
             return;
@@ -39,6 +34,9 @@ public class GridManager : Singleton<GridManager>
         HoverAction?.Invoke(gridCell);
     }
     private void ClickGrid(GameObject gameObject) {
+        if (gameObject == null) {
+            return;
+        }
         GridCell gridCell = gameObject.GetComponent<GridCell>();
         if (gridCell == null) {
             return;

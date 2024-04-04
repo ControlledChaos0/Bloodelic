@@ -1,23 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public abstract class Behavior : MonoBehaviour
 {
-    //no idea if we actually need it, temp variable
-    private BehaviorController controller;
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        controller = GetComponent<BehaviorController>();
-        controller.AddBehavior(this);
+    protected BehaviorRoutine behaviorRoutine;
+    protected Button behaviorButton;
+    protected string name;
+    public abstract string Name {
+        get;
+    }
+    public abstract bool NPCInteract {
+        get;
+    }
+    public Button BehaviorButton {
+        get => behaviorButton;
+        set => behaviorButton = value;
+    }
+    public UnityAction StartBehaviorAction;
+
+
+    public virtual void InitializeBehavior() {
+        SetRoutine();
+        ResetBehaviorSpecifics();
     }
 
-    // Update is called once per frame
-    protected virtual void Update()
-    {
-        
+    public virtual void ExecuteBehavior() {
+        behaviorRoutine.ExecuteBehaviorRoutine();
+        StartCoroutine(ExecuteBehaviorCoroutine());
     }
 
-    public abstract void StartBehavior();
+    protected virtual void SetRoutine() {
+        if (behaviorRoutine != null) {
+            StartBehaviorAction -= behaviorRoutine.StartBehaviorRoutine;
+        }
+        behaviorRoutine = CreateRoutine();
+        behaviorRoutine.Behavior = this;
+        StartBehaviorAction += behaviorRoutine.StartBehaviorRoutine;
+    }
+    public abstract BehaviorRoutine CreateRoutine();
+    public abstract bool CheckValid();
+    public abstract void ResetBehaviorSpecifics();
+    public abstract IEnumerator ExecuteBehaviorCoroutine();
 }

@@ -21,6 +21,7 @@ public class Entity : MonoBehaviour
     protected float rotateSpeed = 10f;
     public Sprite icon;
     protected Selectable selectable;
+    protected BehaviorController behaviorController;
     protected SplineContainer splineContainer;
     protected Spline currSpline;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
@@ -49,6 +50,7 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         selectable = GetComponent<Selectable>();
+        behaviorController = GetComponent<BehaviorController>();
 
         Vector3 vec = transform.rotation * Vector3.down;
         if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
@@ -66,6 +68,8 @@ public class Entity : MonoBehaviour
         
         // Stats reference
         stats = GetComponent<Stats>();
+
+        behaviorController.InitializeBehaviors();
         
         Debug.Log("End of Entity Start!");
     }
@@ -77,13 +81,6 @@ public class Entity : MonoBehaviour
     }
     protected virtual void FixedUpdate() {
         
-    }
-
-    public virtual void Select() {
-        return;
-    }
-    public virtual void HoverSelect(GameObject gO) {
-        return;
     }
 
     public virtual GridPath FindPath(GridCell target)
@@ -136,8 +133,6 @@ public class Entity : MonoBehaviour
 
         linkedPath = path;
         linkedPath.RevertColor();
-        
-        StartCoroutine(IterateThroughSpline());
         Debug.Log("MOVE IDIOT");
     }
 
@@ -154,7 +149,7 @@ public class Entity : MonoBehaviour
     // Things that need to occur after entity occupies a new cell, implement in child classes
     protected virtual void PostGridMovement() {}
     
-    private IEnumerator IterateThroughSpline() {
+    public IEnumerator IterateThroughSpline() {
         int splineCount = splineContainer.Splines.Count;
         Vector3 pathStartPos = splineContainer.gameObject.transform.position;
         linkedPath.PopFront();
@@ -188,6 +183,7 @@ public class Entity : MonoBehaviour
             }
         }
         Destroy(splineContainer.gameObject);
+        yield break;
     }
     
     #region Grid Cell

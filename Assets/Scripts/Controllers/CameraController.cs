@@ -16,6 +16,10 @@ public class CameraController : Singleton<CameraController>
     private float zoomSensitivity = 0.5f;
     [SerializeField]
     private float panSensitivity = 5f;
+
+    public static float DistanceFromInitial => Instance._distanceFromInitial;
+    private float _distanceFromInitial;
+    public static float DistanceFrom => Instance.distanceFrom;
     [SerializeField]
     private float distanceFrom = 5.0f;
     [SerializeField]
@@ -105,7 +109,7 @@ public class CameraController : Singleton<CameraController>
         InputController.Instance.LeftClick += ScreenClick;
         InputController.Instance.Scroll += ZoomCamera;
         InputController.Instance.Hover += Hover;
-        HitMask = ConstantValues.EntityMask;
+        HitMask = ConstantValues.AllClickMasks;
     }
 
     private void DeactivateCamera() {
@@ -129,7 +133,9 @@ public class CameraController : Singleton<CameraController>
         _oldRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles;
         _rotX = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.x;
         _rotY = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.y;
-        distanceFrom = _cinemachineCam.m_Lens.OrthographicSize;
+
+        _distanceFromInitial = _cinemachineCam.m_Lens.OrthographicSize;
+        distanceFrom = _distanceFromInitial;
 
         _panCamera = false;
         _rotateCamera = false;
@@ -215,16 +221,26 @@ public class CameraController : Singleton<CameraController>
         RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, HitMask);
         float closestDistance = Mathf.Infinity;
         RaycastHit hit = new();
+        string test = "";
+        int x = 1;
         foreach (RaycastHit cameraRayHit in cameraRayHits)
         {
-            float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
-            //Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
-            if (angle >= 90f && cameraRayHit.distance < closestDistance)
+            Transform rayTransform = cameraRayHit.transform;
+            float angle = Vector3.Angle(ray.direction, rayTransform.up);
+            float dot = Vector3.Dot(ray.direction, rayTransform.up);
+
+            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
+            x++;
+            if (GridHelper.CheckGrid(rayTransform.gameObject, ray.direction)) {
+                continue;
+            }
+            if (cameraRayHit.distance < closestDistance && cameraRayHit.distance > mainCamera.nearClipPlane)
             {
                 hit = cameraRayHit;
                 closestDistance = cameraRayHit.distance;
             }
         }
+        //Debug.Log(test);
         return hit;
     }
 
