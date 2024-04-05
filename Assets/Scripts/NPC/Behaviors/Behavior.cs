@@ -16,6 +16,9 @@ public abstract class Behavior : MonoBehaviour
     public abstract bool NPCInteract {
         get;
     }
+    public abstract bool Resetable {
+        get;
+    }
     public Button BehaviorButton {
         get => behaviorButton;
         set => behaviorButton = value;
