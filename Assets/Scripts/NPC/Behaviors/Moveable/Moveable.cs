@@ -35,6 +35,9 @@ public class Moveable : Behavior
     public override bool NPCInteract {
         get => false;
     }
+    public override bool Resetable {
+        get => true;
+    }
 
     // Update is called once per frame
     void Update()
