@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class GridCell : MonoBehaviour
+public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
 {
     //Most of these are serialized explicitly so that these values will be saved when grid is created in editor
     [SerializeField]
@@ -41,6 +41,8 @@ public class GridCell : MonoBehaviour
     private Renderer _renderer;
     private Color _savedColor;
     private bool _isOccupied;
+    
+    public MovementEvent ItemMoved = new MovementEvent();
 
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
@@ -103,6 +105,7 @@ public class GridCell : MonoBehaviour
     
     public void SetOccupant(Entity occupant)
     {
+        Debug.Log("SetOccupant called");
         // Log error if cell is occupied
         if (entityOccupant != null)
         {
@@ -111,6 +114,8 @@ public class GridCell : MonoBehaviour
         }
 
         entityOccupant = occupant;
+
+        Publish(occupant, this);
         
         // For human occupants, also set wall neighbors to occupied
         Human human = occupant as Human;
@@ -139,7 +144,6 @@ public class GridCell : MonoBehaviour
                 }
             }
         }
-        
         entityOccupant = null;
     }
     
@@ -188,5 +192,13 @@ public class GridCell : MonoBehaviour
             }
         }
         #endif
+    #endregion
+
+    #region Publisher
+
+    public void Publish(Entity e, GridCell g) {
+        ItemMoved?.Invoke(e, g);
+    }
+
     #endregion
 }

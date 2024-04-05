@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3235729291255236016}
   - component: {fileID: 1540164436461744794}
   - component: {fileID: 6653902025185503811}
+  - component: {fileID: 1686462321413958232}
   m_Layer: 7
   m_Name: Monster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +54,7 @@ MonoBehaviour:
   moveSpeed: 1.26
   rotateSpeed: 31.75
   icon: {fileID: 21300000, guid: f43d0da3fee2d1342a432d8669b75c5e, type: 3}
-  _playerTurnMachine: {fileID: 3235729291255236016}
+  _moveable: {fileID: 0}
 --- !u!114 &3235729291255236016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +94,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8a38d3bd8932e428296ab7299c9283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1686462321413958232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555479912763524226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3de48fa7c5ad345b407b879c67deb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7798424355312581927
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +118,7 @@ GameObject:
   - component: {fileID: 2008230023340063945}
   m_Layer: 0
   m_Name: King
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,8 +165,8 @@ MonoBehaviour:
   shellDroop: 0.00495
   shellSpecularSharpness: 32.5
   shellSpecularAmount: 11.8
-  bodyColor: {fileID: 2800000, guid: 1c78621a045ff6442b7a4c222ccf6e19, type: 3}
   eyeGlow: 8.26
+  bodyColor: {r: 0, g: 0, b: 0, a: 0}
   spikeTipColor: {r: 1, g: 0.08962262, b: 0.08962262, a: 0}
   animationSpeed: 0.45
   viewShells: 1
@@ -174,7 +187,7 @@ GameObject:
   - component: {fileID: 7522021710052177492}
   m_Layer: 0
   m_Name: Base Model
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
