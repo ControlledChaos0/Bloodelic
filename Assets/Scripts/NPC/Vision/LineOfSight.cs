@@ -234,7 +234,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
             //Debug.Log("Perhaps there?");
             sightState = ItemSpotted.MONSTER_SEEN;
             Publish(g.Position, sightState);
-        } else if (o.GetComponent<Human>() != null) {
+        } else if (HasComponent<Human>(g.gameObject)) {
             //Debug.Log("Certainly not");
             return;
         } else {
@@ -249,6 +249,13 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
             //}
         }
 
+    }
+
+    bool HasComponent<T>(GameObject g)
+    {
+        if (GetComponentsInParent<T>() != null && GetComponentsInParent<T>().Length > 0) return true;
+        if (GetComponentsInChildren<T>() != null && GetComponentsInChildren<T>().Length > 0) return true;
+        return false;
     }
 
     /*
