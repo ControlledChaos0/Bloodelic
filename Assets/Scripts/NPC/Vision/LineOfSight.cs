@@ -86,8 +86,8 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
             scanTimer += scanInterval;
             canSeePlayer = DetectEntitySight(player, ANGLE);
             if (canSeePlayer) {
-                //sightState = ItemSpotted.MONSTER_SEEN;
-                //Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
+                sightState = ItemSpotted.MONSTER_SEEN;
+                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
             }
             //Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
@@ -130,7 +130,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
         ))
         //Debug.Log(hit.collider);
         {
-            if (hit.transform.Equals(entity.transform))
+            if (HasTransform(hit.transform, entity.transform))
             {
                 //Debug.Log(Vector3.Angle((entity.transform.position - transform.position).normalized, transform.forward));
                 if (Vector3.Angle(
@@ -216,43 +216,90 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
         }
     }
 
-    
+    /*
+     * Implementation of subscriber pattern.
+     * Receives messages from GridCells about the current position of an entity.
+     * Checks if this entity can be seen and raises suspicion level if needed.
+     */
     public void ReceiveMessage(Entity o, GridCell g)
     {
-        Debug.Log("In ReceiveMessage");
+        //Debug.Log("In ReceiveMessage");
         if (o == null || g == null)
         {
             Debug.Log("Nope");
             return;
         }
-        Debug.Log("Check");
-        if (o.GetComponent<Monster>() != null && DetectEntitySight(player)) {
-            Debug.Log("Perhaps there?");
+        //Debug.Log("Check");
+        if (o.gameObject.Equals(player) && DetectEntitySight(o.gameObject)) {
+            //Debug.Log("Perhaps there?");
             sightState = ItemSpotted.MONSTER_SEEN;
             Publish(g.Position, sightState);
         } else if (o.GetComponent<Human>() != null) {
-            Debug.Log("Certainly not");
+            //Debug.Log("Certainly not");
             return;
         } else {
-            Debug.Log("Are we here?");
+            //Debug.Log("Are we here?");
             if (DetectEntitySight(o.gameObject)) {
                 sightState = ItemSpotted.SUSPICION;
                 Publish(g.Position, sightState);
             }
-            else
-            {
-                Debug.Log("NAh");
-            }
+            //else
+            //{
+                //Debug.Log("NAh");
+            //}
         }
 
     }
 
+    /*
+     * Implementation of Publisher/Subscriber pattern.
+     * Publishes a message stating that an item was spotted, where it was,
+     * and the suspicion level.
+     */
     public void Publish(GridCellPosition g, ItemSpotted i) {
-        Debug.Log("Well, we're at line 242");
+        //Debug.Log("Well, we're at line 242");
         detectionEvent?.Invoke(g, i);
     }
 
+    /*
+     * Lowers the suspicion level of this NPC.
+     */
     public void LowerSuspicion() {
         if (sightState > 0) sightState--;
+    }
+
+    
+    /*
+     * Checks if a given transform or any of its children or parents matches the given target.
+     * Used alongside DetectEntitySight to check for a sightline to objects that are in multiple pieces.
+     */
+    bool HasTransform(Transform currentTransform, Transform targetTransform)
+    {
+        if (currentTransform.Equals(targetTransform))
+        {
+            return true;
+        }
+
+        // Check parents
+        if (currentTransform.parent != null && currentTransform.GetComponentsInParent<Transform>() != null)
+        {
+            foreach (Transform t in currentTransform.GetComponentsInParent<Transform>())
+            {
+                if (t.Equals(targetTransform)) {
+                    return true;
+                }
+            }
+        }
+
+        // Check children
+        foreach (Transform child in currentTransform)
+        {
+            if (HasTransform(child, targetTransform))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

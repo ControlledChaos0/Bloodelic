@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * This class is for testing only (It is also written very poorly).
+ * Please don't use it for any production code.
+ */
 public class TestPublishing : MonoBehaviour,
     ISubscriber<GridCellPosition, LineOfSight.ItemSpotted>//,
     //ISubscriber<Entity, GridCell>
