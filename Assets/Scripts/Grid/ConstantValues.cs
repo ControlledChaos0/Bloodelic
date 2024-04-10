@@ -5,6 +5,9 @@ using UnityEngine.InputSystem.Controls;
 
 public static class ConstantValues
 {
+    public static int LevelLayer {
+        get => 1<<6;
+    }
     public static LayerMask AllClickMasks {
         get => GridMask + EntityMask + UIMask;
     }

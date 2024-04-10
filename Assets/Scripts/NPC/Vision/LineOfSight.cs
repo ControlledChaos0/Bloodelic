@@ -53,8 +53,8 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
     {
         //HumanManager.Instance.ClickAction -= OnClick;
         foreach (GridCell child in publishers) {
-            if (child.GetComponent<GridCell>() != null) {
-                child.GetComponent<GridCell>().ItemMoved.RemoveListener(ReceiveMessage);
+            if (child != null) {
+                child.ItemMoved.RemoveListener(ReceiveMessage);
             }
         }
     }
