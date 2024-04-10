@@ -19,7 +19,7 @@ public class MoveGridSelect : BehaviorState {
     }
     public override void ExitState()
     {
-        
+        Deactivate();
     }
 
     public void Activate() {

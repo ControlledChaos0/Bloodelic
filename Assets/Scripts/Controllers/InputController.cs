@@ -100,7 +100,7 @@ public class InputController : Singleton<InputController>
         OnHover(_scrollDelta);
     }
     private void OnCancel(InputValue inputValue) {
-        Cancel.Invoke();
+        Cancel?.Invoke();
     }
     private void OnMiddleClickStarted(InputAction.CallbackContext context) {
         _middleClickTime = Time.time;

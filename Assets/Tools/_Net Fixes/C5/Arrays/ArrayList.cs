@@ -2392,7 +2392,7 @@ namespace C5
         bool System.Collections.ICollection.IsSynchronized => false;
 
         [Obsolete]
-        Object System.Collections.ICollection.SyncRoot => underlying != null ? ((System.Collections.ICollection)underlying).SyncRoot : array;
+        Object System.Collections.ICollection.SyncRoot => (Object)(underlying != null ? ((System.Collections.ICollection)underlying).SyncRoot : array);
 
         void System.Collections.ICollection.CopyTo(Array arr, int index)
         {
