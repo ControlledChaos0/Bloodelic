@@ -112,7 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8010520312638806110}
   - component: {fileID: 7718071002352843230}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: WorldUIObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -377383015
   m_SortingOrder: 0

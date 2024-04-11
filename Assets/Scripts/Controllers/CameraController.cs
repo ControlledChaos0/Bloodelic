@@ -11,6 +11,8 @@ public class CameraController : Singleton<CameraController>
     [SerializeField]
     private Camera mainCamera;
     [SerializeField]
+    private Camera uiCamera;
+    [SerializeField]
     private float cameraSensitivity = 0.5f;
     [SerializeField]
     private float zoomSensitivity = 0.5f;
@@ -85,6 +87,7 @@ public class CameraController : Singleton<CameraController>
     private void LateUpdate()
     {
         _cinemachineCam.m_Lens.OrthographicSize = distanceFrom;
+        uiCamera.orthographicSize = distanceFrom;
 
         _lookAt.rotation = Quaternion.Euler(_rotX, _rotY, 0);
         _lookAt.position = _currentPos;

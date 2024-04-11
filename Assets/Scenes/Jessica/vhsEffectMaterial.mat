@@ -90,9 +90,9 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _StripesDensity: 4.78
+    - _StripesDensity: 5.07
     - _Time: 0
-    - _TrackingSpeed: 8.18
+    - _TrackingSpeed: 7.77
     - _UVSec: 0
     - _VignetteIntensity: 1.93
     - _ZWrite: 1
