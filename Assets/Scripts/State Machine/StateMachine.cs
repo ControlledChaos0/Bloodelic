@@ -15,7 +15,7 @@ public abstract class StateMachine : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        currentState?.UpdateState(this);
+        currentState?.UpdateState();
     }
 
     
@@ -24,12 +24,11 @@ public abstract class StateMachine : MonoBehaviour
 
         currentState = state;
         currentState.StartState(this);
-        currentState.EnterState(this);
     }
     public virtual void ChangeState(State state) {
         ArgumentNullExceptionUse.ThrowIfNull(state); 
 
-        currentState?.ExitState(this);
+        currentState?.ExitState();
         StartState(state);
     }
 }

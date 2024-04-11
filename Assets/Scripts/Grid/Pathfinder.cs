@@ -18,8 +18,29 @@ public class Pathfinder
     //   these are all static and need to be set/reset everytime Pathfinder is utilized
     #region Additional Properties
     public static float moveLimit = Mathf.Infinity;
-    
+    public static Entity entity;
     #endregion
+
+    public static List<GridCell> ActivateCells(GridCell start, int distance) {
+        List<GridCell> list = new();
+        ActivateCellsHelper(start, distance, 0, list);
+        return list;
+    }
+
+    public static void ActivateCellsHelper(GridCell curr, int distance, int currDistance, List<GridCell> gridCells) {
+        if (currDistance < distance) {
+            GridCell[] neighbors = curr.Neighbors;
+            foreach (GridCell cell in neighbors) {
+                gridCells.Add(cell);
+                ActivateCellsHelper(cell, distance, currDistance + 1, gridCells);
+                if (cell.IsShowing()) {
+                     continue;
+                }
+                UnityEngine.Debug.Log($"{cell}: Distance is {currDistance}");
+                cell.ShowCell();
+            }
+        }
+    }
     
     public static GridPath FindPath(GridCell start, GridCell target, bool allowsNullIfNoneFound = false) 
     {
@@ -51,7 +72,7 @@ public class Pathfinder
                 if (cell == null) {
                     continue;
                 }
-                // If cell is occupied, skip
+                // If cell is occupied
                 if (cell.IsOccupied())
                 {
                     continue;
@@ -70,7 +91,7 @@ public class Pathfinder
                 float f = g + h;
 
                 // If distance to cell is above move limit
-                if (f > moveLimit)
+                if (f >= moveLimit)
                 {
                     continue;
                 }

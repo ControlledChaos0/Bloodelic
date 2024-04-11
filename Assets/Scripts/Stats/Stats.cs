@@ -14,6 +14,9 @@ public class Stats : MonoBehaviour
     [SerializeField] private int movement = 5;
     [SerializeField] private int actions = 1;
 
+    // Audio detection radius (used by NPCs)
+    [SerializeField] private float audioDetectionRadius = 3f;
+    
     public int Movement
     {
         get => movement;
@@ -24,6 +27,12 @@ public class Stats : MonoBehaviour
     {
         get => actions;
         set => actions = value;
+    }
+    
+    public float AudioRadius
+    {
+        get => audioDetectionRadius;
+        set => audioDetectionRadius = value;
     }
     
     #endregion

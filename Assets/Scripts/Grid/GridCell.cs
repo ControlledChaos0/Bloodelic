@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class GridCell : MonoBehaviour
+public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
 {
     //Most of these are serialized explicitly so that these values will be saved when grid is created in editor
     [SerializeField]
@@ -41,16 +41,28 @@ public class GridCell : MonoBehaviour
     private Renderer _renderer;
     private Color _savedColor;
     private bool _isOccupied;
+    
+    public MovementEvent ItemMoved = new MovementEvent();
 
     private void Start() {
         _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
         _savedColor = _renderer.material.color;
+        //_collider.enabled = false;
+        //GridManager.OnCellOccupantChanged += OnCellOccupantChanged;
+    }
+
+    private void OnDestroy()
+    {
+        //GridManager.OnCellOccupantChanged -= OnCellOccupantChanged;
     }
 
     public void TurnBlue() {
-        _renderer.material.color = Color.blue;
+        _renderer.material.color = Color.red;
     }
     public void SaveColor() {
+        if (_renderer == null) {
+            _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        }
         _savedColor = _renderer.material.color;
     }
     public void RevertColor() {
@@ -65,6 +77,17 @@ public class GridCell : MonoBehaviour
                 connectedGridCell.TurnBlue();
             }
         }
+    }
+    public void ShowCell()
+    {
+        _renderer.enabled = true;
+    }
+    public void HideCell()
+    {
+        _renderer.enabled = false;
+    }
+    public bool IsShowing() {
+        return _renderer.enabled;
     }
     public void SetF(float g, float h) {
         G = g;
@@ -82,6 +105,7 @@ public class GridCell : MonoBehaviour
     
     public void SetOccupant(Entity occupant)
     {
+        Debug.Log("SetOccupant called");
         // Log error if cell is occupied
         if (entityOccupant != null)
         {
@@ -90,6 +114,8 @@ public class GridCell : MonoBehaviour
         }
 
         entityOccupant = occupant;
+
+        Publish(occupant, this);
         
         // For human occupants, also set wall neighbors to occupied
         Human human = occupant as Human;
@@ -103,22 +129,25 @@ public class GridCell : MonoBehaviour
         }
     }
     
-    public void Unoccupy()
+    public void Unoccupy(bool alsoUnoccupyWallNeighbors = true)
     {
-        // For human occupants, also set wall neighbors to occupied
-        Human human = entityOccupant as Human;
-        if (human != null)
+        if (alsoUnoccupyWallNeighbors)
         {
-            List<GridCell> wallNeighbors = GetWallNeighbors();
-            foreach (var n in wallNeighbors)
+            // For human occupants, also set wall neighbors to occupied
+            Human human = entityOccupant as Human;
+            if (human != null)
             {
-                n.Unoccupy();
+                List<GridCell> wallNeighbors = GetWallNeighbors();
+                foreach (var n in wallNeighbors)
+                {
+                    n.Unoccupy(false);
+                }
             }
         }
-        
         entityOccupant = null;
     }
     
+
     // A cell is considered occupied when:
     //  - An entity occupies it
     //  - A LARGE object occupies it
@@ -143,6 +172,11 @@ public class GridCell : MonoBehaviour
         return wallNeighbors;
     }
 
+    public bool IsWall()
+    {
+        return Position.PositionE != GridCellPositionEnum.BOTTOM;
+    }
+
     #endregion
     
     #region Debug
@@ -158,5 +192,13 @@ public class GridCell : MonoBehaviour
             }
         }
         #endif
+    #endregion
+
+    #region Publisher
+
+    public void Publish(Entity e, GridCell g) {
+        ItemMoved?.Invoke(e, g);
+    }
+
     #endregion
 }
