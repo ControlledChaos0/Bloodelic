@@ -9,7 +9,7 @@ public static class ConstantValues
         get => 1<<6;
     }
     public static LayerMask AllClickMasks {
-        get => GridMask + EntityMask + UIMask;
+        get => GridMask + EntityMask + UIMask + ObjectMask;
     }
     public static LayerMask GridMask {
         get => 1<<3;
@@ -19,6 +19,9 @@ public static class ConstantValues
     }
     public static LayerMask EntityMask {
         get => 1<<7;
+    }
+    public static LayerMask ObjectMask {
+        get => 1<<8;
     }
 
     /**Array for defining what sides can connect with which where

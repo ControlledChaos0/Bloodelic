@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LargeMoveableObject : LargeObject
+public class LargeHoldableObject : LargeObject
 {
     // Start is called before the first frame update
     void Start()

@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void addItemToInventory(SmallMoveableObject newObject)
+    private void addItemToInventory(SmallHoldableObject newObject)
     {
         Slot openSlot = null;
         for (int i = 0; i < inventorySlots.Count; i++)
@@ -37,6 +37,6 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
-        SmallMoveableObject.pickedUp += addItemToInventory;
+        SmallHoldableObject.pickedUp += addItemToInventory;
     }
 }

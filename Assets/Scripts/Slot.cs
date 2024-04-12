@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour
 {
-    private SmallMoveableObject heldObject;
+    private SmallHoldableObject heldObject;
     private Image thisSlotImage;
 
     private bool hovered;
@@ -16,12 +16,12 @@ public class Slot : MonoBehaviour
         setObject(null);
     }
 
-    public SmallMoveableObject getObject()
+    public SmallHoldableObject getObject()
     {
         return heldObject;
     }
 
-    public void setObject(SmallMoveableObject curObject)
+    public void setObject(SmallHoldableObject curObject)
     {
         if (curObject == null)
         {

@@ -9,7 +9,10 @@ public class TurnSystem : Singleton<TurnSystem>
     [SerializeField] private TurnDisplay turnDisplay;
     // This list contains all entities AND the order in which they take their turn
     public List<Entity> turnOrder = new List<Entity>();
-    public Entity activeEntity;
+    private Entity activeEntity;
+    public Entity ActiveEntity {
+        get => activeEntity;
+    }
     private int _activeEntityIdx;
 
     // Tells all NPC AIs to update state once
