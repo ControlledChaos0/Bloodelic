@@ -133,14 +133,15 @@ public abstract class Entity : Occupant
             Spline currSpline = splineContainer.Splines[i];
 
             float t = 0;
-            // Quaternion start = transform.rotation;
-            // Quaternion end = currSpline[0].Rotation;
-            // float rotateTime = Quaternion.Angle(start, end) / rotateSpeed;
-            // while (t < rotateTime) {
-            //     transform.rotation = Quaternion.Lerp(start, end, t / rotateTime);
-            //     t += Time.fixedDeltaTime;
-            //     yield return new WaitForFixedUpdate();
-            // }
+            Quaternion start = transform.rotation;
+            Quaternion end = currSpline[0].Rotation;
+            float rotateTime = Quaternion.Angle(start, end) / rotateSpeed;
+            while (t < rotateTime) {
+                transform.rotation = Quaternion.Lerp(start, end, t / rotateTime);
+                t += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+            //transform.rotation = currSpline[0].Rotation;
 
             t = 0;
             float moveTime = currSpline.GetLength() / moveSpeed;
@@ -148,13 +149,18 @@ public abstract class Entity : Occupant
             float3 tangent;
             float3 upward;
             while (t < moveTime) {
-                currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
+                if (t == 0) {
+                    currSpline.Evaluate(0.001f, out pos, out tangent, out upward);
+                } else {
+                    currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
+                }
                 transform.position = (Vector3)pos + pathStartPos;
                 transform.up = upward;
                 transform.forward = tangent;
                 t += Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
             }
+            transform.rotation = currSpline[1].Rotation;
         }
         Destroy(splineContainer.gameObject);
         yield break;

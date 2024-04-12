@@ -4,13 +4,21 @@ using System.Linq;
 using UnityEngine;
 
 // basic human class that does the PerformAction
+[RequireComponent(typeof(Killable))]
 public class Human : DummyNPC
 {
     [SerializeField]
+    private Killable _killable;
+    [SerializeField]
     private RagdollSwitch _ragdollSwitch;
+
+    public RagdollSwitch RagdollSwitch {
+        get { return _ragdollSwitch;}
+    }
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        _killable.Human = this;
         base.Start();
         //HumanManager.Instance.ClickAction += Select;
     }

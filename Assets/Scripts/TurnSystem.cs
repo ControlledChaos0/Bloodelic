@@ -60,7 +60,7 @@ public class TurnSystem : Singleton<TurnSystem>
     }
 
     private void UpdateInputController() {
-        InputController.Instance.enabled = IsPlayersTurn();
+        // InputController.Instance.enabled = IsPlayersTurn();
         turnDisplay.UpdateEndTurnButton(IsPlayersTurn());
     }
 

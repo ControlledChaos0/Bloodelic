@@ -13,7 +13,7 @@ public class RagdollSwitch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        TurnOffRagdoll();
     }
 
     // Update is called once per frame

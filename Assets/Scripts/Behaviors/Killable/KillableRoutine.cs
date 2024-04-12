@@ -6,29 +6,26 @@ using UnityEngine;
 public class KillableRoutine : BehaviorRoutine
 {
     public override BehaviorState StartState {
-        get => new MoveGridSelect();
+        get => new KillableState();
     }
 
     /**
         Temporaries
     **/
-    private int _tempMovement;
-    public int TempMovement {
-        get => _tempMovement;
-        set => _tempMovement = value;
+    private bool _tempIsDead;
+    public bool TempIsDead {
+        get => _tempIsDead;
+        set => _tempIsDead = value;
     }
 
     
     public override void GetTemporaries()
     {
-        TempMovement = (behavior as Moveable).Movement;
-        Pathfinder.moveLimit = TempMovement;
+        TempIsDead = (behavior as Killable).IsDead;
     }
     public override void SetTemporaries()
     {
         Debug.Log("Bro are you running");
-        (behavior as Moveable).Movement = TempMovement;
-        Debug.Log($"Movement: {(behavior as Moveable).Movement}");
-        Pathfinder.moveLimit = Mathf.Infinity;
+        (behavior as Killable).IsDead = TempIsDead;
     }
 }

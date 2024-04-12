@@ -54,7 +54,7 @@ MonoBehaviour:
   occupiedCell: {fileID: 0}
   collider: {fileID: 7522021710052177492}
   moveSpeed: 2.19
-  rotateSpeed: 31.75
+  rotateSpeed: 110.2
   icon: {fileID: 21300000, guid: f43d0da3fee2d1342a432d8669b75c5e, type: 3}
   _inventory: {fileID: 8081302163617861824}
   _moveable: {fileID: 1686462321413958232}

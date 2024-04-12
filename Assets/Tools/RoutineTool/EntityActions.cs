@@ -43,6 +43,11 @@ public class ActionMove : EntityAction {
         uncommittedCell = EditorGUILayout.ObjectField("Target Cell", uncommittedCell == null
                                                                      ? targetCell : uncommittedCell, typeof(GridCell), true) as GridCell;
         EditorGUIUtility.labelWidth = 0;
+        if (targetCell == null && staticPosition != null) {
+            RaycastHit hitInfo;
+            Physics.SphereCast(staticPosition.Position, 0.25f, Vector3.forward, out hitInfo, 0.3f, ConstantValues.GridMask);
+            targetCell = hitInfo.transform.gameObject.GetComponentInParent<GridCell>();
+        }
         if (retargeting) {
             if (Selection.objects.Length > 0 && Selection.objects[0] is GameObject) {
                 GridCell cell = (Selection.objects[0] as GameObject).GetComponentInParent<GridCell>();

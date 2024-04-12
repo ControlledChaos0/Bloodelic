@@ -19,11 +19,10 @@ public class Killable : Behavior
     /**
         Behavior Specific Variables
     **/
-    private int _movement;
-
-    public int Movement {
-        get => _movement;
-        set => _movement = value;
+    private bool _isDead = false;
+    public bool IsDead {
+        get => _isDead;
+        set => _isDead = value;
     }
 
     /**
@@ -51,8 +50,15 @@ public class Killable : Behavior
     }
     public override bool CheckValid()
     {
-        Debug.Log($"Movement Remaining: {_movement}");
-        return _movement > 0;
+        if (IsDead) {
+            return false;
+        }
+        foreach (GridCell gridCell in TurnSystem.Instance.ActiveEntity.OccupiedCell.Neighbors) {
+            if (gridCell.IsOccupied() && gridCell.Occupant.Equals(_human)) {
+                return true;
+            }
+        }
+        return false;
     }
     public override void ResetBehaviorSpecifics()
     {
@@ -61,8 +67,8 @@ public class Killable : Behavior
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
         Debug.Log("Executing Moveable Routine");
-        //yield return null;
-        yield return null;
+        _human.RagdollSwitch.TurnOnRagdoll();
         SelectStateMachine.Instance.EndRoutine();
+        yield break;
     }
 }
