@@ -6,29 +6,33 @@ using UnityEngine;
 public class SmallHoldableRoutine : BehaviorRoutine
 {
     public override BehaviorState StartState {
-        get => new MoveGridSelect();
+        get => new SmallHoldableState();
     }
 
     /**
         Temporaries
     **/
-    private int _tempMovement;
-    public int TempMovement {
-        get => _tempMovement;
-        set => _tempMovement = value;
+    private bool _tempIsHeld;
+    private Entity _tempHeldEntity;
+    public bool TempIsHeld {
+        get => _tempIsHeld;
+        set => _tempIsHeld = value;
+    }
+    public Entity TempHeldEntity {
+        get => _tempHeldEntity;
+        set => _tempHeldEntity = value;
     }
 
     
     public override void GetTemporaries()
     {
-        TempMovement = (behavior as Moveable).Movement;
-        Pathfinder.moveLimit = TempMovement;
+        TempIsHeld = (behavior as SmallHoldable).IsHeld;
+        TempHeldEntity = (behavior as SmallHoldable).HeldEntity;
     }
     public override void SetTemporaries()
     {
         Debug.Log("Bro are you running");
-        (behavior as Moveable).Movement = TempMovement;
-        Debug.Log($"Movement: {(behavior as Moveable).Movement}");
-        Pathfinder.moveLimit = Mathf.Infinity;
+        (behavior as SmallHoldable).IsHeld = TempIsHeld;
+        (behavior as SmallHoldable).HeldEntity = TempHeldEntity;
     }
 }

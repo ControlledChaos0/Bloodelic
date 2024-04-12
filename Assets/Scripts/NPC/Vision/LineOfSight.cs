@@ -6,7 +6,7 @@ using KevinCastejon.ConeMesh;
 using System.Resources;
 using Unity.VisualScripting;
 
-public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
+public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     IPublisher<GridCellPosition, LineOfSight.ItemSpotted>
 {
     //Sight subscription/Publishing things
@@ -221,7 +221,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Entity, GridCell>,
      * Receives messages from GridCells about the current position of an entity.
      * Checks if this entity can be seen and raises suspicion level if needed.
      */
-    public void ReceiveMessage(Entity o, GridCell g)
+    public void ReceiveMessage(Occupant o, GridCell g)
     {
         //Debug.Log("In ReceiveMessage");
         if (o == null || g == null)

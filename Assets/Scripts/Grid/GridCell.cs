@@ -100,6 +100,7 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
     
     #region Occupant
 
+    [SerializeField]
     private Occupant _occupant;
     public Occupant Occupant => _occupant;
     
@@ -154,7 +155,7 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
 
         foreach (var n in _neighbors)
         {
-            if (n != null && n._position.Position.y != _position.Position.y)
+            if (n != null && n._position.Position.y > _position.Position.y)
             {
                 wallNeighbors.Add(n);                    
             }

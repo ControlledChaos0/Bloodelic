@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class SmallHoldableObject : SmallObject
+[RequireComponent(typeof(SmallHoldable))]
+public abstract class SmallHoldableObject : SmallObject
 {
-    public new string name = "New Item";
-    public string description = "bluhbluhbluh";
     public Sprite icon;
     public static event Action<SmallHoldableObject> pickedUp;
+
+    [Header("Behaviors")]
+    [SerializeField]
+    protected SmallHoldable smallHoldable;
+
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
+        smallHoldable.Object = this;
+        base.Start();
     }
 
     // Update is called once per frame
@@ -21,7 +26,7 @@ public class SmallHoldableObject : SmallObject
         
     }
 
-    public void gettingPickedUp()
+    public void GettingPickedUp()
     {
         pickedUp?.Invoke(this);
     }

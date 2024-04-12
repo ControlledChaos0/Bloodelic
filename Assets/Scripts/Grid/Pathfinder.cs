@@ -73,7 +73,7 @@ public class Pathfinder
                     continue;
                 }
                 // If cell is occupied
-                if (cell.IsOccupied())
+                if (cell.IsOccupied() && cell.Occupant.BlockCells)
                 {
                     continue;
                 }

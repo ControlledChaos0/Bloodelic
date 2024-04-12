@@ -6,6 +6,8 @@ using UnityEngine;
 // basic human class that does the PerformAction
 public class Human : DummyNPC
 {
+    [SerializeField]
+    private RagdollSwitch _ragdollSwitch;
     // Start is called before the first frame update
     protected virtual void Start()
     {

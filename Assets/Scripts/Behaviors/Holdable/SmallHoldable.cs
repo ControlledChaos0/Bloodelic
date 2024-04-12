@@ -19,14 +19,22 @@ public class SmallHoldable : Behavior
     /**
         Behavior Specific Variables
     **/
+    [SerializeField]
     private bool _isHeld;
+    [SerializeField]
+    private float _pickUpSpeed = 10f;
+
+    private Entity _heldEntity;
+    private Vector3 _objPos;
+    private Vector3 _objDir;
+
     public bool IsHeld {
         get => _isHeld;
         set => _isHeld = value;
     }
-    private Entity _heldEntity;
     public Entity HeldEntity {
         get => _heldEntity;
+        set => _heldEntity = value;
     }
 
     /**
@@ -68,18 +76,49 @@ public class SmallHoldable : Behavior
             }
             return false;
         } else {
-            return true;
+            foreach (GridCell gridCell in Object.OccupiedCell.Neighbors) {
+                if (!gridCell.IsOccupied()) {
+                    continue;
+                }
+                if (gridCell.Occupant.Equals(TurnSystem.Instance.ActiveEntity)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
     public override void ResetBehaviorSpecifics()
     {
-        //No resetting
+        return;
+    }
+    public override void ExecuteBehavior() {
+        behaviorRoutine.ExecuteBehaviorRoutine();
+        _objPos = _object.transform.position;
+        _objDir = (_heldEntity.transform.position - _objPos).normalized;
+        StartCoroutine(ExecuteBehaviorCoroutine());
     }
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
-        Debug.Log("Executing Moveable Routine");
-        //yield return null;
-        yield return null;
+        Debug.Log("Executing Small Holdable Routine");
+        if (IsHeld) {
+            yield return PickUpCoroutine();
+        } else {
+            yield return PutDownCoroutine();
+        }
         SelectStateMachine.Instance.EndRoutine();
+    }
+
+    private IEnumerator PickUpCoroutine() {
+        while (Vector3.Dot(_objDir, (_heldEntity.transform.position - _object.transform.position).normalized) > 0) {
+            _object.transform.position += _objDir * _pickUpSpeed * Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+        (_heldEntity as Monster).Inventory.addItemToInventory(_object);
+    }
+    private IEnumerator PutDownCoroutine() {
+        //if () {
+            yield return new WaitForFixedUpdate();
+        //}
+        _object.enabled = true;
     }
 }

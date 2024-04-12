@@ -2,23 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Occupant : MonoBehaviour
+[RequireComponent(typeof(BehaviorController))]
+public abstract class Occupant : MonoBehaviour
 {
     [SerializeField]
-    private GridCell _occupiedCell;
+    protected GridCell occupiedCell;
+    [SerializeField]
+    protected new Collider collider;
+    protected GridCell prevOccupiedCell;
+    protected BehaviorController behaviorController;
 
     public GridCell OccupiedCell {
-        get => _occupiedCell;
-        set => _occupiedCell = value;
+        get => occupiedCell;
+        set => occupiedCell = value;
     }
+    public abstract bool BlockCells {
+        get;
+    }
+
+
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        
+        behaviorController = GetComponent<BehaviorController>();
+        behaviorController.InitializeBehaviors();
+
+        Vector3 vec = transform.rotation * Vector3.down;
+        if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
+        {
+            Debug.Log("Hits!");
+            occupiedCell = hit.transform.GetComponent<GridCell>();
+            prevOccupiedCell = occupiedCell;
+            //testCell = occupiedCell;
+            // Set occupant for occupied cell
+            occupiedCell.SetOccupant(this);
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }
@@ -26,9 +48,9 @@ public class Occupant : MonoBehaviour
     public void SetOccupation(GridCell cell)
     {
         if (cell == null) { return; }
-        _occupiedCell.Unoccupy();
-        _occupiedCell = cell;
+        occupiedCell.Unoccupy();
+        occupiedCell = cell;
         // Set occupant for occupied cell
-        _occupiedCell.SetOccupant(this);
+        occupiedCell.SetOccupant(this);
     }
 }

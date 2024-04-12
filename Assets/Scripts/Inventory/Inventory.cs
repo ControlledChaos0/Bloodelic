@@ -12,11 +12,12 @@ public class Inventory : MonoBehaviour
     {
         foreach (Slot uiSlot in inventorySlots) 
         {
+            
             uiSlot.initializeSlot();
         }
     }
 
-    private void addItemToInventory(SmallHoldableObject newObject)
+    public void addItemToInventory(SmallHoldableObject newObject)
     {
         Slot openSlot = null;
         for (int i = 0; i < inventorySlots.Count; i++)

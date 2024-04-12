@@ -13,6 +13,9 @@ public class DummyNPC : Entity {
             return routine;
         }
     }
+    public override bool BlockCells {
+        get => true;
+    }
     
     protected AIBrain aiBrain { get; set; }
     
