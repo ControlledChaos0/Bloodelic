@@ -5,32 +5,36 @@ using UnityEngine;
 //So this is just a behavior that interacts with the movement function within the Entity class
 //Maybe I should just move out all the interaction code to here
 //huh
-public class Holdable : Behavior
+public class SmallHoldable : Behavior
 {
     /**
         Controlling Thing
     **/
-    private Human _human;
-    public Human Human {
-        get => _human;
-        set => _human = value;
+    private SmallHoldableObject _object;
+    public SmallHoldableObject Object {
+        get => _object;
+        set => _object = value;
     }
 
     /**
         Behavior Specific Variables
     **/
-    private int _movement;
-
-    public int Movement {
-        get => _movement;
-        set => _movement = value;
+    private bool _isHeld;
+    public bool IsHeld {
+        get => _isHeld;
+        set => _isHeld = value;
     }
 
     /**
         Identifiers
     **/
     public override string Name {
-        get => "Drain";
+        get {
+            if (IsHeld) {
+                return "Put Down";
+            }
+            return "Pick Up";
+        }
     }
     public override bool NPCInteract {
         get => false;
@@ -47,12 +51,12 @@ public class Holdable : Behavior
 
     public override BehaviorRoutine CreateRoutine()
     {
-        return new KillableRoutine();
+        return new SmallHoldableRoutine();
     }
     public override bool CheckValid()
     {
-        Debug.Log($"Movement Remaining: {_movement}");
-        return _movement > 0;
+        //return _movement > 0;
+        return false;
     }
     public override void ResetBehaviorSpecifics()
     {

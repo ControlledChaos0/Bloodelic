@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class HoldableState : BehaviorState {
+public class SmallHoldableState : BehaviorState {
     private LayerMask _prevLayerMask;
     private Moveable _moveable;
     private List<GridCell> _gridCells;
