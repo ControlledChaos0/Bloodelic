@@ -6,29 +6,22 @@ using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(BehaviorController))]
+
 #pragma warning disable CS3009 // Base type is not CLS-compliant
-public class Entity : MonoBehaviour
+public abstract class Entity : Occupant
 #pragma warning restore CS3009 // Base type is not CLS-compliant
 {
-    [SerializeField]
-    protected new Collider collider;
-    [SerializeField]
-    protected GridCell occupiedCell;
     [SerializeField]
     protected float moveSpeed = 10f;
     [SerializeField]
     protected float rotateSpeed = 10f;
     public Sprite icon;
     protected Selectable selectable;
-    protected BehaviorController behaviorController;
     protected SplineContainer splineContainer;
     protected Spline currSpline;
     protected Vector3 GroundPosition => transform.position + (transform.rotation * offset);
     protected Vector3 OffsetGridPos => occupiedCell.transform.position + (occupiedCell.transform.rotation * -offset);
-    protected Vector3 OffsetPrevGridPos => prevOccupiedCell.transform.position + (prevOccupiedCell.transform.rotation * -offset);
     protected GridPath linkedPath;
-    protected GridCell prevOccupiedCell;
     protected Quaternion fromRot;
     protected Quaternion toRot;
     protected Vector3 offset;
@@ -50,29 +43,17 @@ public class Entity : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         selectable = GetComponent<Selectable>();
-        behaviorController = GetComponent<BehaviorController>();
 
-        Vector3 vec = transform.rotation * Vector3.down;
-        if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
-        {
-            Debug.Log("Hits!");
-            occupiedCell = hit.transform.GetComponent<GridCell>();
-            prevOccupiedCell = occupiedCell;
-            testCell = occupiedCell;
-            // Set occupant for occupied cell
-            occupiedCell.SetOccupant(this);
-        }
         height = collider.bounds.size.z;
         offset = new Vector3(0, -height / 2, 0);
         move = false;
         
         // Stats reference
         stats = GetComponent<Stats>();
-
-        behaviorController.InitializeBehaviors();
         
         Debug.Log("End of Entity Start!");
     }
@@ -139,16 +120,6 @@ public class Entity : MonoBehaviour
         Debug.Log("MOVE IDIOT");
     }
 
-    public void SetOccupation(GridCell cell)
-    {
-        if (cell == null) { return; }
-        occupiedCell.Unoccupy();
-        occupiedCell = cell;
-        // Set occupant for occupied cell
-        occupiedCell.SetOccupant(this);
-        PostGridMovement();
-    }
-
     // Things that need to occur after entity occupies a new cell, implement in child classes
     protected virtual void PostGridMovement() {}
     
@@ -162,14 +133,15 @@ public class Entity : MonoBehaviour
             Spline currSpline = splineContainer.Splines[i];
 
             float t = 0;
-            // Quaternion start = transform.rotation;
-            // Quaternion end = currSpline[0].Rotation;
-            // float rotateTime = Quaternion.Angle(start, end) / rotateSpeed;
-            // while (t < rotateTime) {
-            //     transform.rotation = Quaternion.Lerp(start, end, t / rotateTime);
-            //     t += Time.fixedDeltaTime;
-            //     yield return new WaitForFixedUpdate();
-            // }
+            Quaternion start = transform.rotation;
+            Quaternion end = currSpline[0].Rotation;
+            float rotateTime = Quaternion.Angle(start, end) / rotateSpeed;
+            while (t < rotateTime) {
+                transform.rotation = Quaternion.Lerp(start, end, t / rotateTime);
+                t += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+            //transform.rotation = currSpline[0].Rotation;
 
             t = 0;
             float moveTime = currSpline.GetLength() / moveSpeed;
@@ -177,33 +149,28 @@ public class Entity : MonoBehaviour
             float3 tangent;
             float3 upward;
             while (t < moveTime) {
-                currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
+                if (t == 0) {
+                    currSpline.Evaluate(0.001f, out pos, out tangent, out upward);
+                } else {
+                    currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
+                }
                 transform.position = (Vector3)pos + pathStartPos;
                 transform.up = upward;
                 transform.forward = tangent;
                 t += Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
             }
+            transform.rotation = currSpline[1].Rotation;
         }
         Destroy(splineContainer.gameObject);
         yield break;
     }
     
-    #region Grid Cell
-
-    public GridCell OccupiedCell
-    {
-        get => occupiedCell;
-        set => occupiedCell = value;
-    }
-
-    #endregion
-    
     #region Stats
     protected Stats stats { get; set; }
     private int defaultMovement = 5;
     public int Movement => (stats != null) ? stats.Movement : defaultMovement;
-    
 
-    #endregion 
+
+    #endregion
 }

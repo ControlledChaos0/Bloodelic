@@ -271,6 +271,7 @@ MonoBehaviour:
   - {fileID: 443064559}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1228060
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -350,6 +351,7 @@ MonoBehaviour:
   - {fileID: 649058991}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2098215
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1053,6 +1055,7 @@ MonoBehaviour:
   - {fileID: 1879649798}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &9745652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1450,6 +1453,7 @@ MonoBehaviour:
   - {fileID: 626638943}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &12031178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1635,6 +1639,7 @@ MonoBehaviour:
   - {fileID: 1385090056}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &17452504
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1926,6 +1931,7 @@ MonoBehaviour:
   - {fileID: 883792927}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &24895673
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2039,6 +2045,7 @@ MonoBehaviour:
   - {fileID: 1360440420}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &29072976
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2224,6 +2231,7 @@ MonoBehaviour:
   - {fileID: 1182615740}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &34454415
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2515,6 +2523,7 @@ MonoBehaviour:
   - {fileID: 2076994938}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &43591142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2594,6 +2603,7 @@ MonoBehaviour:
   - {fileID: 1108967831}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &45404564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2673,6 +2683,7 @@ MonoBehaviour:
   - {fileID: 45404563}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &45957556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2964,6 +2975,7 @@ MonoBehaviour:
   - {fileID: 740382413}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &54557690
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3255,6 +3267,7 @@ MonoBehaviour:
   - {fileID: 1905113609}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &56253110
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3546,6 +3559,7 @@ MonoBehaviour:
   - {fileID: 737623639}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &59992311
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3625,6 +3639,7 @@ MonoBehaviour:
   - {fileID: 452549542}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &61879037
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3810,6 +3825,7 @@ MonoBehaviour:
   - {fileID: 87727793}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &64254296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3889,6 +3905,7 @@ MonoBehaviour:
   - {fileID: 721013431}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &66824799
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3968,6 +3985,7 @@ MonoBehaviour:
   - {fileID: 997052047}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &68728349
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4153,6 +4171,7 @@ MonoBehaviour:
   - {fileID: 1533513905}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &79796116
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4232,6 +4251,7 @@ MonoBehaviour:
   - {fileID: 263720018}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &79946655
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4311,6 +4331,7 @@ MonoBehaviour:
   - {fileID: 2084093529}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &84341832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4602,6 +4623,7 @@ MonoBehaviour:
   - {fileID: 565234428}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &86444390
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4787,6 +4809,7 @@ MonoBehaviour:
   - {fileID: 788057618}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &87074437
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4866,6 +4889,7 @@ MonoBehaviour:
   - {fileID: 1050112429}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &87727794
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4945,6 +4969,7 @@ MonoBehaviour:
   - {fileID: 855375275}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &87890246
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5236,6 +5261,7 @@ MonoBehaviour:
   - {fileID: 902112880}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &96983579
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5315,6 +5341,7 @@ MonoBehaviour:
   - {fileID: 1189642195}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &97765487
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5394,6 +5421,7 @@ MonoBehaviour:
   - {fileID: 1199570145}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &100051201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5579,6 +5607,7 @@ MonoBehaviour:
   - {fileID: 1197419956}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &102760861
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5764,6 +5793,7 @@ MonoBehaviour:
   - {fileID: 986970742}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &105605668
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5949,6 +5979,7 @@ MonoBehaviour:
   - {fileID: 1643636800}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &108531737
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6028,6 +6059,7 @@ MonoBehaviour:
   - {fileID: 1743931744}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &111875426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6213,6 +6245,7 @@ MonoBehaviour:
   - {fileID: 324362748}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &115623824
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6292,6 +6325,7 @@ MonoBehaviour:
   - {fileID: 1101990579}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &115737994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6477,6 +6511,7 @@ MonoBehaviour:
   - {fileID: 1343273312}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &119873216
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6556,6 +6591,7 @@ MonoBehaviour:
   - {fileID: 885274955}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &122820849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6741,6 +6777,7 @@ MonoBehaviour:
   - {fileID: 1489004209}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &128133605
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6820,6 +6857,7 @@ MonoBehaviour:
   - {fileID: 1906161649}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &129853057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7005,6 +7043,7 @@ MonoBehaviour:
   - {fileID: 578305779}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &130347496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7708,6 +7747,7 @@ MonoBehaviour:
   - {fileID: 1772855894}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &149957297
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7893,6 +7933,7 @@ MonoBehaviour:
   - {fileID: 1450243400}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &154664399
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7972,6 +8013,7 @@ MonoBehaviour:
   - {fileID: 2117733847}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &154798160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8157,6 +8199,7 @@ MonoBehaviour:
   - {fileID: 374774923}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &157233779
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8448,6 +8491,7 @@ MonoBehaviour:
   - {fileID: 1774834899}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &164478302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8527,6 +8571,7 @@ MonoBehaviour:
   - {fileID: 1878501135}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &166938733
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8712,6 +8757,7 @@ MonoBehaviour:
   - {fileID: 1981144070}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &172283237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8791,6 +8837,7 @@ MonoBehaviour:
   - {fileID: 2003822188}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &173408798
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8870,6 +8917,7 @@ MonoBehaviour:
   - {fileID: 984288638}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &176954802
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9267,6 +9315,7 @@ MonoBehaviour:
   - {fileID: 1639763065}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &198672020
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9558,6 +9607,7 @@ MonoBehaviour:
   - {fileID: 1036851469}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &206894687
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9637,6 +9687,7 @@ MonoBehaviour:
   - {fileID: 263251633}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &210055460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9716,6 +9767,7 @@ MonoBehaviour:
   - {fileID: 869120522}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &212231299
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9795,6 +9847,7 @@ MonoBehaviour:
   - {fileID: 2087578767}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &213754201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9903,6 +9956,7 @@ MonoBehaviour:
   - {fileID: 418707434}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &219937825
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9982,6 +10036,7 @@ MonoBehaviour:
   - {fileID: 115623823}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &222135591
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10167,6 +10222,7 @@ MonoBehaviour:
   - {fileID: 840916094}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &227873417
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10384,6 +10440,7 @@ MonoBehaviour:
   - {fileID: 732305537}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &232974059
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10463,6 +10520,7 @@ MonoBehaviour:
   - {fileID: 968854323}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &234879816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10542,6 +10600,7 @@ MonoBehaviour:
   - {fileID: 835747476}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &238169867
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10621,6 +10680,7 @@ MonoBehaviour:
   - {fileID: 738132198}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &240731235
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11018,6 +11078,7 @@ MonoBehaviour:
   - {fileID: 1643636800}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &255579776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11097,6 +11158,7 @@ MonoBehaviour:
   - {fileID: 1061520377}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &257315486
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11176,6 +11238,7 @@ MonoBehaviour:
   - {fileID: 400666716}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &258290525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11361,6 +11424,7 @@ MonoBehaviour:
   - {fileID: 1671352787}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &261248785
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11440,6 +11504,7 @@ MonoBehaviour:
   - {fileID: 1239237661}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &263251634
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11519,6 +11584,7 @@ MonoBehaviour:
   - {fileID: 966811396}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &263720019
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11598,6 +11664,7 @@ MonoBehaviour:
   - {fileID: 1948039154}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &264757286
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12207,6 +12274,7 @@ MonoBehaviour:
   - {fileID: 1259820635}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &273926638
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12286,6 +12354,7 @@ MonoBehaviour:
   - {fileID: 837956320}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &274680122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12365,6 +12434,7 @@ MonoBehaviour:
   - {fileID: 1155594876}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &275867595
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12656,6 +12726,7 @@ MonoBehaviour:
   - {fileID: 1179843749}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &282983144
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12735,6 +12806,7 @@ MonoBehaviour:
   - {fileID: 927500385}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &284872052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13132,6 +13204,7 @@ MonoBehaviour:
   - {fileID: 1229069733}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &299322994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13211,6 +13284,7 @@ MonoBehaviour:
   - {fileID: 1951509930}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &300092279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13608,6 +13682,7 @@ MonoBehaviour:
   - {fileID: 608766185}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &313889710
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13793,6 +13868,7 @@ MonoBehaviour:
   - {fileID: 79946654}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &316723036
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13872,6 +13948,7 @@ MonoBehaviour:
   - {fileID: 699115287}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &324362749
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13951,6 +14028,7 @@ MonoBehaviour:
   - {fileID: 84341831}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &327842769
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14136,6 +14214,7 @@ MonoBehaviour:
   - {fileID: 61879036}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &331797534
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14215,6 +14294,7 @@ MonoBehaviour:
   - {fileID: 1956005531}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &332352945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14294,6 +14374,7 @@ MonoBehaviour:
   - {fileID: 264757285}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &335690477
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14373,6 +14454,7 @@ MonoBehaviour:
   - {fileID: 658952295}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &338031435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14452,6 +14534,7 @@ MonoBehaviour:
   - {fileID: 257315485}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &342499502
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14637,6 +14720,7 @@ MonoBehaviour:
   - {fileID: 363943722}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &346117524
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15034,6 +15118,7 @@ MonoBehaviour:
   - {fileID: 718020789}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &349134254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15325,6 +15410,7 @@ MonoBehaviour:
   - {fileID: 1065904140}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &351827513
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15404,6 +15490,7 @@ MonoBehaviour:
   - {fileID: 1428494914}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &353253241
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15837,6 +15924,7 @@ MonoBehaviour:
   - {fileID: 685385597}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &363746800
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15916,6 +16004,7 @@ MonoBehaviour:
   - {fileID: 873626271}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &363880126
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15995,6 +16084,7 @@ MonoBehaviour:
   - {fileID: 829278881}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &363943723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16286,6 +16376,7 @@ MonoBehaviour:
   - {fileID: 701595867}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &374774924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16365,6 +16456,7 @@ MonoBehaviour:
   - {fileID: 1983690839}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &375645160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16550,6 +16642,7 @@ MonoBehaviour:
   - {fileID: 351827512}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &377809057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16947,6 +17040,7 @@ MonoBehaviour:
   - {fileID: 157233778}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &385032696
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17026,6 +17120,7 @@ MonoBehaviour:
   - {fileID: 900153748}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &389598946
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17105,6 +17200,7 @@ MonoBehaviour:
   - {fileID: 1461850185}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &393735554
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17184,6 +17280,7 @@ MonoBehaviour:
   - {fileID: 544884025}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &395036906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17263,6 +17360,7 @@ MonoBehaviour:
   - {fileID: 666413562}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &395177079
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17554,6 +17652,7 @@ MonoBehaviour:
   - {fileID: 840092957}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &400666717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17866,7 +17965,7 @@ PrefabInstance:
     - target: {fileID: 9196561671258941549, guid: c1cdff56f14f2c24b9c8fe7b7d7a1f7e, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 994847053}
+      objectReference: {fileID: 1636843145}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17983,6 +18082,96 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411700121}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &412449711
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1716934414}
+    m_Modifications:
+    - target: {fileID: 1426585300386443594, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: managedReferences[3129491726785576960].targetCell
+      value: 
+      objectReference: {fileID: 2107868648}
+    - target: {fileID: 1426585300386443594, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: managedReferences[3129491726785576961].targetCell
+      value: 
+      objectReference: {fileID: 1951509930}
+    - target: {fileID: 1426585300386443594, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: managedReferences[3129491726785576962].targetCell
+      value: 
+      objectReference: {fileID: 176954801}
+    - target: {fileID: 1426585300386443594, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: managedReferences[3129491726785576963].targetCell
+      value: 
+      objectReference: {fileID: 1956083535}
+    - target: {fileID: 4657372463478554475, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: monster
+      value: 
+      objectReference: {fileID: 1737648114}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152766570162565231, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: m_Name
+      value: Human
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525575861490318346, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1504229683}
+    - target: {fileID: 7525575861490318346, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 675052697}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+--- !u!4 &412449712 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+  m_PrefabInstance: {fileID: 412449711}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &412600274
 GameObject:
   m_ObjectHideFlags: 0
@@ -18131,6 +18320,7 @@ MonoBehaviour:
   - {fileID: 2125191587}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &414073084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18210,6 +18400,7 @@ MonoBehaviour:
   - {fileID: 300092278}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &414715870
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18289,6 +18480,7 @@ MonoBehaviour:
   - {fileID: 1733843786}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &418707435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18368,6 +18560,7 @@ MonoBehaviour:
   - {fileID: 1845102673}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &420670940
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18541,6 +18734,7 @@ MonoBehaviour:
   - {fileID: 172283236}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &422303392
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18620,6 +18814,7 @@ MonoBehaviour:
   - {fileID: 476692901}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &423175367
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18699,6 +18894,7 @@ MonoBehaviour:
   - {fileID: 473433926}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &424924571
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18990,6 +19186,7 @@ MonoBehaviour:
   - {fileID: 1155170106}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &427562108
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19281,6 +19478,7 @@ MonoBehaviour:
   - {fileID: 1230437180}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &431205992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19360,6 +19558,7 @@ MonoBehaviour:
   - {fileID: 1370995709}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &431885155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19863,6 +20062,7 @@ MonoBehaviour:
   - {fileID: 1465489171}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &440877724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20048,6 +20248,7 @@ MonoBehaviour:
   - {fileID: 2002859218}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &443064560
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20127,6 +20328,7 @@ MonoBehaviour:
   - {fileID: 1910027413}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &452549543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20206,6 +20408,7 @@ MonoBehaviour:
   - {fileID: 1665245417}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &453059111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20285,6 +20488,7 @@ MonoBehaviour:
   - {fileID: 1032602908}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &458433423
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20682,6 +20886,7 @@ MonoBehaviour:
   - {fileID: 1133706160}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &468988710
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20761,6 +20966,7 @@ MonoBehaviour:
   - {fileID: 2141236458}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &469808127
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20840,6 +21046,7 @@ MonoBehaviour:
   - {fileID: 1386548010}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &473317497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20919,6 +21126,7 @@ MonoBehaviour:
   - {fileID: 1878324923}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &473433927
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20998,6 +21206,7 @@ MonoBehaviour:
   - {fileID: 2026133183}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &476692902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21183,6 +21392,7 @@ MonoBehaviour:
   - {fileID: 1040962619}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &478133637
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21262,6 +21472,7 @@ MonoBehaviour:
   - {fileID: 1789922803}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &478794292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21659,6 +21870,7 @@ MonoBehaviour:
   - {fileID: 87890245}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &487306502
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21738,6 +21950,7 @@ MonoBehaviour:
   - {fileID: 1330841973}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &490833330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21923,6 +22136,7 @@ MonoBehaviour:
   - {fileID: 468988709}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &492400653
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22744,6 +22958,7 @@ MonoBehaviour:
   - {fileID: 1271316097}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &509637859
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22823,6 +23038,7 @@ MonoBehaviour:
   - {fileID: 864133133}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &510797932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23008,6 +23224,7 @@ MonoBehaviour:
   - {fileID: 785343944}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &514610469
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23087,6 +23304,7 @@ MonoBehaviour:
   - {fileID: 1610766501}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &515285292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23166,6 +23384,7 @@ MonoBehaviour:
   - {fileID: 395177078}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &516278573
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23245,6 +23464,7 @@ MonoBehaviour:
   - {fileID: 870773960}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &520330805
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23526,11 +23746,11 @@ RectTransform:
   - {fileID: 1787425120}
   - {fileID: 1229797140}
   - {fileID: 821206833}
-  m_Father: {fileID: 1047971486}
+  m_Father: {fileID: 1437431422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 25, y: 25}
+  m_AnchoredPosition: {x: -639, y: -326.5}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &531464770
@@ -23705,6 +23925,7 @@ MonoBehaviour:
   - {fileID: 1163627150}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &534620089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24102,6 +24323,7 @@ MonoBehaviour:
   - {fileID: 1663948612}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &539878419
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24181,6 +24403,7 @@ MonoBehaviour:
   - {fileID: 1188542545}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &540476787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24260,6 +24483,7 @@ MonoBehaviour:
   - {fileID: 725312903}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &541005121
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24445,6 +24669,7 @@ MonoBehaviour:
   - {fileID: 12031177}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &544884026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24524,6 +24749,7 @@ MonoBehaviour:
   - {fileID: 813130469}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &547269808
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24709,6 +24935,7 @@ MonoBehaviour:
   - {fileID: 385032695}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &550333034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24894,6 +25121,7 @@ MonoBehaviour:
   - {fileID: 1983099062}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &560116739
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24973,6 +25201,7 @@ MonoBehaviour:
   - {fileID: 478794291}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &564268377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25158,6 +25387,7 @@ MonoBehaviour:
   - {fileID: 1935785611}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &565234429
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25449,6 +25679,7 @@ MonoBehaviour:
   - {fileID: 2004957823}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &578305780
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25528,6 +25759,7 @@ MonoBehaviour:
   - {fileID: 427562107}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &584854879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25607,6 +25839,7 @@ MonoBehaviour:
   - {fileID: 149957296}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &586039927
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26004,6 +26237,7 @@ MonoBehaviour:
   - {fileID: 1188122711}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &599874886
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26083,6 +26317,7 @@ MonoBehaviour:
   - {fileID: 651140386}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &601132451
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26268,6 +26503,7 @@ MonoBehaviour:
   - {fileID: 1789659804}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &602955217
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26559,6 +26795,7 @@ MonoBehaviour:
   - {fileID: 1979795336}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &608766186
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27062,6 +27299,7 @@ MonoBehaviour:
   - {fileID: 715688159}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &621809960
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27247,6 +27485,7 @@ MonoBehaviour:
   - {fileID: 1774936116}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &625600892
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27326,6 +27565,7 @@ MonoBehaviour:
   - {fileID: 86444389}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &626638944
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27405,6 +27645,7 @@ MonoBehaviour:
   - {fileID: 514610468}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &633183392
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27590,6 +27831,7 @@ MonoBehaviour:
   - {fileID: 210055459}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &637214727
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27775,6 +28017,7 @@ MonoBehaviour:
   - {fileID: 1555597736}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &644357774
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27854,6 +28097,7 @@ MonoBehaviour:
   - {fileID: 1867931165}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &644796412
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27933,6 +28177,7 @@ MonoBehaviour:
   - {fileID: 105605667}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &644948749
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28118,6 +28363,7 @@ MonoBehaviour:
   - {fileID: 1435943584}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &649058992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28197,6 +28443,7 @@ MonoBehaviour:
   - {fileID: 2103812128}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &651140387
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28594,6 +28841,7 @@ MonoBehaviour:
   - {fileID: 54557689}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &656085545
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28673,6 +28921,7 @@ MonoBehaviour:
   - {fileID: 1751831982}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &658952296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29176,6 +29425,7 @@ MonoBehaviour:
   - {fileID: 154664398}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &666413563
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29679,6 +29929,7 @@ MonoBehaviour:
   - {fileID: 1924645078}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &675051588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30293,6 +30544,7 @@ MonoBehaviour:
   - {fileID: 792593175}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &685385598
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30372,6 +30624,7 @@ MonoBehaviour:
   - {fileID: 1626933803}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &688423845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30451,6 +30704,7 @@ MonoBehaviour:
   - {fileID: 1158544346}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &692700986
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30636,6 +30890,7 @@ MonoBehaviour:
   - {fileID: 1916491954}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &694401347
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30821,6 +31076,7 @@ MonoBehaviour:
   - {fileID: 1780663905}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &696329624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31218,6 +31474,7 @@ MonoBehaviour:
   - {fileID: 1160616961}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &699115288
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31297,6 +31554,7 @@ MonoBehaviour:
   - {fileID: 119873215}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &699869891
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31376,6 +31634,7 @@ MonoBehaviour:
   - {fileID: 2066022586}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &701595868
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31455,6 +31714,7 @@ MonoBehaviour:
   - {fileID: 1134454470}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &702420516
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31534,6 +31794,7 @@ MonoBehaviour:
   - {fileID: 1996218432}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &703231426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31613,6 +31874,7 @@ MonoBehaviour:
   - {fileID: 130347495}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &707882109
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32010,6 +32272,7 @@ MonoBehaviour:
   - {fileID: 1567984162}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &715208634
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32089,6 +32352,7 @@ MonoBehaviour:
   - {fileID: 644948748}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &715688160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32168,6 +32432,7 @@ MonoBehaviour:
   - {fileID: 799032886}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &716399454
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32247,6 +32512,7 @@ MonoBehaviour:
   - {fileID: 2094026794}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &716416080
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32326,6 +32592,7 @@ MonoBehaviour:
   - {fileID: 1713539461}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &718020790
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32617,6 +32884,7 @@ MonoBehaviour:
   - {fileID: 539878418}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &719096836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32802,6 +33070,7 @@ MonoBehaviour:
   - {fileID: 699869890}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &721013432
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32881,6 +33150,7 @@ MonoBehaviour:
   - {fileID: 738875469}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &722474605
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32960,6 +33230,7 @@ MonoBehaviour:
   - {fileID: 238169866}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &723877671
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33145,6 +33416,7 @@ MonoBehaviour:
   - {fileID: 400666716}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &725312904
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33436,6 +33708,7 @@ MonoBehaviour:
   - {fileID: 423175366}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &730607858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33515,6 +33788,7 @@ MonoBehaviour:
   - {fileID: 1263155008}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &732305538
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33806,6 +34080,7 @@ MonoBehaviour:
   - {fileID: 1228135574}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &735639861
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33885,6 +34160,7 @@ MonoBehaviour:
   - {fileID: 1293316202}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &737623640
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33964,6 +34240,7 @@ MonoBehaviour:
   - {fileID: 1336175224}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &738132199
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34043,6 +34320,7 @@ MonoBehaviour:
   - {fileID: 716416079}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &738875470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34228,6 +34506,7 @@ MonoBehaviour:
   - {fileID: 1956083535}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &740382414
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34413,6 +34692,7 @@ MonoBehaviour:
   - {fileID: 1414890864}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &744975937
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34492,6 +34772,7 @@ MonoBehaviour:
   - {fileID: 1378273319}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &750679821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34995,6 +35276,7 @@ MonoBehaviour:
   - {fileID: 1432090725}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &758814518
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35074,6 +35356,7 @@ MonoBehaviour:
   - {fileID: 2143498729}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &759110769
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35153,6 +35436,7 @@ MonoBehaviour:
   - {fileID: 173408797}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &759494483
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35232,6 +35516,7 @@ MonoBehaviour:
   - {fileID: 1119834176}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &759950253
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35311,6 +35596,7 @@ MonoBehaviour:
   - {fileID: 802913634}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &762762879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35390,6 +35676,7 @@ MonoBehaviour:
   - {fileID: 1126428994}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &764045207
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35469,6 +35756,7 @@ MonoBehaviour:
   - {fileID: 453059110}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &764108591
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35548,6 +35836,7 @@ MonoBehaviour:
   - {fileID: 2051759588}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &774945832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35627,6 +35916,7 @@ MonoBehaviour:
   - {fileID: 424924570}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &774971516
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35706,6 +35996,7 @@ MonoBehaviour:
   - {fileID: 656085544}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &777737599
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35891,6 +36182,7 @@ MonoBehaviour:
   - {fileID: 487306501}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &785343945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36076,6 +36368,7 @@ MonoBehaviour:
   - {fileID: 2121171574}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &788057619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36155,6 +36448,7 @@ MonoBehaviour:
   - {fileID: 2028129347}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &789005373
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36340,6 +36634,7 @@ MonoBehaviour:
   - {fileID: 1300355500}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &792593176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36631,6 +36926,7 @@ MonoBehaviour:
   - {fileID: 722474604}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &799032887
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36816,6 +37112,7 @@ MonoBehaviour:
   - {fileID: 707882108}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &802913635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37443,6 +37740,7 @@ MonoBehaviour:
   - {fileID: 1425691017}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &813130470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37822,6 +38120,7 @@ MonoBehaviour:
   - {fileID: 375645159}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &822321272
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37901,6 +38200,7 @@ MonoBehaviour:
   - {fileID: 316723035}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &828765820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37980,6 +38280,7 @@ MonoBehaviour:
   - {fileID: 1530317751}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &829095216
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38059,6 +38360,7 @@ MonoBehaviour:
   - {fileID: 327842768}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &829278882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38350,6 +38652,7 @@ MonoBehaviour:
   - {fileID: 1095818871}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &835747477
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38429,6 +38732,7 @@ MonoBehaviour:
   - {fileID: 822321271}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &836430237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38508,6 +38812,7 @@ MonoBehaviour:
   - {fileID: 393735553}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &837956321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38675,6 +38980,7 @@ MonoBehaviour:
   - {fileID: 1829565648}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &840092958
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38860,6 +39166,7 @@ MonoBehaviour:
   - {fileID: 166938732}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &840916095
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39297,6 +39604,7 @@ MonoBehaviour:
   - {fileID: 2014276954}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &851169848
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39376,6 +39684,7 @@ MonoBehaviour:
   - {fileID: 1373264361}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &855375276
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39879,6 +40188,7 @@ MonoBehaviour:
   - {fileID: 313889709}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &864133134
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40275,6 +40585,7 @@ MonoBehaviour:
   - {fileID: 273926637}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &869120523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40460,6 +40771,7 @@ MonoBehaviour:
   - {fileID: 1881534663}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &870773961
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40751,6 +41063,7 @@ MonoBehaviour:
   - {fileID: 299322993}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &873626272
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40830,6 +41143,7 @@ MonoBehaviour:
   - {fileID: 414715869}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &877286044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41227,6 +41541,7 @@ MonoBehaviour:
   - {fileID: 17452503}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &882373136
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41306,6 +41621,7 @@ MonoBehaviour:
   - {fileID: 940256536}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &883792928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41385,6 +41701,7 @@ MonoBehaviour:
   - {fileID: 584854878}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &885274956
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41464,6 +41781,7 @@ MonoBehaviour:
   - {fileID: 1001861704}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &889576949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41543,6 +41861,7 @@ MonoBehaviour:
   - {fileID: 1921244640}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &895443150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41622,6 +41941,7 @@ MonoBehaviour:
   - {fileID: 34454414}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &896053120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41807,6 +42127,7 @@ MonoBehaviour:
   - {fileID: 1097212930}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &900153749
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41886,6 +42207,7 @@ MonoBehaviour:
   - {fileID: 1352262138}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &901060547
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41965,6 +42287,7 @@ MonoBehaviour:
   - {fileID: 1223842499}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &902112881
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42256,6 +42579,7 @@ MonoBehaviour:
   - {fileID: 1955611532}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &906127839
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42441,6 +42765,7 @@ MonoBehaviour:
   - {fileID: 882373135}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &910563955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42732,6 +43057,7 @@ MonoBehaviour:
   - {fileID: 1552183290}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &922096972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43235,6 +43561,7 @@ MonoBehaviour:
   - {fileID: 206894686}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &927500386
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43314,6 +43641,7 @@ MonoBehaviour:
   - {fileID: 68728348}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &929845750
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43711,6 +44039,7 @@ MonoBehaviour:
   - {fileID: 227873416}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &932510678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43896,6 +44225,7 @@ MonoBehaviour:
   - {fileID: 255579775}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &933485351
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44187,6 +44517,7 @@ MonoBehaviour:
   - {fileID: 1681540233}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &938500753
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44372,6 +44703,7 @@ MonoBehaviour:
   - {fileID: 478133636}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &940256537
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44557,6 +44889,7 @@ MonoBehaviour:
   - {fileID: 586039926}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &942621101
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45018,6 +45351,7 @@ MonoBehaviour:
   - {fileID: 335690476}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &955037770
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45309,6 +45643,7 @@ MonoBehaviour:
   - {fileID: 1465371129}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &963817196
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45388,6 +45723,7 @@ MonoBehaviour:
   - {fileID: 1174169496}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &966811397
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45467,6 +45803,7 @@ MonoBehaviour:
   - {fileID: 932510677}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &967089106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45758,6 +46095,7 @@ MonoBehaviour:
   - {fileID: 56253109}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &968854324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45943,6 +46281,7 @@ MonoBehaviour:
   - {fileID: 1867031372}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &970419323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46340,6 +46679,7 @@ MonoBehaviour:
   - {fileID: 901060546}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &984288639
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46419,6 +46759,7 @@ MonoBehaviour:
   - {fileID: 213754200}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &984688435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46498,6 +46839,7 @@ MonoBehaviour:
   - {fileID: 1431472367}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &986057046
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46789,6 +47131,7 @@ MonoBehaviour:
   - {fileID: 520330804}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &986970743
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46974,6 +47317,7 @@ MonoBehaviour:
   - {fileID: 1688656572}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &992853967
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47223,44 +47567,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994307922}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &994847053
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 512
-  m_Height: 512
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 22
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 0
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &997052046
 GameObject:
   m_ObjectHideFlags: 0
@@ -47303,6 +47609,7 @@ MonoBehaviour:
   - {fileID: 1031491300}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &997052048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47488,6 +47795,7 @@ MonoBehaviour:
   - {fileID: 374774923}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1001600988
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47567,6 +47875,7 @@ MonoBehaviour:
   - {fileID: 1654188103}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1001861705
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48069,6 +48378,7 @@ MonoBehaviour:
   - {fileID: 149957296}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1014843601
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48148,6 +48458,7 @@ MonoBehaviour:
   - {fileID: 2134069072}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1015047228
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48651,6 +48962,7 @@ MonoBehaviour:
   - {fileID: 43591141}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1030149675
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48730,6 +49042,7 @@ MonoBehaviour:
   - {fileID: 1635637952}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1031491301
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48809,6 +49122,7 @@ MonoBehaviour:
   - {fileID: 1321580086}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1032602909
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49015,6 +49329,7 @@ MonoBehaviour:
   - {fileID: 1725138524}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1036851470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49094,6 +49409,7 @@ MonoBehaviour:
   - {fileID: 1656913309}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1040962620
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49173,6 +49489,7 @@ MonoBehaviour:
   - {fileID: 1439430938}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1043751801
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49516,8 +49833,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 531464769}
-  - {fileID: 1203158077}
+  - {fileID: 1437431422}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -49567,6 +49883,7 @@ MonoBehaviour:
   - {fileID: 1319282654}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1049258499
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49646,6 +49963,7 @@ MonoBehaviour:
   - {fileID: 1090512171}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1050112430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50043,6 +50361,7 @@ MonoBehaviour:
   - {fileID: 1253293659}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1061520378
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50122,6 +50441,7 @@ MonoBehaviour:
   - {fileID: 764108590}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1065904141
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50201,6 +50521,7 @@ MonoBehaviour:
   - {fileID: 702420515}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1067514671
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50492,6 +50813,7 @@ MonoBehaviour:
   - {fileID: 715208633}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1076905719
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50889,6 +51211,7 @@ MonoBehaviour:
   - {fileID: 1660451255}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1090512172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51108,6 +51431,7 @@ MonoBehaviour:
   - {fileID: 261248784}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1095818872
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51187,6 +51511,7 @@ MonoBehaviour:
   - {fileID: 675051587}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1097212931
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51584,6 +51909,7 @@ MonoBehaviour:
   - {fileID: 2107868648}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1101990580
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51663,6 +51989,7 @@ MonoBehaviour:
   - {fileID: 564268376}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1108967832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51848,6 +52175,7 @@ MonoBehaviour:
   - {fileID: 759950252}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1112392767
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52245,6 +52573,7 @@ MonoBehaviour:
   - {fileID: 910563954}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1119834177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52324,6 +52653,7 @@ MonoBehaviour:
   - {fileID: 2098214}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1126428995
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52403,6 +52733,7 @@ MonoBehaviour:
   - {fileID: 621809959}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1128555617
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52588,6 +52919,7 @@ MonoBehaviour:
   - {fileID: 1886388238}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1129685970
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52879,6 +53211,7 @@ MonoBehaviour:
   - {fileID: 1273891469}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1133706161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52958,6 +53291,7 @@ MonoBehaviour:
   - {fileID: 469808126}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1134145515
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53037,6 +53371,7 @@ MonoBehaviour:
   - {fileID: 1815054390}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1134454471
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53116,6 +53451,7 @@ MonoBehaviour:
   - {fileID: 1758350786}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1139894195
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53301,6 +53637,7 @@ MonoBehaviour:
   - {fileID: 1298279257}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1143436277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53804,6 +54141,7 @@ MonoBehaviour:
   - {fileID: 889576948}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1155170107
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53883,6 +54221,7 @@ MonoBehaviour:
   - {fileID: 509637858}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1155594877
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54068,6 +54407,7 @@ MonoBehaviour:
   - {fileID: 1782970545}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1158180226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54147,6 +54487,7 @@ MonoBehaviour:
   - {fileID: 1420915551}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1158544347
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54332,6 +54673,7 @@ MonoBehaviour:
   - {fileID: 9745651}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1160616962
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54411,6 +54753,7 @@ MonoBehaviour:
   - {fileID: 2119026530}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1161020226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54490,6 +54833,7 @@ MonoBehaviour:
   - {fileID: 222135590}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1161838584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54569,6 +54913,7 @@ MonoBehaviour:
   - {fileID: 1447221215}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1163627151
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54754,6 +55099,7 @@ MonoBehaviour:
   - {fileID: 703231425}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1174169497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54897,11 +55243,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174321072}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1176769728 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7798424355312581927, guid: 378726646a28750419352b59d136006e, type: 3}
-  m_PrefabInstance: {fileID: 1737648095}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1177158836
 GameObject:
   m_ObjectHideFlags: 0
@@ -54944,6 +55285,7 @@ MonoBehaviour:
   - {fileID: 96983578}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1177158838
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55129,6 +55471,7 @@ MonoBehaviour:
   - {fileID: 2127421809}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1179843750
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55208,6 +55551,7 @@ MonoBehaviour:
   - {fileID: 284872051}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1182615741
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55393,6 +55737,7 @@ MonoBehaviour:
   - {fileID: 1940475720}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1187466553
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55472,6 +55817,7 @@ MonoBehaviour:
   - {fileID: 1758834299}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1188122712
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55656,6 +56002,7 @@ MonoBehaviour:
   - {fileID: 431885154}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1188542546
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55735,6 +56082,7 @@ MonoBehaviour:
   - {fileID: 625600891}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1189642196
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56026,6 +56374,7 @@ MonoBehaviour:
   - {fileID: 1816759077}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1195567765
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56211,6 +56560,7 @@ MonoBehaviour:
   - {fileID: 1551805983}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1197419957
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56290,6 +56640,7 @@ MonoBehaviour:
   - {fileID: 1565287715}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1199570146
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56475,6 +56826,7 @@ MonoBehaviour:
   - {fileID: 1228059}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1201597651
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56554,6 +56906,7 @@ MonoBehaviour:
   - {fileID: 586039926}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1201861085
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56602,7 +56955,7 @@ GameObject:
   - component: {fileID: 1203158077}
   - component: {fileID: 1203158078}
   m_Layer: 5
-  m_Name: BGSlots (1)
+  m_Name: BGSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56623,11 +56976,11 @@ RectTransform:
   - {fileID: 1760494107}
   - {fileID: 1440163519}
   - {fileID: 839569338}
-  m_Father: {fileID: 1047971486}
+  m_Father: {fileID: 1437431422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 25, y: 25}
+  m_AnchoredPosition: {x: -639, y: -326.5}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1203158078
@@ -57650,6 +58003,7 @@ MonoBehaviour:
   - {fileID: 955037769}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1223842500
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57941,6 +58295,7 @@ MonoBehaviour:
   - {fileID: 1710333925}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1228135575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58020,6 +58375,7 @@ MonoBehaviour:
   - {fileID: 1284833093}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1228989154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58099,6 +58455,7 @@ MonoBehaviour:
   - {fileID: 108531736}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1229069734
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58372,6 +58729,7 @@ MonoBehaviour:
   - {fileID: 744975936}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1230437181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58875,6 +59233,7 @@ MonoBehaviour:
   - {fileID: 644357773}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1237497121
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58954,6 +59313,7 @@ MonoBehaviour:
   - {fileID: 1241357095}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1239237662
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59139,6 +59499,7 @@ MonoBehaviour:
   - {fileID: 1228989153}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1241357096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59218,6 +59579,7 @@ MonoBehaviour:
   - {fileID: 723877670}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1241641359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59721,6 +60083,7 @@ MonoBehaviour:
   - {fileID: 338031434}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1253293660
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59800,6 +60163,7 @@ MonoBehaviour:
   - {fileID: 1134145514}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1254451421
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59985,6 +60349,7 @@ MonoBehaviour:
   - {fileID: 2119026530}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1259296361
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60064,6 +60429,7 @@ MonoBehaviour:
   - {fileID: 377809056}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1259820636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60143,6 +60509,7 @@ MonoBehaviour:
   - {fileID: 1030149674}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1263155009
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60222,6 +60589,7 @@ MonoBehaviour:
   - {fileID: 1864172188}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1264960171
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60407,6 +60775,7 @@ MonoBehaviour:
   - {fileID: 1428494914}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1271316098
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60698,6 +61067,7 @@ MonoBehaviour:
   - {fileID: 1311614964}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1273891470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60883,6 +61253,7 @@ MonoBehaviour:
   - {fileID: 2095244861}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1276136685
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61068,6 +61439,7 @@ MonoBehaviour:
   - {fileID: 828765819}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1284833094
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61465,6 +61837,7 @@ MonoBehaviour:
   - {fileID: 1237497120}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1293316203
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61650,6 +62023,7 @@ MonoBehaviour:
   - {fileID: 836430236}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1297871977
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61835,6 +62209,7 @@ MonoBehaviour:
   - {fileID: 896053119}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1298279258
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62126,6 +62501,7 @@ MonoBehaviour:
   - {fileID: 2066022586}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1300355501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62417,6 +62793,7 @@ MonoBehaviour:
   - {fileID: 1845847495}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1306188826
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62602,6 +62979,7 @@ MonoBehaviour:
   - {fileID: 1241641358}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1310270625
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62681,6 +63059,7 @@ MonoBehaviour:
   - {fileID: 122820848}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1311614965
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62866,6 +63245,7 @@ MonoBehaviour:
   - {fileID: 29072975}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1319282655
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63157,6 +63537,7 @@ MonoBehaviour:
   - {fileID: 1440011866}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1321580087
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63236,6 +63617,7 @@ MonoBehaviour:
   - {fileID: 534620088}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1322213528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63527,6 +63909,7 @@ MonoBehaviour:
   - {fileID: 128133604}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1329869177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63606,6 +63989,7 @@ MonoBehaviour:
   - {fileID: 1201861084}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1330841974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63873,7 +64257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1504229683}
-  lineOfSight: {fileID: 1371472986}
+  lineOfSight: {fileID: 1914454035}
 --- !u!1 &1336175223
 GameObject:
   m_ObjectHideFlags: 0
@@ -63916,6 +64300,7 @@ MonoBehaviour:
   - {fileID: 1195567764}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1336175225
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64101,6 +64486,7 @@ MonoBehaviour:
   - {fileID: 1557404921}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1343273313
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64180,6 +64566,7 @@ MonoBehaviour:
   - {fileID: 164478301}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1344868781
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64683,6 +65070,7 @@ MonoBehaviour:
   - {fileID: 1696163463}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1352262139
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64868,6 +65256,7 @@ MonoBehaviour:
   - {fileID: 1043751800}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1360208772
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64947,6 +65336,7 @@ MonoBehaviour:
   - {fileID: 473317496}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1360440421
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65238,6 +65628,7 @@ MonoBehaviour:
   - {fileID: 942621100}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1370995710
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65381,95 +65772,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371160002}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1371472983
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1716934414}
-    m_Modifications:
-    - target: {fileID: 1426585300386443594, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: managedReferences[3129491726785576961].targetCell
-      value: 
-      objectReference: {fileID: 331797533}
-    - target: {fileID: 1426585300386443594, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: managedReferences[3129491726785576962].targetCell
-      value: 
-      objectReference: {fileID: 1998829507}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6152766570162565231, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: m_Name
-      value: Human
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525575861490318346, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: grid
-      value: 
-      objectReference: {fileID: 1504229683}
-    - target: {fileID: 7525575861490318346, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 675052697}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
---- !u!4 &1371472984 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5524690712693034587, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-  m_PrefabInstance: {fileID: 1371472983}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1371472986 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7525575861490318346, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
-  m_PrefabInstance: {fileID: 1371472983}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e16b2df9e05b5a4a85a4d2145fc8d53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1371500974
 GameObject:
   m_ObjectHideFlags: 0
@@ -65512,6 +65814,7 @@ MonoBehaviour:
   - {fileID: 762762878}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1371500976
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65591,6 +65894,7 @@ MonoBehaviour:
   - {fileID: 759110768}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1373264362
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65776,6 +66080,7 @@ MonoBehaviour:
   - {fileID: 1517028980}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1378273320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65961,6 +66266,7 @@ MonoBehaviour:
   - {fileID: 422303391}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1385090057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -66146,6 +66452,7 @@ MonoBehaviour:
   - {fileID: 516278572}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1386548011
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -66649,6 +66956,7 @@ MonoBehaviour:
   - {fileID: 2092293022}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1394559750
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -66940,6 +67248,7 @@ MonoBehaviour:
   - {fileID: 967089105}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1396946455
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67125,6 +67434,7 @@ MonoBehaviour:
   - {fileID: 774971515}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1405384029
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67416,6 +67726,7 @@ MonoBehaviour:
   - {fileID: 458433422}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1413405624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67495,6 +67806,7 @@ MonoBehaviour:
   - {fileID: 1049258498}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1414890865
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67680,6 +67992,7 @@ MonoBehaviour:
   - {fileID: 906127838}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1420915552
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67759,6 +68072,7 @@ MonoBehaviour:
   - {fileID: 1514190798}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1425691018
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67944,6 +68258,7 @@ MonoBehaviour:
   - {fileID: 66824798}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1428494915
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68129,6 +68444,7 @@ MonoBehaviour:
   - {fileID: 1526223539}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1431472368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68208,6 +68524,7 @@ MonoBehaviour:
   - {fileID: 2114267187}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1432090726
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68287,6 +68604,7 @@ MonoBehaviour:
   - {fileID: 2090000781}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1435943585
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68324,6 +68642,43 @@ Transform:
   - {fileID: 1587784665}
   m_Father: {fileID: 408076835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1437431421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1437431422}
+  m_Layer: 5
+  m_Name: SmallSlots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1437431422
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437431421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 531464769}
+  - {fileID: 1203158077}
+  m_Father: {fileID: 1047971486}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1437957598
 GameObject:
   m_ObjectHideFlags: 0
@@ -68366,6 +68721,7 @@ MonoBehaviour:
   - {fileID: 1394559749}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1437957600
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68551,6 +68907,7 @@ MonoBehaviour:
   - {fileID: 970419322}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1439430939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68630,6 +68987,7 @@ MonoBehaviour:
   - {fileID: 431205991}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1440011867
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68797,6 +69155,7 @@ MonoBehaviour:
   - {fileID: 1480689698}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1440718981
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69194,6 +69553,7 @@ MonoBehaviour:
   - {fileID: 102760860}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1447221216
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69273,6 +69633,7 @@ MonoBehaviour:
   - {fileID: 2042157258}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1450243401
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69583,6 +69944,7 @@ MonoBehaviour:
   - {fileID: 1396946454}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1461850186
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69768,6 +70130,7 @@ MonoBehaviour:
   - {fileID: 992853966}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1465371130
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69847,6 +70210,7 @@ MonoBehaviour:
   - {fileID: 1600219043}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1465489172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70138,6 +70502,7 @@ MonoBehaviour:
   - {fileID: 1839207223}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1480689699
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70323,6 +70688,7 @@ MonoBehaviour:
   - {fileID: 420670939}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1484395835
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70402,6 +70768,7 @@ MonoBehaviour:
   - {fileID: 79796115}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1489004210
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70905,6 +71272,7 @@ MonoBehaviour:
   - {fileID: 688423844}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1495092149
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71090,6 +71458,7 @@ MonoBehaviour:
   - {fileID: 1254451420}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1498028964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71286,6 +71655,7 @@ MonoBehaviour:
   - {fileID: 933485350}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1510366396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71471,6 +71841,7 @@ MonoBehaviour:
   - {fileID: 1606004583}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1514190799
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71656,6 +72027,7 @@ MonoBehaviour:
   - {fileID: 1575925502}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1517028981
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72159,6 +72531,7 @@ MonoBehaviour:
   - {fileID: 1014843600}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1526223540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72238,6 +72611,7 @@ MonoBehaviour:
   - {fileID: 1015047227}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1528433355
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72423,6 +72797,7 @@ MonoBehaviour:
   - {fileID: 1143436276}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1530317752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72468,6 +72843,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3171694366475522111, guid: fe851837843297441b2168fc157d0cb1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6077897367944095222, guid: fe851837843297441b2168fc157d0cb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -72526,7 +72905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7741784196540732833, guid: fe851837843297441b2168fc157d0cb1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -72681,6 +73060,7 @@ MonoBehaviour:
   - {fileID: 719096835}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1533513906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73427,6 +73807,7 @@ MonoBehaviour:
   - {fileID: 1763651905}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1549935255
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73506,6 +73887,7 @@ MonoBehaviour:
   - {fileID: 212231298}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1551805984
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73585,6 +73967,7 @@ MonoBehaviour:
   - {fileID: 1128555616}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1552183291
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73807,6 +74190,7 @@ MonoBehaviour:
   - {fileID: 829095215}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!1 &1557404920
 GameObject:
   m_ObjectHideFlags: 0
@@ -73849,6 +74233,7 @@ MonoBehaviour:
   - {fileID: 1112392766}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1557404922
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74034,6 +74419,7 @@ MonoBehaviour:
   - {fileID: 1983559696}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1565287716
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74113,6 +74499,7 @@ MonoBehaviour:
   - {fileID: 1067514670}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1567984163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74404,6 +74791,7 @@ MonoBehaviour:
   - {fileID: 275867594}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1575925503
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74589,6 +74977,7 @@ MonoBehaviour:
   - {fileID: 1129685969}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1582266493
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75092,6 +75481,7 @@ MonoBehaviour:
   - {fileID: 851169847}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1597956109
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75171,6 +75561,7 @@ MonoBehaviour:
   - {fileID: 1139894194}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1600219044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75250,6 +75641,7 @@ MonoBehaviour:
   - {fileID: 2131580536}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1605669379
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75329,6 +75721,7 @@ MonoBehaviour:
   - {fileID: 1756818890}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1606004584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75726,6 +76119,7 @@ MonoBehaviour:
   - {fileID: 963817195}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1610766502
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76229,6 +76623,7 @@ MonoBehaviour:
   - {fileID: 1440718980}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1626933804
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76414,6 +76809,7 @@ MonoBehaviour:
   - {fileID: 331797533}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1635637953
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76451,6 +76847,44 @@ Transform:
   - {fileID: 681664422}
   m_Father: {fileID: 408076835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &1636843145
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 512
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 22
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1639763064
 GameObject:
   m_ObjectHideFlags: 0
@@ -76493,6 +76927,7 @@ MonoBehaviour:
   - {fileID: 895443149}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1639763066
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76678,6 +77113,7 @@ MonoBehaviour:
   - {fileID: 942621100}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1643636801
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76757,6 +77193,7 @@ MonoBehaviour:
   - {fileID: 1676927185}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1646328450
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77047,6 +77484,7 @@ MonoBehaviour:
   - {fileID: 1993295746}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1654188104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77232,6 +77670,7 @@ MonoBehaviour:
   - {fileID: 2075753332}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1656913310
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77417,6 +77856,7 @@ MonoBehaviour:
   - {fileID: 1988454605}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1660361004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77496,6 +77936,7 @@ MonoBehaviour:
   - {fileID: 2130812269}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1660451256
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77575,6 +78016,7 @@ MonoBehaviour:
   - {fileID: 550333033}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1661968225
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77654,6 +78096,7 @@ MonoBehaviour:
   - {fileID: 1360208771}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1663948613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77945,6 +78388,7 @@ MonoBehaviour:
   - {fileID: 1306188825}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1665245418
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78130,6 +78574,7 @@ MonoBehaviour:
   - {fileID: 764045206}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1669148484
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78209,6 +78654,7 @@ MonoBehaviour:
   - {fileID: 716399453}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1671352788
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78288,6 +78734,7 @@ MonoBehaviour:
   - {fileID: 877286043}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1676927186
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78473,6 +78920,7 @@ MonoBehaviour:
   - {fileID: 232974058}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1681540234
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78759,6 +79207,7 @@ MonoBehaviour:
   - {fileID: 1187466552}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1688656573
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78944,6 +79393,7 @@ MonoBehaviour:
   - {fileID: 363880125}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1696163464
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -79977,6 +80427,7 @@ MonoBehaviour:
   - {fileID: 282983143}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1710333926
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80056,6 +80507,7 @@ MonoBehaviour:
   - {fileID: 696329623}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1711221088
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80208,9 +80660,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1712750067}
-  - component: {fileID: 1712750066}
   - component: {fileID: 1712750069}
   - component: {fileID: 1712750068}
+  - component: {fileID: 1712750071}
+  - component: {fileID: 1712750070}
   m_Layer: 8
   m_Name: Bottle
   m_TagString: Untagged
@@ -80218,22 +80671,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1712750066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712750065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66bcf41ca48d6b044a3d9ea85a00e3a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _modelObject: {fileID: 1188172857}
-  name: New Item
-  description: bluhbluhbluh
-  icon: {fileID: 0}
 --- !u!4 &1712750067
 Transform:
   m_ObjectHideFlags: 0
@@ -80277,6 +80714,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _modelObject: {fileID: 1188172857}
   _uiObject: {fileID: 1035510676}
+--- !u!114 &1712750070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712750065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 302bd8e932a6dd249a438919aae027b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occupiedCell: {fileID: 0}
+  collider: {fileID: 1188172859}
+  icon: {fileID: 21300000, guid: 654de5a59a80f0d4b8c69af544ce4cb9, type: 3}
+  smallHoldable: {fileID: 1712750071}
+--- !u!114 &1712750071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712750065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35a58ffbf535e044bfef0f82777e666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isHeld: 0
+  _pickUpSpeed: 3.1
 --- !u!1 &1712759324
 GameObject:
   m_ObjectHideFlags: 0
@@ -80425,6 +80892,7 @@ MonoBehaviour:
   - {fileID: 1932481910}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1713539462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80870,7 +81338,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1773947131463390382, guid: e7b243910027f874380b9b5e1ea7b255, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1371472984}
+      addedObject: {fileID: 412449712}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7b243910027f874380b9b5e1ea7b255, type: 3}
 --- !u!4 &1716934414 stripped
@@ -81132,6 +81600,7 @@ MonoBehaviour:
   - {fileID: 599874885}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1725138525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81305,6 +81774,7 @@ MonoBehaviour:
   - {fileID: 414073083}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1733843787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81702,6 +82172,7 @@ MonoBehaviour:
   - {fileID: 2115160188}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1737402430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81795,14 +82266,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
-    - target: {fileID: 1540164436461744794, guid: 378726646a28750419352b59d136006e, type: 3}
-      propertyPath: _uiObject
-      value: 
-      objectReference: {fileID: 2147297812}
-    - target: {fileID: 1540164436461744794, guid: 378726646a28750419352b59d136006e, type: 3}
-      propertyPath: _modelObject
-      value: 
-      objectReference: {fileID: 1176769728}
     - target: {fileID: 1555479912763524226, guid: 378726646a28750419352b59d136006e, type: 3}
       propertyPath: m_Name
       value: Monster
@@ -81815,10 +82278,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 8640880018814909043, guid: 378726646a28750419352b59d136006e, type: 3}
-      propertyPath: _moveable
+    - target: {fileID: 8081302163617861824, guid: 378726646a28750419352b59d136006e, type: 3}
+      propertyPath: inventorySlots.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081302163617861824, guid: 378726646a28750419352b59d136006e, type: 3}
+      propertyPath: inventorySlots.Array.data[0]
       value: 
-      objectReference: {fileID: 1737648108}
+      objectReference: {fileID: 1787425121}
+    - target: {fileID: 8081302163617861824, guid: 378726646a28750419352b59d136006e, type: 3}
+      propertyPath: inventorySlots.Array.data[1]
+      value: 
+      objectReference: {fileID: 1229797141}
+    - target: {fileID: 8081302163617861824, guid: 378726646a28750419352b59d136006e, type: 3}
+      propertyPath: inventorySlots.Array.data[2]
+      value: 
+      objectReference: {fileID: 821206834}
     - target: {fileID: 8798985240867827403, guid: 378726646a28750419352b59d136006e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -81827,21 +82302,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 630908297337227496, guid: 378726646a28750419352b59d136006e, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3550379299036247888, guid: 378726646a28750419352b59d136006e, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 378726646a28750419352b59d136006e, type: 3}
---- !u!114 &1737648108 stripped
+--- !u!114 &1737648114 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1686462321413958232, guid: 378726646a28750419352b59d136006e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8640880018814909043, guid: 378726646a28750419352b59d136006e, type: 3}
   m_PrefabInstance: {fileID: 1737648095}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675052697}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d3de48fa7c5ad345b407b879c67deb2, type: 3}
+  m_Script: {fileID: 11500000, guid: d90c926efe702234c8ce3d317f39d441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1743931743
@@ -81886,6 +82362,7 @@ MonoBehaviour:
   - {fileID: 938500752}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1743931745
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -82283,6 +82760,7 @@ MonoBehaviour:
   - {fileID: 1846357039}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1751831983
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -82574,6 +83052,7 @@ MonoBehaviour:
   - {fileID: 1276136684}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1756818891
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -82653,6 +83132,7 @@ MonoBehaviour:
   - {fileID: 789005372}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1758350787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -82732,6 +83212,7 @@ MonoBehaviour:
   - {fileID: 1322213527}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1758834300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83111,6 +83592,7 @@ MonoBehaviour:
   - {fileID: 1259296360}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1763651906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83508,6 +83990,7 @@ MonoBehaviour:
   - {fileID: 1271316097}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1772855895
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83587,6 +84070,7 @@ MonoBehaviour:
   - {fileID: 1413405623}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1774834900
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83666,6 +84150,7 @@ MonoBehaviour:
   - {fileID: 1297871976}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1774936117
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -84063,6 +84548,7 @@ MonoBehaviour:
   - {fileID: 1161838583}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1780663906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -84248,6 +84734,7 @@ MonoBehaviour:
   - {fileID: 1495092148}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1782970546
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -84945,6 +85432,7 @@ MonoBehaviour:
   - {fileID: 2029463094}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1789659805
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85024,6 +85512,7 @@ MonoBehaviour:
   - {fileID: 1669148483}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1789922804
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85833,6 +86322,7 @@ MonoBehaviour:
   - {fileID: 1158180225}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1815054391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85912,6 +86402,7 @@ MonoBehaviour:
   - {fileID: 1329869176}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1816759078
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -86415,6 +86906,7 @@ MonoBehaviour:
   - {fileID: 510797931}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1823591389
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -86494,6 +86986,7 @@ MonoBehaviour:
   - {fileID: 1001600987}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1829565649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -86785,6 +87278,7 @@ MonoBehaviour:
   - {fileID: 1763651905}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1836055314
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -86970,6 +87464,7 @@ MonoBehaviour:
   - {fileID: 240731234}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1839207224
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87155,6 +87650,7 @@ MonoBehaviour:
   - {fileID: 198672019}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1845102674
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87234,6 +87730,7 @@ MonoBehaviour:
   - {fileID: 59992310}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1845847496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87313,6 +87810,7 @@ MonoBehaviour:
   - {fileID: 1528433354}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1846357040
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87498,6 +87996,7 @@ MonoBehaviour:
   - {fileID: 608766185}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1853145860
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87895,6 +88394,7 @@ MonoBehaviour:
   - {fileID: 694401346}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1863633948
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87974,6 +88474,7 @@ MonoBehaviour:
   - {fileID: 1597956108}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1864172189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88265,6 +88766,7 @@ MonoBehaviour:
   - {fileID: 1371500975}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1867031373
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88450,6 +88952,7 @@ MonoBehaviour:
   - {fileID: 1177158837}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1867931166
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88741,6 +89244,7 @@ MonoBehaviour:
   - {fileID: 1955611532}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1874587355
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88926,6 +89430,7 @@ MonoBehaviour:
   - {fileID: 255579775}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1878324924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89005,6 +89510,7 @@ MonoBehaviour:
   - {fileID: 100051200}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1878501136
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89084,6 +89590,7 @@ MonoBehaviour:
   - {fileID: 1582266492}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1879649799
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89163,6 +89670,7 @@ MonoBehaviour:
   - {fileID: 389598945}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1881534664
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89348,6 +89856,7 @@ MonoBehaviour:
   - {fileID: 111875425}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1886388239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89733,6 +90242,7 @@ MonoBehaviour:
   - {fileID: 353253240}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1905113610
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90024,6 +90534,7 @@ MonoBehaviour:
   - {fileID: 24895672}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1906161650
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90315,6 +90826,7 @@ MonoBehaviour:
   - {fileID: 1510366395}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1910027414
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90352,6 +90864,17 @@ Transform:
   - {fileID: 927010801}
   m_Father: {fileID: 408076835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1914454035 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7525575861490318346, guid: 7ce9d717853643e42aff874f36ee8752, type: 3}
+  m_PrefabInstance: {fileID: 412449711}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e16b2df9e05b5a4a85a4d2145fc8d53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1916491953
 GameObject:
   m_ObjectHideFlags: 0
@@ -90394,6 +90917,7 @@ MonoBehaviour:
   - {fileID: 342499501}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1916491955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90673,6 +91197,7 @@ MonoBehaviour:
   - {fileID: 984688434}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1921244641
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90858,6 +91383,7 @@ MonoBehaviour:
   - {fileID: 1201597650}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1924645079
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91149,6 +91675,7 @@ MonoBehaviour:
   - {fileID: 440877723}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1932481911
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91228,6 +91755,7 @@ MonoBehaviour:
   - {fileID: 1823591388}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1935467154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91307,6 +91835,7 @@ MonoBehaviour:
   - {fileID: 1989057814}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1935785612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91386,6 +91915,7 @@ MonoBehaviour:
   - {fileID: 1874587354}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1940475721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91783,6 +92313,7 @@ MonoBehaviour:
   - {fileID: 602955216}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1948039155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91968,6 +92499,7 @@ MonoBehaviour:
   - {fileID: 692700985}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1951509931
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92153,6 +92685,7 @@ MonoBehaviour:
   - {fileID: 933485350}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1955611533
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92232,6 +92765,7 @@ MonoBehaviour:
   - {fileID: 637214726}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1956005532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92311,6 +92845,7 @@ MonoBehaviour:
   - {fileID: 115737993}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1956083536
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92814,6 +93349,7 @@ MonoBehaviour:
   - {fileID: 541005120}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1979795337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92893,6 +93429,7 @@ MonoBehaviour:
   - {fileID: 1498028963}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1981144071
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92972,6 +93509,7 @@ MonoBehaviour:
   - {fileID: 922096971}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1983099063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93051,6 +93589,7 @@ MonoBehaviour:
   - {fileID: 97765486}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1983559697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93130,6 +93669,7 @@ MonoBehaviour:
   - {fileID: 346117523}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1983690840
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93315,6 +93855,7 @@ MonoBehaviour:
   - {fileID: 1484395834}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1988454606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93500,6 +94041,7 @@ MonoBehaviour:
   - {fileID: 547269807}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1989057815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93791,6 +94333,7 @@ MonoBehaviour:
   - {fileID: 349134253}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1993295747
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93870,6 +94413,7 @@ MonoBehaviour:
   - {fileID: 129853056}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1996218433
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93949,6 +94493,7 @@ MonoBehaviour:
   - {fileID: 1661968224}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &1998829508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94240,6 +94785,7 @@ MonoBehaviour:
   - {fileID: 730607857}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2002859219
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94319,6 +94865,7 @@ MonoBehaviour:
   - {fileID: 64254295}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2003822189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94398,6 +94945,7 @@ MonoBehaviour:
   - {fileID: 1076905718}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2004957824
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94477,6 +95025,7 @@ MonoBehaviour:
   - {fileID: 492400652}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2009143294
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94648,6 +95197,7 @@ MonoBehaviour:
   - {fileID: 1405384028}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2014276955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94939,6 +95489,7 @@ MonoBehaviour:
   - {fileID: 1310270624}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2026133184
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95124,6 +95675,7 @@ MonoBehaviour:
   - {fileID: 45957555}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2028129348
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95309,6 +95861,7 @@ MonoBehaviour:
   - {fileID: 1711221087}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2029463095
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95494,6 +96047,7 @@ MonoBehaviour:
   - {fileID: 759494482}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2042157259
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95573,6 +96127,7 @@ MonoBehaviour:
   - {fileID: 735639860}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2051759589
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95758,6 +96313,7 @@ MonoBehaviour:
   - {fileID: 1853145859}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2066022587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95943,6 +96499,7 @@ MonoBehaviour:
   - {fileID: 2085676741}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2070609657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96128,6 +96685,7 @@ MonoBehaviour:
   - {fileID: 1863633947}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2075753333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96313,6 +96871,7 @@ MonoBehaviour:
   - {fileID: 601132450}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2076994939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96498,6 +97057,7 @@ MonoBehaviour:
   - {fileID: 541005120}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2080865468
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96683,6 +97243,7 @@ MonoBehaviour:
   - {fileID: 2070609656}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2084093530
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96762,6 +97323,7 @@ MonoBehaviour:
   - {fileID: 774945831}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2085676742
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96841,6 +97403,7 @@ MonoBehaviour:
   - {fileID: 633183391}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2087578768
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97026,6 +97589,7 @@ MonoBehaviour:
   - {fileID: 2105068044}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2090000782
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97105,6 +97669,7 @@ MonoBehaviour:
   - {fileID: 750679820}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2092293023
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97184,6 +97749,7 @@ MonoBehaviour:
   - {fileID: 560116738}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2094026795
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97301,6 +97867,7 @@ MonoBehaviour:
   - {fileID: 87074436}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2095244862
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97486,6 +98053,7 @@ MonoBehaviour:
   - {fileID: 644796411}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2103812129
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97671,6 +98239,7 @@ MonoBehaviour:
   - {fileID: 1829565648}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2104115918
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97750,6 +98319,7 @@ MonoBehaviour:
   - {fileID: 2009143293}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2105068045
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98041,6 +98611,7 @@ MonoBehaviour:
   - {fileID: 1605669378}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2107868649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98332,6 +98903,7 @@ MonoBehaviour:
   - {fileID: 234879815}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2114267188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98416,6 +98988,7 @@ MonoBehaviour:
   - {fileID: 219937824}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2115160189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98601,6 +99174,7 @@ MonoBehaviour:
   - {fileID: 758814517}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2117733848
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98680,6 +99254,7 @@ MonoBehaviour:
   - {fileID: 1836055313}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2119026531
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98865,6 +99440,7 @@ MonoBehaviour:
   - {fileID: 1660361003}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2121171575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98944,6 +99520,7 @@ MonoBehaviour:
   - {fileID: 1344868780}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2125191588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99023,6 +99600,7 @@ MonoBehaviour:
   - {fileID: 274680121}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2127421810
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99102,6 +99680,7 @@ MonoBehaviour:
   - {fileID: 1737402429}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2130812270
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99181,6 +99760,7 @@ MonoBehaviour:
   - {fileID: 1772855894}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2131580537
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99260,6 +99840,7 @@ MonoBehaviour:
   - {fileID: 332352944}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2134069073
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99339,6 +99920,7 @@ MonoBehaviour:
   - {fileID: 515285291}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2141236459
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99418,6 +100000,7 @@ MonoBehaviour:
   - {fileID: 395036905}
   G: 0
   H: 0
+  _occupant: {fileID: 0}
 --- !u!65 &2143498730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99561,11 +100144,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146805303}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2147297812 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8057132497558292750, guid: 378726646a28750419352b59d136006e, type: 3}
-  m_PrefabInstance: {fileID: 1737648095}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6067195431884613357
 PrefabInstance:
   m_ObjectHideFlags: 0

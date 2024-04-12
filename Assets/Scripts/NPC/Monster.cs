@@ -9,6 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(Moveable))]
 public class Monster : Entity
 {
+    [SerializeField]
+    private Inventory _inventory;
     [Header("Behaviors")]
     [SerializeField]
     private Moveable _moveable;
@@ -16,8 +18,14 @@ public class Monster : Entity
     private GridPath currPosPath;
     private Transform _lookAt;
 
+    public Inventory Inventory {
+        get { return _inventory; }
+    }
     public int LengthOfPath {
         get => currPosPath.Count - 1;
+    }
+    public override bool BlockCells {
+        get => true;
     }
 
     // Start is called before the first frame update

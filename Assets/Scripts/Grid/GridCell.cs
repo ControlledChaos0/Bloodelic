@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
+public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
 {
     //Most of these are serialized explicitly so that these values will be saved when grid is created in editor
     [SerializeField]
@@ -100,32 +100,29 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
     
     #region Occupant
 
-    private Entity entityOccupant;
-    public Entity EntityOccupant => entityOccupant;
+    [SerializeField]
+    private Occupant _occupant;
+    public Occupant Occupant => _occupant;
     
-    public void SetOccupant(Entity occupant)
+    public void SetOccupant(Occupant occupant)
     {
         Debug.Log("SetOccupant called");
         // Log error if cell is occupied
-        if (entityOccupant != null)
+        if (_occupant != null)
         {
-            Debug.LogError("Attempting to occupy cell " + name + " occupied by " + entityOccupant.name);
+            Debug.LogError("Attempting to occupy cell " + name + " occupied by " + _occupant.name);
             return;
         }
 
-        entityOccupant = occupant;
+        _occupant = occupant;
 
-        Publish(occupant, this);
+        Publish(_occupant, this);
         
         // For human occupants, also set wall neighbors to occupied
-        Human human = occupant as Human;
-        if (human != null)
+        List<GridCell> wallNeighbors = GetWallNeighbors();
+        foreach (var n in wallNeighbors)
         {
-            List<GridCell> wallNeighbors = GetWallNeighbors();
-            foreach (var n in wallNeighbors)
-            {
-                n.entityOccupant = occupant;
-            }
+            n._occupant = occupant;
         }
     }
     
@@ -133,18 +130,13 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
     {
         if (alsoUnoccupyWallNeighbors)
         {
-            // For human occupants, also set wall neighbors to occupied
-            Human human = entityOccupant as Human;
-            if (human != null)
+            List<GridCell> wallNeighbors = GetWallNeighbors();
+            foreach (var n in wallNeighbors)
             {
-                List<GridCell> wallNeighbors = GetWallNeighbors();
-                foreach (var n in wallNeighbors)
-                {
-                    n.Unoccupy(false);
-                }
+                n.Unoccupy(false);
             }
         }
-        entityOccupant = null;
+        _occupant = null;
     }
     
 
@@ -154,7 +146,7 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
     public bool IsOccupied()
     {
         // @Add objects stuff
-        return entityOccupant != null;
+        return _occupant != null;
     }
     
     public List<GridCell> GetWallNeighbors()
@@ -163,7 +155,7 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
 
         foreach (var n in _neighbors)
         {
-            if (n != null && n._position.Position.y != _position.Position.y)
+            if (n != null && n._position.Position.y > _position.Position.y)
             {
                 wallNeighbors.Add(n);                    
             }
@@ -186,7 +178,7 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
             if (IsOccupied())
             {
                 Handles.color = Color.red;
-                string debugString = string.Format("Occupant: {0}", entityOccupant.name);
+                string debugString = string.Format("Occupant: {0}", _occupant.name);
                 Handles.Label(transform.position + Vector3.up * 0.5f, debugString);
                 Handles.color = Color.white;
             }
@@ -196,7 +188,7 @@ public class GridCell : MonoBehaviour, IPublisher<Entity, GridCell>
 
     #region Publisher
 
-    public void Publish(Entity e, GridCell g) {
+    public void Publish(Occupant e, GridCell g) {
         ItemMoved?.Invoke(e, g);
     }
 

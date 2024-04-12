@@ -4,6 +4,10 @@ using UnityEngine;
 
 public abstract class LargeObject : InterObject
 {
+    public override bool BlockCells {
+        get => true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
