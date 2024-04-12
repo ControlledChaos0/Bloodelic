@@ -7,6 +7,7 @@ using UnityEngine.Splines;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(BehaviorController))]
+[RequireComponent(typeof(Occupant))]
 #pragma warning disable CS3009 // Base type is not CLS-compliant
 public class Entity : MonoBehaviour
 #pragma warning restore CS3009 // Base type is not CLS-compliant

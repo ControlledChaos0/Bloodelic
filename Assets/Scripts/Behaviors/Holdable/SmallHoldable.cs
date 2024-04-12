@@ -24,6 +24,10 @@ public class SmallHoldable : Behavior
         get => _isHeld;
         set => _isHeld = value;
     }
+    private Entity _heldEntity;
+    public Entity HeldEntity {
+        get => _heldEntity;
+    }
 
     /**
         Identifiers
@@ -37,7 +41,7 @@ public class SmallHoldable : Behavior
         }
     }
     public override bool NPCInteract {
-        get => false;
+        get => true;
     }
     public override bool Resetable {
         get => false;
@@ -56,7 +60,16 @@ public class SmallHoldable : Behavior
     public override bool CheckValid()
     {
         //return _movement > 0;
-        return false;
+        if (_isHeld) {
+            foreach (GridCell gridCell in _heldEntity.OccupiedCell.Neighbors) {
+                if (!gridCell.IsOccupied()) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
     public override void ResetBehaviorSpecifics()
     {

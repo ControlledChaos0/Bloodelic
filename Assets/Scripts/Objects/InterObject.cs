@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class InterObject : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _modelObject;
+    protected GameObject modelObject;
 
     // Start is called before the first frame update
     void Start()
@@ -19,4 +19,6 @@ public abstract class InterObject : MonoBehaviour
     {
         
     }
+
+    
 }
