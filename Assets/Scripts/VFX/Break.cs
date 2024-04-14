@@ -82,6 +82,14 @@ public class Break : MonoBehaviour
         setPiecesActive(false);
     }
 
+    private void FixedUpdate()
+    {
+        if (_isBroken)
+        {
+
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (canBreakOnImpact && collision.relativeVelocity.magnitude >= minBreakVelocity)
@@ -105,14 +113,14 @@ public class Break : MonoBehaviour
 
         foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
         {
-            Vector3 force = (rb.transform.position - transform.position).normalized * breakBoostForce;
+            Vector3 force = (rb.transform.position - (transform.position + transform.up * 0.15f)).normalized * breakBoostForce;
             rb.AddForce(force);
         }
 
         if (destroyBottleAfterBreak)
         {
             await Task.Delay((int)(destroyDelaySeconds * 1000));
-            if (gameObject is null) return;
+            if (!Application.isPlaying || gameObject is null) return;
 
             List<MeshRenderer> renderers = new List<MeshRenderer>(transform.GetComponentsInChildren<MeshRenderer>());
             float step = 0.05f / fadeDurationSeconds;
@@ -120,7 +128,7 @@ public class Break : MonoBehaviour
             {
                 foreach (MeshRenderer renderer in renderers)
                 {
-                    if (!Application.isPlaying) return;
+                    if (!Application.isPlaying || !Application.isPlaying) return;
                     Color c = renderer.material.color;
                     c.a = alpha;
                     renderer.material.color = c;
@@ -128,6 +136,7 @@ public class Break : MonoBehaviour
                 await Task.Delay(50);
             }
 
+            if (gameObject is null || !Application.isPlaying) return;
             Destroy(gameObject);
         }
     }
