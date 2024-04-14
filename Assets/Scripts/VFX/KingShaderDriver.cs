@@ -73,11 +73,11 @@ public class KingShaderDriver : MonoBehaviour
     [SerializeField, SaveDuringPlay, Range(0.0f, 50.0f)]
     private float shellSpecularAmount;
 
-    [SerializeField, SaveDuringPlay]
-    private Texture2D bodyColor;
-
     [SerializeField, SaveDuringPlay, Range(0.1f, 20.0f)]
     private float eyeGlow;
+    
+    [SerializeField, SaveDuringPlay]
+    private Color bodyColor;
 
     [SerializeField, SaveDuringPlay]
     private Color spikeTipColor;
@@ -175,6 +175,7 @@ public class KingShaderDriver : MonoBehaviour
             positionLerpFactor = positionResponsiveness * Time.deltaTime,
             rotationLerpFactor = rotationResponsiveness * Time.deltaTime,
             masDistSquared = positionMaxDelta * positionMaxDelta,
+            scale = bodyMesh.transform.localScale
         };
 
         currentBufferSyncJob = fetchTransforms.Schedule(shellTransformAccesses);
@@ -188,6 +189,8 @@ public class KingShaderDriver : MonoBehaviour
 
     void OnDisable() {
         shellTransformAccesses.Dispose();
+        shellPositions.Dispose();
+        shellRotations.Dispose();
 
         // AT: technically not needed as shells are not saved
 
@@ -204,28 +207,28 @@ public class KingShaderDriver : MonoBehaviour
         ForEachShellDo((Transform shellTransform, MeshRenderer shellRenderer, int idx) =>
         {
             shellRenderer.material
-                .SetIntParam("_ShellCount", shellCount)
-                .SetIntParam("_ShellIndex", idx)
-                .SetFloatParam("_ShellLength", shellLength)
+                .SetIntParam(ShaderIDs.ShellCount, shellCount)
+                .SetIntParam(ShaderIDs.ShellIndex, idx)
+                .SetFloatParam(ShaderIDs.ShellLength, shellLength)
                 //.SetFloatParam("_Density", density)
                 // .SetFloatParam("_Thickness", thickness)
                 // .SetFloatParam("_Attenuation", occlusionAttenuation)
                 // .SetFloatParam("_ShellDistanceAttenuation", distanceAttenuation)
-                .SetFloatParam("_ShellDroop", shellDroop)
+                .SetFloatParam(ShaderIDs.ShellDroop, shellDroop)
                 //.SetFloatParam("_OcclusionBias", occlusionBias)
                 //.SetFloatParam("_NoiseMin", noiseMin)
                 //.SetFloatParam("_NoiseMax", noiseMax)
-                .SetFloatParam("_SpikeDensity", spikeDensity)
-                .SetFloatParam("_SpikeCutoffMin", spikeCutoffMin)
-                .SetFloatParam("_SpikeCutoffMax", spikeCutoffMax)
-                .SetFloatParam("_SpikeShapeStylizationFactor", spikeShapeStylizationFactor)
-                .SetFloatParam("_ShellSpecularSharpness", shellSpecularSharpness)
-                .SetFloatParam("_ShellSpecularAmount", shellSpecularAmount)
-                .SetFloatParam("_SpikeShadowSmoothnessFactor", spikeShadowSmoothnessFactor)
-                .SetFloatParam("_EyeGlow", eyeGlow)
-                .SetVectorParam("_SpikeTipColor", spikeTipColor)
-                .SetTextureParam("_BodyColor", bodyColor)
-                .SetTextureParam("_SpikeHeightMap", spikeHeightMap);
+                .SetFloatParam(ShaderIDs.SpikeDensity, spikeDensity)
+                .SetFloatParam(ShaderIDs.SpikeCutoffMin, spikeCutoffMin)
+                .SetFloatParam(ShaderIDs.SpikeCutoffMax, spikeCutoffMax)
+                .SetFloatParam(ShaderIDs.SpikeShapeStylizationFactor, spikeShapeStylizationFactor)
+                .SetFloatParam(ShaderIDs.ShellSpecularSharpness, shellSpecularSharpness)
+                .SetFloatParam(ShaderIDs.ShellSpecularAmount, shellSpecularAmount)
+                .SetFloatParam(ShaderIDs.SpikeShadowSmoothnessFactor, spikeShadowSmoothnessFactor)
+                .SetFloatParam(ShaderIDs.EyeGlow, eyeGlow)
+                .SetVectorParam(ShaderIDs.SpikeTipColor, spikeTipColor)
+                .SetVectorParam(ShaderIDs.BodyColor, bodyColor)
+                .SetTextureParam(ShaderIDs.SpikeHeightMap, spikeHeightMap);
         });
     }
 
@@ -241,7 +244,7 @@ public class KingShaderDriver : MonoBehaviour
         ForEachShellDo((Transform shellTransform, MeshRenderer shellRenderer, int idx) =>
         {
             shellRenderer.material
-                .SetFloatParam("_AnimationTime", animationTime);
+                .SetFloatParam(ShaderIDs.AnimationTime, animationTime);
 
             shellRenderer.enabled = viewShells;
         });
@@ -254,6 +257,8 @@ public class KingShaderDriver : MonoBehaviour
         [ReadOnly] public float positionLerpFactor;
         [ReadOnly] public float rotationLerpFactor;
         [ReadOnly] public float masDistSquared;
+
+        [ReadOnly] public Vector3 scale;
 
         public void Execute(int index, TransformAccess transform)
         {
@@ -272,6 +277,8 @@ public class KingShaderDriver : MonoBehaviour
             }
 
             transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, lastRotation[prev], rotationLerpFactor);
+
+            transform.localScale = scale;
         }
     }
     
@@ -304,5 +311,25 @@ public class KingShaderDriver : MonoBehaviour
     {
         for (int i = 0; i < shellCount; ++i)
             func(shellTransforms[i], shellRenderers[i], i);
+    }
+
+    // pattern taken from https://github.com/keijiro/DepthInverseProjection/blob/6b6d72d8178dbecdc29b037a175b95ea364bdbaa/Assets/InverseProjection/InverseProjection.cs
+    static internal class ShaderIDs {
+        internal static readonly int AnimationTime = Shader.PropertyToID("_AnimationTime");
+        internal static readonly int ShellCount = Shader.PropertyToID("_ShellCount");
+        internal static readonly int ShellIndex = Shader.PropertyToID("_ShellIndex");
+        internal static readonly int ShellLength = Shader.PropertyToID("_ShellLength");
+        internal static readonly int ShellDroop = Shader.PropertyToID("_ShellDroop");
+        internal static readonly int SpikeDensity = Shader.PropertyToID("_SpikeDensity");
+        internal static readonly int SpikeCutoffMin = Shader.PropertyToID("_SpikeCutoffMin");
+        internal static readonly int SpikeCutoffMax = Shader.PropertyToID("_SpikeCutoffMax");
+        internal static readonly int SpikeShapeStylizationFactor = Shader.PropertyToID("_SpikeShapeStylizationFactor");
+        internal static readonly int ShellSpecularSharpness = Shader.PropertyToID("_ShellSpecularSharpness");
+        internal static readonly int ShellSpecularAmount = Shader.PropertyToID("_ShellSpecularAmount");
+        internal static readonly int SpikeShadowSmoothnessFactor = Shader.PropertyToID("_SpikeShadowSmoothnessFactor");
+        internal static readonly int EyeGlow = Shader.PropertyToID("_EyeGlow");
+        internal static readonly int SpikeTipColor = Shader.PropertyToID("_SpikeTipColor");
+        internal static readonly int BodyColor = Shader.PropertyToID("_BodyColor");
+        internal static readonly int SpikeHeightMap = Shader.PropertyToID("_SpikeHeightMap");
     }
 }

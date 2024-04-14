@@ -49,7 +49,7 @@ Shader "Anthony/Props/Disco Ball"
         // Specular
         float _SpecularFalloff;
 
-         void vert(inout appdata_full v, out Input o)
+        void vert(inout appdata_full v, out Input o)
         {
             UNITY_INITIALIZE_OUTPUT(Input, o);
 

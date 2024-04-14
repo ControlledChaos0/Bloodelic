@@ -4,26 +4,36 @@ using UnityEngine;
 using Cinemachine;
 using UnityEditor;
 using System;
+using Unity.VisualScripting;
 
 public class CameraController : Singleton<CameraController>
 {
     [SerializeField]
     private Camera mainCamera;
     [SerializeField]
-    private CameraMachine cameraMachine;
+    private Camera uiCamera;
     [SerializeField]
     private float cameraSensitivity = 0.5f;
     [SerializeField]
     private float zoomSensitivity = 0.5f;
     [SerializeField]
     private float panSensitivity = 5f;
+
+    public static float DistanceFromInitial => Instance._distanceFromInitial;
+    private float _distanceFromInitial;
+    public static float DistanceFrom => Instance.distanceFrom;
     [SerializeField]
     private float distanceFrom = 5.0f;
+    [SerializeField]
+    private GameObject corner1;
+    [SerializeField]
+    private GameObject corner2;
 
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
     private RaycastHit _closestHit;
     private Transform _lookAt;
+    private Transform _cameraTransform;
     private Vector3 _oldRot;
     private Vector3 _defaultPos;
     private Vector3 _currentPos;
@@ -34,15 +44,24 @@ public class CameraController : Singleton<CameraController>
     private bool _panCamera;
     private LayerMask _hitMask;
 
-    public Camera MainCamera {
+    private Vector3 cornerMaxPos;
+    private Vector3 cornerMinPos;
+
+    public Camera MainCamera
+    {
         get => mainCamera;
         private set => mainCamera = value;
     }
-    public RaycastHit ClosestHit {
+    public Transform CameraTransform {
+        get => mainCamera.transform;
+    }
+    public RaycastHit ClosestHit
+    {
         get => _closestHit;
         private set => _closestHit = value;
     }
-    public LayerMask HitMask {
+    public LayerMask HitMask
+    {
         get => _hitMask;
         set => _hitMask = value;
     }
@@ -50,7 +69,8 @@ public class CameraController : Singleton<CameraController>
     public event Action<GameObject> ClickAction;
     public event Action<GameObject> HoverAction;
 
-    private void Awake() {
+    private void Awake()
+    {
         InitializeSingleton();
         _cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
         SeparateCameraObject();
@@ -60,22 +80,53 @@ public class CameraController : Singleton<CameraController>
     void Start()
     {
         SetCamera();
+        DeactivateCamera();
+        ActivateCamera();
     }
 
-    private void LateUpdate() {
+    private void LateUpdate()
+    {
         _cinemachineCam.m_Lens.OrthographicSize = distanceFrom;
+        uiCamera.orthographicSize = distanceFrom;
 
         _lookAt.rotation = Quaternion.Euler(_rotX, _rotY, 0);
         _lookAt.position = _currentPos;
     }
-    private void OnEnable() {
-        
+    private void OnEnable()
+    {
+        if (InputController.Instance != null) {
+            DeactivateCamera();
+            ActivateCamera();
+        }
     }
-    private void OnDisable() {
-        
+    private void OnDisable()
+    {
+        DeactivateCamera();
     }
 
-    private void SetCamera() {
+    private void ActivateCamera() {
+        InputController.Instance.MiddleHold += StartPanCamera;
+        InputController.Instance.MiddleCancel += StopPanCamera;
+        InputController.Instance.RightHold += StartRotateCamera;
+        InputController.Instance.RightCancel += StopRotateCamera;
+        InputController.Instance.LeftClick += ScreenClick;
+        InputController.Instance.Scroll += ZoomCamera;
+        InputController.Instance.Hover += Hover;
+        HitMask = ConstantValues.AllClickMasks;
+    }
+
+    private void DeactivateCamera() {
+        InputController.Instance.MiddleHold -= StartPanCamera;
+        InputController.Instance.MiddleCancel -= StopPanCamera;
+        InputController.Instance.RightHold -= StartRotateCamera;
+        InputController.Instance.RightCancel -= StopRotateCamera;
+        InputController.Instance.LeftClick -= ScreenClick;
+        InputController.Instance.Scroll -= ZoomCamera;
+        InputController.Instance.Hover -= Hover;
+    }
+
+    private void SetCamera()
+    {
         _cinemachineCam = _cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         _lookAt = _cinemachineCam.gameObject.transform.parent;
 
@@ -85,85 +136,138 @@ public class CameraController : Singleton<CameraController>
         _oldRot = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles;
         _rotX = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.x;
         _rotY = _cinemachineCam.VirtualCameraGameObject.transform.rotation.eulerAngles.y;
-        distanceFrom = _cinemachineCam.m_Lens.OrthographicSize;
+
+        _distanceFromInitial = _cinemachineCam.m_Lens.OrthographicSize;
+        distanceFrom = _distanceFromInitial;
 
         _panCamera = false;
         _rotateCamera = false;
+
+        cornerMaxPos = new Vector3(Mathf.Max(corner1.transform.position.x, corner2.transform.position.x),
+                                            Mathf.Max(corner1.transform.position.y, corner2.transform.position.y),
+                                            Mathf.Max(corner1.transform.position.z, corner2.transform.position.z));
+        cornerMinPos = new Vector3(Mathf.Min(corner1.transform.position.x, corner2.transform.position.x),
+                                            Mathf.Min(corner1.transform.position.y, corner2.transform.position.y),
+                                            Mathf.Min(corner1.transform.position.z, corner2.transform.position.z));
     }
 
-    public void StartRotateCamera() {
-        if (_panCamera) {
+    public void StartRotateCamera()
+    {
+        if (_panCamera)
+        {
             return;
         }
         InputController.Instance.MouseMove += RotateCamera;
         _rotateCamera = true;
     }
-    public void StopRotateCamera() {
+    public void StopRotateCamera()
+    {
         InputController.Instance.MouseMove -= RotateCamera;
         _rotateCamera = false;
     }
-    public void RotateCamera(Vector2 mouseDelta) {
+    public void RotateCamera(Vector2 mouseDelta)
+    {
         _rotX -= mouseDelta.y * cameraSensitivity;
         _rotY += mouseDelta.x * cameraSensitivity;
         _rotX = Mathf.Clamp(_rotX, 0f, 90f);
         //Debug.Log(_rotX);
     }
 
-    public void StartPanCamera() {
-        if (_rotateCamera) {
+    public void StartPanCamera()
+    {
+        if (_rotateCamera)
+        {
             return;
         }
         InputController.Instance.MouseMove += PanCamera;
         _panCamera = true;
     }
-    public void StopPanCamera() {
+    public void StopPanCamera()
+    {
         InputController.Instance.MouseMove -= PanCamera;
         _panCamera = false;
     }
-    public void PanCamera(Vector2 mouseDelta) {
+    public void PanCamera(Vector2 mouseDelta)
+    {
         _currentPos += ((-_lookAt.up * mouseDelta.y) + (-_lookAt.right * mouseDelta.x)) * panSensitivity / 100f;
+
+        // Limit camera to the bounds given by corner1 and corner2
+        _currentPos.x = _currentPos.x > cornerMaxPos.x ? cornerMaxPos.x : _currentPos.x;
+        _currentPos.y = _currentPos.y > cornerMaxPos.y ? cornerMaxPos.y : _currentPos.y;
+        _currentPos.z = _currentPos.z > cornerMaxPos.z ? cornerMaxPos.z : _currentPos.z;
+
+        _currentPos.x = _currentPos.x < cornerMinPos.x ? cornerMinPos.x : _currentPos.x;
+        _currentPos.y = _currentPos.y < cornerMinPos.y ? cornerMinPos.y : _currentPos.y;
+        _currentPos.z = _currentPos.z < cornerMinPos.z ? cornerMinPos.z : _currentPos.z;
     }
 
-    public void ZoomCamera(float zoom) {
+    public void ZoomCamera(float zoom)
+    {
         distanceFrom += zoomSensitivity * (-zoom / 120f);
         distanceFrom = Mathf.Clamp(distanceFrom, 1f, 20f);
     }
 
-    public void Hover(Vector2 screenPos) {
+    public void Hover(Vector2 screenPos)
+    {
         Ray cameraRay = MainCamera.ScreenPointToRay(screenPos);
         _closestHit = SetHit(cameraRay);
-        if (_closestHit.Equals(new RaycastHit())) {
+        if (_closestHit.Equals(new RaycastHit()))
+        {
+            HoverAction?.Invoke(null);
             return;
         }
         HoverAction?.Invoke(_closestHit.transform.gameObject);
     }
 
-    private RaycastHit SetHit(Ray ray) {
-        RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, _hitMask);
+    private RaycastHit SetHit(Ray ray)
+    {
+        RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, HitMask);
         float closestDistance = Mathf.Infinity;
         RaycastHit hit = new();
-        foreach (RaycastHit cameraRayHit in cameraRayHits) {
-            float angle = Vector3.Angle(ray.direction, cameraRayHit.transform.up);
-            //Debug.Log($"Angle: {angle}, Game Object: {cameraRayHit.transform.gameObject}");
-            if (angle >= 90f && cameraRayHit.distance < closestDistance) {
+        string test = "";
+        int x = 1;
+        foreach (RaycastHit cameraRayHit in cameraRayHits)
+        {
+            Transform rayTransform = cameraRayHit.transform;
+            float angle = Vector3.Angle(ray.direction, rayTransform.up);
+            float dot = Vector3.Dot(ray.direction, rayTransform.up);
+
+            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
+            x++;
+            if (GridHelper.CheckGrid(rayTransform.gameObject, ray.direction)) {
+                continue;
+            }
+            if (cameraRayHit.distance < closestDistance && cameraRayHit.distance > mainCamera.nearClipPlane)
+            {
                 hit = cameraRayHit;
                 closestDistance = cameraRayHit.distance;
             }
         }
+        //Debug.Log(test);
         return hit;
     }
 
-    public void ScreenClick() {
-        if (_closestHit.Equals(new RaycastHit())) {
+    public void ScreenClick()
+    {
+        if (_closestHit.Equals(new RaycastHit()))
+        {
+            ClickAction?.Invoke(null);
+            Debug.Log($"Click gameobject: null");
             return;
         }
         GameObject hitGO = _closestHit.transform.gameObject;
         ClickAction?.Invoke(hitGO);
-        
+
         Debug.Log(hitGO);
     }
 
-    private void SeparateCameraObject() {
+    private void SeparateCameraObject()
+    {
         transform.GetChild(0).parent = null;
+    }
+
+    public void changePosition(Vector3 selectedObject)
+    {
+        _currentPos = selectedObject;
     }
 }

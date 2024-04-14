@@ -10,11 +10,5 @@ namespace System {
                 throw new ArgumentOutOfRangeException("Value cannot be negative");
             }
         }
-
-        public static void ThrowIfNull(object? arg) {
-            if (arg == null) {
-                throw new ArgumentOutOfRangeException("Object cannot be null");
-            }
-        }
     }
 }

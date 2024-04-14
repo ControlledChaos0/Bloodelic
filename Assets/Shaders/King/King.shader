@@ -60,12 +60,12 @@ Shader "Custom/King"
             int _ShellIndex;
 			int _ShellCount;
 			float _ShellLength; /* In world space */
-			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
+			// float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
 			float _ShellDroop;
 			sampler2D _SpikeHeightMap;
 			// float _ShellHeightMapCutoff;
 			// SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
-			sampler2D _BodyColor;
+			float3 _BodyColor;
 			float _EyeGlow;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
@@ -130,10 +130,10 @@ Shader "Custom/King"
 
 				// re-sample max height per-pixel and ditch surpassing ones
 				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
-				float4 bodyColor = tex2D(_BodyColor, i.uvh.xy);
+				// float4 bodyColor = tex2D(_BodyColor, i.uvh.xy);
 				if (i.uvh.z > maxHeight.r) {
 
-					if (_ShellIndex == 0) return bodyColor * _EyeGlow;
+					if (_ShellIndex == 0) return float4(_EyeGlow, 0, 0, 0);
 					
 					discard;
 				};
@@ -220,7 +220,7 @@ Shader "Custom/King"
 
 				/* Blinn Phong helpers */
 
-				float3 unlit = lerp(bodyColor.xyz, _SpikeTipColor, spikeT * spikeT * spikeT);
+				float3 unlit = lerp(_BodyColor.xyz, _SpikeTipColor, spikeT * spikeT * spikeT);
 
 				float3 lightToObj = normalize(-float3(i.worldPos.w, i.worldTangent.w, i.worldNormal.w));
 
@@ -331,12 +331,12 @@ Shader "Custom/King"
             int _ShellIndex;
 			int _ShellCount;
 			float _ShellLength; /* In world space */
-			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
+			// float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
 			float _ShellDroop;
 			sampler2D _SpikeHeightMap;
 			// float _ShellHeightMapCutoff;
 			// SamplerState point_clamp_sampler; /* https://docs.unity3d.com/Manual/SL-SamplerStates.html */
-			sampler2D _BodyColor;
+			float3 _BodyColor;
 			float _EyeGlow;
 			float3 _SpikeTipColor;
 			float _SpikeDensity;
@@ -404,10 +404,9 @@ Shader "Custom/King"
 
 				// re-sample max height per-pixel and ditch surpassing ones
 				float4 maxHeight = tex2D(_SpikeHeightMap, i.uvh.xy);
-				float4 bodyColor = tex2D(_BodyColor, i.uvh.xy);
 				if (i.uvh.z > maxHeight.r) {
 
-					if (_ShellIndex == 0) return bodyColor * _EyeGlow;
+					if (_ShellIndex == 0) return float4(_EyeGlow, 0, 0, 0);
 					
 					discard;
 				};
@@ -494,7 +493,7 @@ Shader "Custom/King"
 
 				/* Blinn Phong helpers */
 
-				float3 unlit = lerp(bodyColor.xyz, _SpikeTipColor, spikeT * spikeT * spikeT);
+				float3 unlit = lerp(_BodyColor.xyz, _SpikeTipColor, spikeT * spikeT * spikeT);
 
 				float3 lightToObj = -normalize(float3(i.worldPos.w, i.worldTangent.w, i.worldNormal.w));
 
@@ -607,12 +606,12 @@ Shader "Custom/King"
 			int _ShellIndex;
 			int _ShellCount;
 			float _ShellLength; /* In world space */
-			float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
+			// float _ShellDistanceAttenuation; /* This is the exponent on determining how far to push the shell outwards, which biases shells downwards or upwards towards the minimum/maximum distance covered */
 			float _ShellDroop;
 			sampler2D _SpikeHeightMap;
 			// float _ShellHeightMapCutoff;
-			float3 _BodyColor;
-			float3 _SpikeTipColor;
+			// float3 _BodyColor;
+			// float3 _SpikeTipColor;
 			float _SpikeDensity;
 			float _SpikeCutoffMin;
 			float _SpikeCutoffMax;
