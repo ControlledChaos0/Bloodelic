@@ -14,7 +14,36 @@ using UnityEngine;
 */
 public class Pathfinder
 {
-    public static GridPath FindPath(GridCell start, GridCell target) {
+    // Additional variables to adjust pathfinding for entities
+    //   these are all static and need to be set/reset everytime Pathfinder is utilized
+    #region Additional Properties
+    public static float moveLimit = Mathf.Infinity;
+    public static Entity entity;
+    #endregion
+
+    public static List<GridCell> ActivateCells(GridCell start, int distance) {
+        List<GridCell> list = new();
+        ActivateCellsHelper(start, distance, 0, list);
+        return list;
+    }
+
+    public static void ActivateCellsHelper(GridCell curr, int distance, int currDistance, List<GridCell> gridCells) {
+        if (currDistance < distance) {
+            GridCell[] neighbors = curr.Neighbors;
+            foreach (GridCell cell in neighbors) {
+                gridCells.Add(cell);
+                ActivateCellsHelper(cell, distance, currDistance + 1, gridCells);
+                if (cell.IsShowing()) {
+                     continue;
+                }
+                UnityEngine.Debug.Log($"{cell}: Distance is {currDistance}");
+                cell.ShowCell();
+            }
+        }
+    }
+    
+    public static GridPath FindPath(GridCell start, GridCell target, bool allowsNullIfNoneFound = false) 
+    {
         if (start == null || target == null) {
             throw new ArgumentNullException("GridCell Arguments must not be null");
         }
@@ -43,6 +72,11 @@ public class Pathfinder
                 if (cell == null) {
                     continue;
                 }
+                // If cell is occupied
+                if (cell.IsOccupied() && cell.Occupant.BlockCells)
+                {
+                    continue;
+                }
                 bool value;
                 if (searched.ContainsKey(cell)) {
                     continue;
@@ -56,6 +90,12 @@ public class Pathfinder
                 float h = cell.FindHeuristic(target);
                 float f = g + h;
 
+                // If distance to cell is above move limit
+                if (f >= moveLimit)
+                {
+                    continue;
+                }
+                
                 if (toBeSearchedDic.TryGetValue(cell, out value) && value && cell.F <= f) {
                     continue;
                 }
@@ -71,6 +111,12 @@ public class Pathfinder
             searched.Add(current, true);
         }
         UnityEngine.Debug.Log("No path found");
+        
+        if (allowsNullIfNoneFound)
+        {
+            return null;
+        }
+        
         return new GridPath();
     }
 }
