@@ -94,14 +94,4 @@ public class Human : DummyNPC
         yield return new WaitForSeconds(0.25f);
         TurnSystem.Instance.SwitchTurn();
     }
-
-    public void Select(Human gO)
-    {
-
-    }
-
-    public void HoverSelect(Human gO)
-    {
-        
-    }
 }
