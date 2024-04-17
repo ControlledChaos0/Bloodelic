@@ -14,8 +14,12 @@ public class Selectable : MonoBehaviour
 
     private WorldUI _uiScript;
     private Outline _outline;
+    private Color _defaultOutlineColor;
     private BehaviorController _behaviorController;
 
+    public Color DefaultOutlineColor {
+        get { return _defaultOutlineColor;}
+    }
     public GameObject ModelObject {
         get => _modelObject;
     }
@@ -40,6 +44,7 @@ public class Selectable : MonoBehaviour
         if (_outline == null) {
             _outline = _modelObject.AddComponent<Outline>();
         }
+        _defaultOutlineColor = _outline.OutlineColor;
         _outline.enabled = false;
 
         _uiScript = _uiObject.GetComponent<WorldUI>();
@@ -67,5 +72,12 @@ public class Selectable : MonoBehaviour
         Debug.Log("Is this call??>>>>>>>>>>");
         _outline.enabled = false;
         UnhoverAction?.Invoke();
+    }
+
+    public void ChangeOutlineColor(Color color) {
+        _outline.OutlineColor = color;
+    }
+    public void ChangeOutlineColor() {
+        ChangeOutlineColor(DefaultOutlineColor);
     }
 }

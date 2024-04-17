@@ -38,6 +38,9 @@ public abstract class Entity : Occupant
     public bool IsMoving {
         get { return move; }
     }
+    public Selectable Selectable {
+        get { return selectable; }
+    }
     public BehaviorController BehavCon {
         get => behaviorController;
     }

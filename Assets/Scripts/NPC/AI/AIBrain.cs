@@ -69,6 +69,7 @@ public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.
 
     void EnterState(AIState state)
     {
+        ChangeColor();
         switch (state)
         {
             // Enable sensors
@@ -161,9 +162,28 @@ public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.
     }
 
     public void ReceiveMessage(GridCellPosition g, LineOfSight.ItemSpotted i) {
-        Debug.Log("Are we getting this");
+        //Debug.Log("Are we getting this");
+        if (currentState != AIState.Investigative && i == LineOfSight.ItemSpotted.SUSPICION) {
+            ChangeState(AIState.Investigative);
+        }
         if (currentState != AIState.Distressed && i == LineOfSight.ItemSpotted.PANICKED) {
             ChangeState(AIState.Distressed);
+        }
+    }
+
+    private void ChangeColor() {
+        switch (currentState)
+        {
+            case AIState.Investigative:
+                npc.Selectable.ChangeOutlineColor(Color.yellow);
+                break;
+            case AIState.Distressed:
+                npc.Selectable.ChangeOutlineColor(Color.red);
+                break;
+            case AIState.Default:
+            default:
+                npc.Selectable.ChangeOutlineColor();
+                break;
         }
     }
 
