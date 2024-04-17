@@ -82,6 +82,7 @@ MonoBehaviour:
   moveSpeed: 5.99
   rotateSpeed: 163.9
   icon: {fileID: 21300000, guid: 654de5a59a80f0d4b8c69af544ce4cb9, type: 3}
+  _animator: {fileID: 5730174022868739934}
   routine:
   - rid: 3129491726785576960
   - rid: 3129491726785576961
@@ -403,5 +404,10 @@ GameObject:
 --- !u!64 &3646156168938860909 stripped
 MeshCollider:
   m_CorrespondingSourceObject: {fileID: 2486393402437001537, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
+  m_PrefabInstance: {fileID: 1159903506137796652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5730174022868739934 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6889774047422445426, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
   m_PrefabInstance: {fileID: 1159903506137796652}
   m_PrefabAsset: {fileID: 0}
