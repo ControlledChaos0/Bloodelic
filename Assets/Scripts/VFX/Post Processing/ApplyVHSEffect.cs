@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 [ExecuteInEditMode]
 public class ApplyVHSEffect : MonoBehaviour
