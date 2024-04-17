@@ -14,7 +14,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     public enum ItemSpotted {
         NEUTRAL,
         SUSPICION,
-        MONSTER_SEEN
+        PANICKED
     }
 
     public ItemSpotted sightState = ItemSpotted.NEUTRAL;
@@ -46,6 +46,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         REVEALSIGHT,
         HIDESIGHT
     }
+    [SerializeField]
     private SightLineShowState state = SightLineShowState.HIDESIGHT;
     private SightLineShowState prevState = SightLineShowState.HIDESIGHT;
 
@@ -86,12 +87,13 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
             scanTimer += scanInterval;
             canSeePlayer = DetectEntitySight(player, ANGLE);
             if (canSeePlayer) {
-                sightState = ItemSpotted.MONSTER_SEEN;
-                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
+                sightState = ItemSpotted.PANICKED;
+                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.PANICKED);
             }
             //Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
             {
+                Debug.Log("REVEALINGGGGGGGGGG");
                 OnRevealSightLine();
                 prevState = SightLineShowState.REVEALSIGHT;
             }
@@ -162,7 +164,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
             if (Array.IndexOf(overlap, tileList[i]) == -1)
             {
                 if (tileList[i].GetComponent<GridCell>() != null)
-                    tileList[i].GetComponent<GridCell>().RevertColor();
+                    tileList[i].GetComponent<GridCell>().HideCell();
                 tileList.RemoveAt(i);
             }
         }
@@ -172,7 +174,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
             {
                 if (!tileList.Contains(c.gameObject))
                 {
-                    c.gameObject.GetComponent<GridCell>().TurnBlue();
+                    c.gameObject.GetComponent<GridCell>().ShowCell();
                     tileList.Add(c.gameObject);
                 }
             }
@@ -216,6 +218,13 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         }
     }
 
+    public void ShowSight() {
+        state = SightLineShowState.REVEALSIGHT;
+    }
+    public void HideSight() {
+        state = SightLineShowState.HIDESIGHT;
+    }
+
     /*
      * Implementation of subscriber pattern.
      * Receives messages from GridCells about the current position of an entity.
@@ -232,7 +241,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         //Debug.Log("Check");
         if (o.gameObject.Equals(player) && DetectEntitySight(o.gameObject)) {
             //Debug.Log("Perhaps there?");
-            sightState = ItemSpotted.MONSTER_SEEN;
+            sightState = ItemSpotted.PANICKED;
             Publish(g.Position, sightState);
         } else if (HasComponent<Human>(g.gameObject)) {
             //Debug.Log("Certainly not");
