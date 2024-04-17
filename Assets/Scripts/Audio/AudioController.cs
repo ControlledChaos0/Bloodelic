@@ -15,6 +15,7 @@ public class AudioController : MonoBehaviour
 
     private EVENT_CALLBACK eventCallback;
 
+    private bool gameStart;
     private bool isPaused;
     
     /*
@@ -84,7 +85,23 @@ public class AudioController : MonoBehaviour
             }
         }
     }
-    
+    /// <summary>
+    /// Toggles Background Music from title screen to game audio.
+    /// </summary>
+    public void ToggleBGM()
+    {
+        if (!gameStart)
+        {
+            gameStart = true;
+            eventInstances[0].Item1.setParameterByID(eventInstances[0].Item3, 0);
+        }
+        else
+        {
+            gameStart = false;
+            eventInstances[0].Item1.setParameterByID(eventInstances[0].Item3, 1);
+        }
+
+    }    
     /// <summary>
     /// Plays a sound effect based on string passed in from AudioEvents.cs. Only use for sfx_* files.
     /// </summary>
