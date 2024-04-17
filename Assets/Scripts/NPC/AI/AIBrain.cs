@@ -11,12 +11,13 @@ using UnityEngine.PlayerLoop;
 /// <summary>
 /// This class controls how NPC AIs behave, state-machine based
 /// </summary>
-public class AIBrain : MonoBehaviour
+public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.ItemSpotted>
 {
     #region Properties
 
     public AIState currentState;
     DummyNPC npc { get; set; }
+    LineOfSight sight { get; set; }
 
     [ReadOnly] public Monster monster;
     [ReadOnly] public MapExit nearestExit;
@@ -31,6 +32,9 @@ public class AIBrain : MonoBehaviour
     void Start()
     {
         npc = GetComponent<DummyNPC>();
+        sight = GetComponentInChildren<LineOfSight>();
+        sight.detectionEvent.AddListener(ReceiveMessage);
+
         monster = FindObjectOfType<Monster>();
         
         // AIs start with Default state
@@ -154,6 +158,13 @@ public class AIBrain : MonoBehaviour
     void OnNewTurn()
     {
         UpdateState(currentState);
+    }
+
+    public void ReceiveMessage(GridCellPosition g, LineOfSight.ItemSpotted i) {
+        Debug.Log("Are we getting this");
+        if (currentState != AIState.Distressed && i == LineOfSight.ItemSpotted.PANICKED) {
+            ChangeState(AIState.Distressed);
+        }
     }
 
 #region Coroutines

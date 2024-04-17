@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class DummyNPC : Entity {
     [SerializeField]
+    protected LineOfSight entityLOS;
+    [SerializeField]
     protected Animator _animator;
+    public LineOfSight EntityLOS {get;}
     public Animator Animator {
         get { return _animator; }
     }
@@ -31,6 +34,10 @@ public class DummyNPC : Entity {
     protected virtual void Start()
     {
         base.Start();
+
+        selectable.HoverAction += entityLOS.ShowSight;
+        selectable.UnhoverAction += entityLOS.HideSight;
+
         aiBrain = GetComponent<AIBrain>();
         
         // Cache all map exits

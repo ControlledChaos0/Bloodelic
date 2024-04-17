@@ -4,7 +4,7 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEditor.Rendering.PostProcessing;
 
 [Serializable]
-[PostProcess(typeof(ExternalLightingPassRenderer), PostProcessEvent.BeforeTransparent, "Custom/ExternalLighting")]
+[PostProcess(typeof(ExternalLightingPassRenderer), PostProcessEvent.BeforeStack, "Custom/ExternalLighting")]
 public sealed class ExternalLightingPass : PostProcessEffectSettings
 {
     public static string ShaderName = "Hidden/Custom/ExternalLighting";
@@ -57,7 +57,7 @@ public sealed class ExternalLightingPassRenderer : PostProcessEffectRenderer<Ext
 }
 
 [Serializable]
-[PostProcess(typeof(VHSRenderer), PostProcessEvent.BeforeTransparent, "Custom/VHS")]
+[PostProcess(typeof(VHSRenderer), PostProcessEvent.BeforeStack, "Custom/VHS")]
 public sealed class VHSPass : PostProcessEffectSettings
 {
     public static string ShaderName = "Hidden/Custom/VHS";
