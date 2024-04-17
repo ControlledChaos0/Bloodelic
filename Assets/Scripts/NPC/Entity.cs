@@ -12,6 +12,8 @@ public abstract class Entity : Occupant
 #pragma warning restore CS3009 // Base type is not CLS-compliant
 {
     [SerializeField]
+    protected LineOfSight entityLOS;
+    [SerializeField]
     protected float moveSpeed = 10f;
     [SerializeField]
     protected float rotateSpeed = 10f;
