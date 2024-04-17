@@ -37,6 +37,12 @@ public class Killable : Behavior
     public override bool Resetable {
         get => false;
     }
+    
+    #region Effects
+    [SerializeField] ParticleSystem DeathParticles;
+    [SerializeField] private Transform DeathEffectSpawnPoint;
+    
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -68,6 +74,13 @@ public class Killable : Behavior
     {
         Debug.Log("Executing Moveable Routine");
         _human.RagdollSwitch.TurnOnRagdoll();
+        // Spawn blood effects
+        if (DeathParticles != null)
+        {
+            Transform targetTransform = DeathEffectSpawnPoint != null ? DeathEffectSpawnPoint : transform;
+            ParticleSystem SpawnedParticles = 
+                Instantiate<ParticleSystem>(DeathParticles, transform.position + Vector3.up * 0.65f, Quaternion.identity);
+        }
         SelectStateMachine.Instance.EndRoutine();
         yield break;
     }
