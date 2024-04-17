@@ -76,16 +76,16 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DiffAlpha: 0.257
-    - _DiffDistance: 4355
-    - _DiffOrder: 3.45
+    - _DiffDistance: 6196
+    - _DiffOrder: 2.77
     - _DitherDistance: 0.75
     - _DitherFalloff: 2.59
     - _DstBlend: 0
     - _EnableCameraDither: 0
-    - _FresnelPower: 5.99
+    - _FresnelPower: 7.02
     - _FresnelStrength: 1.28
     - _GlossMapScale: 1
-    - _Glossiness: 0.275
+    - _Glossiness: 0.733
     - _GlossyReflections: 1
     - _Metallic: 1
     - _Mode: 0
@@ -94,11 +94,11 @@ Material:
     - _ShadowedRim: 1
     - _Shininess: 0.078125
     - _SmoothnessTextureChannel: 0
-    - _Specular: 0.55
-    - _SpecularFalloff: 0.158
+    - _Specular: 0.54
+    - _SpecularFalloff: 0.157
     - _SpecularHighlights: 1
     - _SpecularPower: 8.46
-    - _SpecularStrength: 0.42
+    - _SpecularStrength: 0.54
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
