@@ -109,7 +109,7 @@ public class Break : MonoBehaviour
 
         setPiecesActive(true);
 
-        AudioController.instance.PlaySFX(AudioController.instance.CreateInstance(AudioEvents.glassShatter));
+        _audio.Play();
 
         foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
         {
