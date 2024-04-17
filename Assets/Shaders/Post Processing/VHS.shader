@@ -1,63 +1,31 @@
-Shader "Custom/VHSEffect"
+// Modified based on https://docs.unity3d.com/Packages/com.unity.postprocessing@3.4/manual/Writing-Custom-Effects.html#hlsl-source-code
+// and https://github.com/keijiro/DepthInverseProjection/blob/6b6d72d8178dbecdc29b037a175b95ea364bdbaa/Assets/InverseProjection/Resources/InverseProjection.shader
+
+Shader "Hidden/Custom/VHS"
 {
-    Properties
-    {
-        _MainTex ("Texture", 2D) = "white" {}
-        _VignetteIntensity("Vignette Intensity", Range(0.0, 4.0)) = 2.0
-        //_contrast("Contrast Intensity", Range(1.0, 1.2)) = 1.0
-        _StripesDensity("Stripes Density", Range(1.0, 10.0)) = 5.0
-        _TrackingSpeed("Tracking Speed", Range(1.0, 15.0)) = 7.0
-        _RedBlueOffset("Red Blue Offset", Range(0.0, 6.0)) = 3.0
-    }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
-
+        Cull Off ZWrite Off ZTest Always
         Pass
         {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
-
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-            };
-
-            sampler2D _MainTex;
-            float4 _MainTex_TexelSize;
+            HLSLPROGRAM
+                    
+            // See https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl
+            #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
+            #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
+            #include "../Helpers/Hash.cginc"
+            
+            #pragma vertex VertDefault
+            #pragma fragment Frag
+            
+            TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
+            // sampler2D _MainTex;
+            // float4 _MainTex_TexelSize;
             float _VignetteIntensity;
             float _StripesDensity;
             float _TrackingSpeed;
             float _RedBlueOffset;
-            //float _contrast;
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-                return o;
-            }
-
-            float4 rgbOffset(float2 uv, sampler2D tex)
-            {
-                float3 color;
-                color.r = tex2D(tex, uv + float2(_RedBlueOffset*0.001, 0)).x;
-                color.g = tex2D(tex, uv).y;
-                color.b = tex2D(tex, uv - float2(_RedBlueOffset*0.001, 0)).z;
-                return float4(color,0.0);
-            }
-
+        
             float GoldNoise(float2 xy, float seed)
             {
                 return frac(sin(dot(xy * seed, float2(12.9898, 78.233))) * 43758.5453);
@@ -101,8 +69,6 @@ Shader "Custom/VHSEffect"
                 return uv;
             }
 
-
-
             //credit to https://www.shadertoy.com/view/sltBWM
             float4 WhiteNoise(float lineThickness, float opacity, float4 pixel, float2 fragCoord)
             {
@@ -127,36 +93,35 @@ Shader "Custom/VHSEffect"
                 return pixel;
             }
 
-
-            //float3 AdjustContrast(float3 color)
-            //{
-            //    float3 midpoint = float3(0.5, 0.5, 0.5);
-            //    float3 adjustedColor = (color - midpoint) * _contrast + midpoint;
-            //    adjustedColor = clamp(adjustedColor, 0.0, 1.0);
-            //    return adjustedColor;
-            //}
-
-
-            float4 frag (v2f i) : SV_Target
+            float4 Frag(VaryingsDefault i) : SV_Target
             {
-                #define DEBUGUV(uv) return float4((uv).x, (uv).y, 0, 1);
-                float2 uv = i.uv;
+                float2 uv = i.texcoord.xy;
+
+                #define DEBUGUV(u) return float4(u.x, u.y, 0, 1);
 
                 //tracking line
                 float2 trackedUV = Tracking(_TrackingSpeed, 2.0, 10.0, i.vertex.xy);
-                trackedUV.y = 1.0 - trackedUV.y;
+                
+                // trackedUV.y = 1.0 - trackedUV.y;
+
                 //bottom wrap
                 float2 warpedUV = WarpBottomUVs(7.0, 50.0, 30.0, 5.0, trackedUV);
                 
                 //color
-                float4 output = rgbOffset(warpedUV, _MainTex);
+                float4 output = 1; // _MainTex.Sample(sampler_MainTex, i.texcoord.xy); // rgbOffset(warpedUV, scene_col);
+
+
+                // return output;
+                output.r = _MainTex.Sample(sampler_MainTex, warpedUV + float2(_RedBlueOffset*0.001, 0)).r;
+                output.g = _MainTex.Sample(sampler_MainTex, warpedUV).g;
+                output.b = _MainTex.Sample(sampler_MainTex, warpedUV - float2(_RedBlueOffset*0.001, 0)).b;
 
                 //vignette
                 float vignetteIntensity = _VignetteIntensity + 0.1 * sin(_Time.y);
                 float vignette = (1.0 - vignetteIntensity * (uv.y - 0.5) * (uv.y - 0.5)) * (1.0 - vignetteIntensity * (uv.x - 0.5) * (uv.x - 0.5));
                 output.rgb *= vignette; 
 
-                output = WhiteNoise(3.0, 0.3, output, i.vertex.xy);
+                output = WhiteNoise(3.0, 0.3, output, i.texcoord.xy);
 
                 //output = AdjustContrast(output);
                 //stripes
@@ -165,8 +130,8 @@ Shader "Custom/VHSEffect"
 
                 return output;
             }
-            ENDCG
+            
+            ENDHLSL
         }
     }
-    FallBack "Diffuse"
 }
