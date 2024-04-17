@@ -52,22 +52,20 @@ public class Selectable : MonoBehaviour
     }
 
     public void Activate() {
-        HoverAction += HoverSelect;
-        UnhoverAction += HoverDeselect;
     }
 
     public void Deactivate() {
-        HoverAction -= HoverSelect;
-        UnhoverAction -= HoverDeselect;
     }
     //These two probably repeative, and might be better to just go directly to CameraController action
     //But like having a middle man for now just in case there needs to be additional functionality and filterin
 
     public void HoverSelect() {
         _outline.enabled = true;
+        HoverAction?.Invoke();
     }
     public void HoverDeselect() {
         Debug.Log("Is this call??>>>>>>>>>>");
         _outline.enabled = false;
+        UnhoverAction?.Invoke();
     }
 }

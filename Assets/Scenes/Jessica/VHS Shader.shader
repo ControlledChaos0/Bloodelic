@@ -139,6 +139,7 @@ Shader "Custom/VHSEffect"
 
             float4 frag (v2f i) : SV_Target
             {
+                #define DEBUGUV(uv) return float4((uv).x, (uv).y, 0, 1);
                 float2 uv = i.uv;
 
                 //tracking line
@@ -146,6 +147,7 @@ Shader "Custom/VHSEffect"
                 trackedUV.y = 1.0 - trackedUV.y;
                 //bottom wrap
                 float2 warpedUV = WarpBottomUVs(7.0, 50.0, 30.0, 5.0, trackedUV);
+                
                 //color
                 float4 output = rgbOffset(warpedUV, _MainTex);
 
