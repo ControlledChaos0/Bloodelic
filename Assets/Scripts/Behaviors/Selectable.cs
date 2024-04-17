@@ -29,8 +29,9 @@ public class Selectable : MonoBehaviour
         get => _behaviorController;
     }
 
-    public event Action<GameObject> ClickAction;
-    public event Action<GameObject> HoverAction;
+    public event Action ClickAction;
+    public event Action HoverAction;
+    public event Action UnhoverAction;
 
     // Start is called before the first frame update
     void Start()
@@ -51,23 +52,16 @@ public class Selectable : MonoBehaviour
     }
 
     public void Activate() {
-        CameraController.Instance.ClickAction += Click;
-        CameraController.Instance.HoverAction += Hover;
+        HoverAction += HoverSelect;
+        UnhoverAction += HoverDeselect;
     }
 
     public void Deactivate() {
-        CameraController.Instance.ClickAction -= Click;
-        CameraController.Instance.HoverAction -= Hover;
-        _outline.enabled = false;
+        HoverAction -= HoverSelect;
+        UnhoverAction -= HoverDeselect;
     }
     //These two probably repeative, and might be better to just go directly to CameraController action
-    //But like having a middle man for now just in case there needs to be additional functionality and filtering
-    public void Click(GameObject gO) {
-        ClickAction?.Invoke(gO);
-    }
-    public void Hover(GameObject gO) {
-        HoverAction?.Invoke(gO);
-    }
+    //But like having a middle man for now just in case there needs to be additional functionality and filterin
 
     public void HoverSelect() {
         _outline.enabled = true;

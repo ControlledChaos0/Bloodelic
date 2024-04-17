@@ -23,11 +23,11 @@ public class UISelectState : SelectState
         stateMachine.CurrUI.gameObject.SetActive(true);
         Debug.Log(stateMachine.CurrBehavCont.Behaviors.Count);
         stateMachine.CurrUI.AddButtons(stateMachine.CurrBehavCont.Behaviors);
-        stateMachine.Selectable.ClickAction += Click;
+        CameraController.Instance.ClickAction += Click;
     }
     public void Deactivate() {
         stateMachine.CurrUI.DestroyButtons(stateMachine.CurrBehavCont.Behaviors);
-        stateMachine.Selectable.ClickAction -= Click;
+        CameraController.Instance.ClickAction -= Click;
         stateMachine.CurrUI.gameObject.SetActive(false);
     }
 

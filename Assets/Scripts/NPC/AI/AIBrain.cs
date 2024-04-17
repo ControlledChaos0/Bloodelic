@@ -188,9 +188,11 @@ public class AIBrain : MonoBehaviour
         if (action is ActionMove)
         {
             ActionMove moveAction = (ActionMove)action;
+            npc.Animator.SetTrigger("TrHumanWalk");
             yield return StartCoroutine(npc.MoveCoroutine(moveAction.targetCell));
         }
-        
+        npc.Animator.ResetTrigger("TrHumanWalk");
+        npc.Animator.SetTrigger("TrHumanDance");
         yield return new WaitForSeconds(0.25f);
         TurnSystem.Instance.SwitchTurn();
     }

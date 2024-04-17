@@ -88,20 +88,10 @@ public class Human : DummyNPC
         // This action is a Move Action => have NPC move to the destination tile
         if (moveAction != null)
         {
+            
             yield return StartCoroutine(MoveCoroutine(moveAction.targetCell));
         }
-        
         yield return new WaitForSeconds(0.25f);
         TurnSystem.Instance.SwitchTurn();
-    }
-
-    public void Select(Human gO)
-    {
-
-    }
-
-    public void HoverSelect(Human gO)
-    {
-        
     }
 }

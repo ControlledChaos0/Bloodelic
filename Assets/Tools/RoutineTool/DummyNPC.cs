@@ -5,7 +5,11 @@ using System.Linq;
 using UnityEngine;
 
 public class DummyNPC : Entity {
-
+    [SerializeField]
+    protected Animator _animator;
+    public Animator Animator {
+        get { return _animator; }
+    }
     [SerializeReference] private List<EntityAction> routine;
     public List<EntityAction> Routine {
         get {
