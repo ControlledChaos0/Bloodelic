@@ -168,6 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d19bdcabb6fed4594641d441d20965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathParticles: {fileID: 7874748233470883821, guid: ae3e74f9c63abe04ea791d9cb2c46fe7, type: 3}
+  DeathEffectSpawnPoint: {fileID: 8229202564584420603}
 --- !u!1001 &88211753502797587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -403,5 +405,10 @@ GameObject:
 --- !u!64 &3646156168938860909 stripped
 MeshCollider:
   m_CorrespondingSourceObject: {fileID: 2486393402437001537, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
+  m_PrefabInstance: {fileID: 1159903506137796652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8229202564584420603 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7074255846952887511, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
   m_PrefabInstance: {fileID: 1159903506137796652}
   m_PrefabAsset: {fileID: 0}
