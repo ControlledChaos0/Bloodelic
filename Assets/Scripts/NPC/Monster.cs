@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine.Editor;
-using UnityEditor;
-using UnityEditor.Recorder.Input;
 using UnityEngine;
 
 [RequireComponent(typeof(Moveable))]

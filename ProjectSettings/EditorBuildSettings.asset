@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Jade/Main Integration.unity
+    guid: fc00c2600a7096e4a86ad46f80e46b8f
   m_configObjects: {}
