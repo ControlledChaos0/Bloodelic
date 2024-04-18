@@ -44,6 +44,10 @@ public class Killable : Behavior
     
     #endregion
 
+    void Start() {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -68,12 +72,16 @@ public class Killable : Behavior
     }
     public override void ResetBehaviorSpecifics()
     {
-        //No resetting
+        IsDead = _human.IsDead;
+    }
+    public override void GetControllingComponent()
+    {
+        _human = GetComponent<Human>();
     }
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
         Debug.Log("Executing Moveable Routine");
-        _human.RagdollSwitch.TurnOnRagdoll();
+        
         // Spawn blood effects
         if (DeathParticles != null)
         {
@@ -81,7 +89,11 @@ public class Killable : Behavior
             ParticleSystem SpawnedParticles = 
                 Instantiate<ParticleSystem>(DeathParticles, transform.position + Vector3.up * 0.65f, Quaternion.identity);
         }
+        _human.IsDead = IsDead;
+        _human.Die();
+        
         SelectStateMachine.Instance.EndRoutine();
+        enabled = false;
         yield break;
     }
 }

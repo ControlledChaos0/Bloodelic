@@ -13,6 +13,12 @@ public class DummyNPC : Entity {
     public Animator Animator {
         get { return _animator; }
     }
+
+    public bool IsDead {
+        get;
+        set;
+    }
+    
     [SerializeReference] private List<EntityAction> routine;
     public List<EntityAction> Routine {
         get {

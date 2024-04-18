@@ -91,6 +91,10 @@ public class SmallHoldable : Behavior
     {
         return;
     }
+    public override void GetControllingComponent()
+    {
+        _object = GetComponent<SmallHoldableObject>();
+    }
     public override void ExecuteBehavior() {
         behaviorRoutine.ExecuteBehaviorRoutine();
         _objPos = _object.transform.position;

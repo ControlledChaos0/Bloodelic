@@ -175,14 +175,14 @@ public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.
         switch (currentState)
         {
             case AIState.Investigative:
-                npc.Selectable.ChangeOutlineColor(Color.yellow);
+                npc.Selectable?.ChangeOutlineColor(Color.yellow);
                 break;
             case AIState.Distressed:
-                npc.Selectable.ChangeOutlineColor(Color.red);
+                npc.Selectable?.ChangeOutlineColor(Color.red);
                 break;
             case AIState.Default:
             default:
-                npc.Selectable.ChangeOutlineColor();
+                npc.Selectable?.ChangeOutlineColor();
                 break;
         }
     }

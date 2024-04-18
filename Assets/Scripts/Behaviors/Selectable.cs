@@ -49,6 +49,8 @@ public class Selectable : MonoBehaviour
 
         _uiScript = _uiObject.GetComponent<WorldUI>();
         _behaviorController = GetComponent<BehaviorController>();
+
+        StartSubobjects();
     }
     // Update is called once per frame
     void Update()
@@ -66,11 +68,13 @@ public class Selectable : MonoBehaviour
 
     public void HoverSelect() {
         _outline.enabled = true;
+        //_uiObject.SetActive(true);
         HoverAction?.Invoke();
     }
     public void HoverDeselect() {
         Debug.Log("Is this call??>>>>>>>>>>");
         _outline.enabled = false;
+        //_uiObject.SetActive(false);
         UnhoverAction?.Invoke();
     }
 
@@ -79,5 +83,10 @@ public class Selectable : MonoBehaviour
     }
     public void ChangeOutlineColor() {
         ChangeOutlineColor(DefaultOutlineColor);
+    }
+
+    private void StartSubobjects() {
+        _behaviorController.InitializeBehaviors();
+        _uiScript.AddButtons(_behaviorController.Behaviors);
     }
 }

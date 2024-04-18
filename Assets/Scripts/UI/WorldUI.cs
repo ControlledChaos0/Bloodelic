@@ -93,14 +93,15 @@ public class WorldUI : MonoBehaviour
 
     public void AddButtons(List<Behavior> behaviors) {
         foreach (Behavior behavior in behaviors) {
-            Debug.Log($"Check {behavior} behavior: {behavior.CheckValid()}");
-            if (behavior.CheckValid()) {
-                GameObject buttonRealObj = Instantiate(_button, m_OptionsTransform);
-                buttonRealObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(behavior.Name);
-                Button button = buttonRealObj.GetComponent<Button>();
-                behavior.BehaviorButton = button;
-                button.onClick.AddListener(behavior.StartBehaviorAction);
+            if (behavior == null) {
+                continue;
             }
+
+            GameObject buttonRealObj = Instantiate(_button, m_OptionsTransform);
+            buttonRealObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(behavior.Name);
+            Button button = buttonRealObj.GetComponent<Button>();
+            behavior.BehaviorButton = button;
+            button.onClick.AddListener(behavior.StartBehaviorAction);
         }
     }
 

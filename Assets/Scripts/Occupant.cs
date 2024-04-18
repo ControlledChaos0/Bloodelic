@@ -24,9 +24,6 @@ public abstract class Occupant : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        behaviorController = GetComponent<BehaviorController>();
-        behaviorController.InitializeBehaviors();
-
         Vector3 vec = transform.rotation * Vector3.down;
         if (Physics.Raycast(collider.bounds.center, vec, out RaycastHit hit, Mathf.Infinity, 1 << 3))
         {
