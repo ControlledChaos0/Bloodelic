@@ -65,13 +65,13 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: -26
+    value: -17
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 1
-    value: 2.44
+    value: 1.94
   contrast:
     overrideState: 1
     value: -26
@@ -1396,16 +1396,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 1.06
+    value: 0.98
   threshold:
     overrideState: 1
-    value: 0.8
+    value: 1.11
   softKnee:
     overrideState: 0
     value: 0.5
@@ -1450,7 +1450,6 @@ MonoBehaviour:
   - {fileID: 8705591541131013274}
   - {fileID: -2281141984693023311}
   - {fileID: -4544899964670666291}
-  - {fileID: 3128396988491106507}
 --- !u!114 &3128396988491106507
 MonoBehaviour:
   m_ObjectHideFlags: 3
