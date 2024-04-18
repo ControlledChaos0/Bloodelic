@@ -66,10 +66,14 @@ public class SearchSelectState : SelectState
         _hoveredObject = gO;
         _hoveredSelectable = selectable;
         _hoveredSelectable.HoverSelect();
+
+        _hoveredSelectable.UIObject.SetActive(true);
+        _hoveredSelectable.GetBehaviorController.CheckValid();
     }
 
     private void HoverClear() {
         if (_hoveredSelectable != null) {
+            _hoveredSelectable.UIObject.SetActive(false);
             _hoveredSelectable.HoverDeselect();
         }
         _hoveredSelectable = null;

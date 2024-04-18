@@ -46,6 +46,7 @@ public abstract class Behavior : MonoBehaviour
     }
     public abstract BehaviorRoutine CreateRoutine();
     public abstract bool CheckValid();
+    public abstract void GetControllingComponent();
     public abstract void ResetBehaviorSpecifics();
     public abstract IEnumerator ExecuteBehaviorCoroutine();
 }

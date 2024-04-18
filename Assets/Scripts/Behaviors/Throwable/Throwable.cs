@@ -58,6 +58,10 @@ public class Throwable : Behavior
     {
         _movement = Monster.Movement;
     }
+    public override void GetControllingComponent()
+    {
+        throw new System.NotImplementedException();
+    }
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
         Debug.Log("Executing Moveable Routine");
