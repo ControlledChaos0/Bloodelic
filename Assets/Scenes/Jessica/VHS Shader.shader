@@ -141,12 +141,15 @@ Shader "Custom/VHSEffect"
             {
                 #define DEBUGUV(uv) return float4((uv).x, (uv).y, 0, 1);
                 float2 uv = i.uv;
-
+                
                 //tracking line
                 float2 trackedUV = Tracking(_TrackingSpeed, 2.0, 10.0, i.vertex.xy);
                 trackedUV.y = 1.0 - trackedUV.y;
                 //bottom wrap
                 float2 warpedUV = WarpBottomUVs(7.0, 50.0, 30.0, 5.0, trackedUV);
+                #if UNITY_UV_STARTS_AT_TOP
+                  warpedUV.y = 1 - warpedUV.y;
+                #endif
                 
                 //color
                 float4 output = rgbOffset(warpedUV, _MainTex);
