@@ -58,10 +58,11 @@ public class AudioController : MonoBehaviour
             i.Item1.release();
         }
     }
+    
     /// <summary>
     /// Pauses all sound. If sounds are already paused, unpause.
     /// </summary>
-    private void ToggleAudio()
+    public void ToggleAudio()
     {
         if (!isPaused)
         {
@@ -85,6 +86,7 @@ public class AudioController : MonoBehaviour
             }
         }
     }
+    
     /// <summary>
     /// Toggles Background Music from title screen to game audio.
     /// </summary>
@@ -101,7 +103,8 @@ public class AudioController : MonoBehaviour
             eventInstances[0].Item1.setParameterByID(eventInstances[0].Item3, 1);
         }
 
-    }    
+    }
+    
     /// <summary>
     /// Plays a sound effect based on string passed in from AudioEvents.cs. Only use for sfx_* files.
     /// </summary>
