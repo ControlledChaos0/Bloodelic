@@ -46,7 +46,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissiveTex:
         m_Texture: {fileID: 2800000, guid: 94a6aa1fac98dab4aa88964dece38c04, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 1.18, y: 1.02}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
