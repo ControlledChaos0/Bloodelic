@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+#if UNITY_EDITOR
 using UnityEditor.Rendering.PostProcessing;
+#endif
 
 [Serializable]
 [PostProcess(typeof(ExternalLightingPassRenderer), PostProcessEvent.BeforeStack, "Custom/ExternalLighting")]
@@ -118,6 +120,7 @@ public sealed class VHSRenderer : PostProcessEffectRenderer<VHSPass>
     }
 }
 
+#if UNITY_EDITOR
 // https://docs.unity3d.com/Packages/com.unity.postprocessing@3.0/manual/Writing-Custom-Effects.html
 [PostProcessEditor(typeof(VHSPass))]
 public sealed class VHSPassEditor : PostProcessEffectEditor<VHSPass>
@@ -143,3 +146,4 @@ public sealed class VHSPassEditor : PostProcessEffectEditor<VHSPass>
         PropertyField(m_RBO);
     }
 }
+#endif
