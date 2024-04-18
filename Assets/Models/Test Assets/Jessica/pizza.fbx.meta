@@ -3,7 +3,22 @@ guid: 8692e26f4ed750243b3d5642f5672216
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pepperoni
+    second: {fileID: 2100000, guid: 519d0986d5b75bc439ed7ffb9e31afb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pizza Stand
+    second: {fileID: 2100000, guid: 25a0ed8e271907c49a50be6c1044d01b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PizzaCrust
+    second: {fileID: 2100000, guid: 85ef55bc4c3baf64ebfe232994571e35, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
