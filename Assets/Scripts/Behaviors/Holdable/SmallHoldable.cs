@@ -109,7 +109,7 @@ public class SmallHoldable : Behavior
         } else {
             yield return PutDownCoroutine();
         }
-        SelectStateMachine.Instance.EndRoutine();
+        SelectStateMachine.Instance.EndRoutine(true);
     }
 
     private IEnumerator PickUpCoroutine() {

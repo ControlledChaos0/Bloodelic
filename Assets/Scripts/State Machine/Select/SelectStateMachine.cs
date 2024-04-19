@@ -87,7 +87,14 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
         ChangeState(_currBehavRoutine.StartState);
     }
     public void EndRoutine() {
+        EndRoutine(false);
+    }
+    public void EndRoutine(bool outToSelectState) {
         _currBehavRoutine = null;
-        ChangeState(_uiState);
+        if (outToSelectState) {
+            ChangeState(_searchState);
+        } else {
+            ChangeState(_uiState);
+        }
     }
 }
