@@ -90,7 +90,6 @@ MonoBehaviour:
   - rid: 3129491726785576962
   - rid: 3129491726785576963
   mapExits: []
-  _killable: {fileID: 273219750934382877}
   _ragdollSwitch: {fileID: 585824809558968315}
   references:
     version: 2
@@ -376,6 +375,14 @@ PrefabInstance:
     - target: {fileID: 683782066108378376, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7074255846952887511, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.035
+      objectReference: {fileID: 0}
+    - target: {fileID: 7074255846952887511, guid: 0f62ba9d5983cea428374de01a090a14, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.243
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

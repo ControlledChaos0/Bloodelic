@@ -1332,7 +1332,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Z",
     "m_StageCapability": 3,
-    "m_Value": -0.0010000000474974514,
+    "m_Value": -0.009999999776482582,
     "m_DefaultValue": 0.0,
     "m_Labels": [
         "Z"
