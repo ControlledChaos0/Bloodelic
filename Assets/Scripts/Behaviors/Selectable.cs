@@ -65,6 +65,12 @@ public class Selectable : MonoBehaviour
     }
     //These two probably repeative, and might be better to just go directly to CameraController action
     //But like having a middle man for now just in case there needs to be additional functionality and filterin
+    public void ClickUI() {
+        SelectState tempState = SelectStateMachine.Instance.currentState;
+        if (typeof(SearchSelectState).Equals(tempState.GetType())) {
+            SelectStateMachine.Instance.StartSelectable(this);
+        }
+    }
 
     public void HoverSelect() {
         _outline.enabled = true;
