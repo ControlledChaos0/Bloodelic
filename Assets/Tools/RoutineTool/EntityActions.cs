@@ -46,7 +46,7 @@ public class ActionMove : EntityAction {
         if (targetCell == null && staticPosition != null) {
             RaycastHit hitInfo;
             Physics.SphereCast(staticPosition.Position, 0.25f, Vector3.forward, out hitInfo, 0.3f, ConstantValues.GridMask);
-            targetCell = hitInfo.transform.gameObject.GetComponentInParent<GridCell>();
+            //targetCell = hitInfo.transform.gameObject.GetComponentInParent<GridCell>();
         }
         if (retargeting) {
             if (Selection.objects.Length > 0 && Selection.objects[0] is GameObject) {
