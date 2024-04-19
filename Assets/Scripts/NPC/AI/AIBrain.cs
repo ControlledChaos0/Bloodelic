@@ -55,7 +55,7 @@ public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.
         UpdateState(currentState);
     }
 
-    void ChangeState(AIState nextState)
+    public void ChangeState(AIState nextState)
     {
         // Exit state
         ExitState(currentState);
@@ -263,6 +263,7 @@ public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.
 
                 if (desiredCell != null)
                 {
+                    npc.Animator.SetTrigger("TrHumanWalk");
                     yield return StartCoroutine(npc.MoveCoroutine(desiredCell));
                 }
             }
