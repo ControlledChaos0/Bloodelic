@@ -16,7 +16,7 @@ public class AudioController : MonoBehaviour
     private EVENT_CALLBACK eventCallback;
 
     private bool gameStart;
-    private bool isPaused;
+    private bool isPaused = false;
     
     /*
      * Singleton Insurance
@@ -34,20 +34,17 @@ public class AudioController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         eventInstances = new List<Tuple<EventInstance, string, PARAMETER_ID>>();
-        // eventCallback = SFXRelease;
     }
     
     private void Start()
     {
-        int index = CreateInstance(AudioEvents.backgroundMusic);
-        eventInstances[index].Item1.start();
-        
         EventInstance eventInstance = RuntimeManager.CreateInstance(AudioEvents.backgroundMusic);
-        
         eventInstance.getDescription(out EventDescription eventDescription);
         eventDescription.getParameterDescriptionByName("IsTitle", out PARAMETER_DESCRIPTION parameterDescription);
         PARAMETER_ID parameterID = parameterDescription.id;
         eventInstances.Add(Tuple.Create(eventInstance, "BGM", parameterID));
+        eventInstance.start();
+        //ToggleBGM();
     }
     
     private void OnDestroy()
