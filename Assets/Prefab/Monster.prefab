@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6653902025185503811}
   - component: {fileID: 1686462321413958232}
   - component: {fileID: 8081302163617861824}
+  - component: {fileID: 6874552467612967036}
   m_Layer: 7
   m_Name: Monster
   m_TagString: Monster
@@ -56,6 +57,7 @@ MonoBehaviour:
   moveSpeed: 2.19
   rotateSpeed: 110.2
   icon: {fileID: 21300000, guid: f43d0da3fee2d1342a432d8669b75c5e, type: 3}
+  _stats: {fileID: 6874552467612967036}
   _inventory: {fileID: 8081302163617861824}
   _moveable: {fileID: 1686462321413958232}
 --- !u!114 &3235729291255236016
@@ -122,6 +124,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySlots: []
+--- !u!114 &6874552467612967036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555479912763524226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5aa7b83dabd1c34dbf43c22fd3d3061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: 10
+  actions: 1
+  audioDetectionRadius: 3
 --- !u!1 &7798424355312581927
 GameObject:
   m_ObjectHideFlags: 0

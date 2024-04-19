@@ -31,9 +31,12 @@ public class Pathfinder
         if (currDistance < distance) {
             GridCell[] neighbors = curr.Neighbors;
             foreach (GridCell cell in neighbors) {
+                if (cell == null) {
+                    continue;
+                }
                 gridCells.Add(cell);
                 ActivateCellsHelper(cell, distance, currDistance + 1, gridCells);
-                if (cell.IsShowing()) {
+                if (cell.IsShowing() || cell.IsOccupied()) {
                      continue;
                 }
                 UnityEngine.Debug.Log($"{cell}: Distance is {currDistance}");

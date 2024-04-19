@@ -23,6 +23,7 @@ public class MoveableRoutine : BehaviorRoutine
     {
         TempMovement = (behavior as Moveable).Movement;
         Pathfinder.moveLimit = TempMovement;
+        Debug.Log($"Get move limit: {(behavior as Moveable).Movement}");
     }
     public override void SetTemporaries()
     {
