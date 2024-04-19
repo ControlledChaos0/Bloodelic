@@ -48,6 +48,7 @@ public class TurnSystem : Singleton<TurnSystem>
 
     public void EndPlayerTurn() {
         if (activeEntity is Monster && !activeEntity.IsMoving) {
+            Debug.Log(activeEntity.BehavCon);
             activeEntity.BehavCon.ResetBehaviors();
             SwitchTurn();
         }
