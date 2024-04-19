@@ -72,7 +72,7 @@ public class SelectStateMachine : Singleton<SelectStateMachine>
 
     public void StartSelectable(Selectable selectable) {
         _selectable = selectable;
-        StartState(new UISelectState());
+        ChangeState(new UISelectState());
     }
 
     public void ClearSelectable() {

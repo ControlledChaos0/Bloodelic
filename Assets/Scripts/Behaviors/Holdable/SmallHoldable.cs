@@ -24,6 +24,7 @@ public class SmallHoldable : Behavior
     [SerializeField]
     private float _pickUpSpeed = 10f;
 
+    private bool _track;
     private Entity _heldEntity;
     private Vector3 _objPos;
     private Vector3 _objDir;
@@ -42,7 +43,7 @@ public class SmallHoldable : Behavior
     **/
     public override string Name {
         get {
-            if (IsHeld) {
+            if (_isHeld) {
                 return "Put Down";
             }
             return "Pick Up";
@@ -55,10 +56,16 @@ public class SmallHoldable : Behavior
         get => false;
     }
 
+    protected void Start() {
+        _track = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        if (HeldEntity != null && _track) {
+            transform.position = HeldEntity.transform.position;
+        }
     }
 
     public override BehaviorRoutine CreateRoutine()
@@ -96,6 +103,7 @@ public class SmallHoldable : Behavior
         _object = GetComponent<SmallHoldableObject>();
     }
     public override void ExecuteBehavior() {
+
         behaviorRoutine.ExecuteBehaviorRoutine();
         _objPos = _object.transform.position;
         _objDir = (_heldEntity.transform.position - _objPos).normalized;
@@ -105,11 +113,18 @@ public class SmallHoldable : Behavior
     {
         Debug.Log("Executing Small Holdable Routine");
         if (IsHeld) {
+            _track = false;
+            _object.OccupiedCell.Unoccupy();
             yield return PickUpCoroutine();
+            _track = true;
+            Object.Selectable.ModelObject.SetActive(false);
+            SelectStateMachine.Instance.EndRoutine(true);
         } else {
+            _track = false;;
+            Object.Selectable.ModelObject.SetActive(true);
             yield return PutDownCoroutine();
+            SelectStateMachine.Instance.EndRoutine(true);
         }
-        SelectStateMachine.Instance.EndRoutine(true);
     }
 
     private IEnumerator PickUpCoroutine() {

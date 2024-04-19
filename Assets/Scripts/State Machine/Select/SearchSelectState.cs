@@ -27,7 +27,9 @@ public class SearchSelectState : SelectState
     }
     public override void ExitState()
     {
-        stateMachine.Selectable = _hoveredSelectable;
+        if (stateMachine.Selectable == null) {
+            stateMachine.Selectable = _hoveredSelectable;
+        }
         stateMachine.Selectable.Activate();
         Deactivate();
     }

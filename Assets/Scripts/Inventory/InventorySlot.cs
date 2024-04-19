@@ -5,9 +5,10 @@ using Unity.VisualScripting;
 
 public class InventorySlot : MonoBehaviour
 {
-    private SmallHoldableObject heldObject;
     [SerializeField]
     private Image thisSlotImage;
+    private SmallHoldableObject heldObject;
+    private Button button;
 
     private bool hovered;
     private Color transparent = new Color(1,1,1,0);
@@ -20,6 +21,8 @@ public class InventorySlot : MonoBehaviour
     public void InitializeSlot()
     {;
         Debug.Log($"Image: {thisSlotImage}");
+        button = GetComponent<Button>();
+        button.onClick.AddListener(heldObject.Selectable.ClickUI);
     }
 
     public SmallHoldableObject GetObject()
@@ -42,5 +45,4 @@ public class InventorySlot : MonoBehaviour
         }
         
     }
-
 }
