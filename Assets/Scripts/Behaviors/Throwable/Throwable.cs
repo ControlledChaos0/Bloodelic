@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //So this is just a behavior that interacts with the movement function within the Entity class
@@ -40,6 +41,8 @@ public class Throwable : Behavior
     public GridCell startCell;
     public GridCell targetCell;
 
+    [SerializeField] float noiseRadius = 2f;
+    
     /**
         Identifiers
     **/
@@ -100,5 +103,16 @@ public class Throwable : Behavior
         Debug.Log("Executing Throwable Routine");
         yield return _parabola.MoveAlongCurve();
         SelectStateMachine.Instance.ClearSelectable();
+        
+        // Put any npc within noise range into distressed
+        List<Human> humans = FindObjectsOfType<Human>().ToList();
+        foreach (Human npc in humans)
+        {
+            if (Vector3.Distance(npc.transform.position, targetCell.transform.position) <= noiseRadius)
+            {
+                AIBrain ai = npc.GetComponent<AIBrain>();
+                ai.ChangeState(AIState.Distressed);
+            }
+        }
     }
 }
