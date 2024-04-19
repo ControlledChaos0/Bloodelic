@@ -18,6 +18,7 @@ public class LevelGridEditor : Editor
     private SerializedProperty _gridPrefab;
     private SerializedProperty _grid;
     private SerializedProperty _gridExist;
+    private SerializedProperty _testName;
     private bool _corners;
     private bool _gridProps;
     private bool _create;
@@ -36,6 +37,8 @@ public class LevelGridEditor : Editor
         // _gridExist = serializedObject.FindProperty("gridCellExistence");
         _grid = serializedObject.FindProperty("pGrid");
         _gridExist = serializedObject.FindProperty("pGridCellExistence");
+
+        _testName = serializedObject.FindProperty("testName");
     }
 
     public override void OnInspectorGUI() {
@@ -44,6 +47,7 @@ public class LevelGridEditor : Editor
         if (!Application.isPlaying){
             _create = (levelGrid.Grid == null || levelGrid.Grid.Count == 0) && _corner1.activeSelf;
             if (_create) {
+                EditorGUILayout.PropertyField(_testName);
                 _corners = EditorGUILayout.BeginFoldoutHeaderGroup(_corners, "Corners");
                 if (_corners) {
                     EditorGUILayout.PropertyField(_cornerProperty1);
