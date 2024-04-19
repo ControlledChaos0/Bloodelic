@@ -1,27 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class InventorySlot : MonoBehaviour
 {
     private SmallHoldableObject heldObject;
+    [SerializeField]
     private Image thisSlotImage;
 
     private bool hovered;
     private Color transparent = new Color(1,1,1,0);
     private Color opaque = new Color(1, 1, 1, 1);
-    public void initializeSlot()
-    {
-        thisSlotImage = GetComponent<Image>();
-        setObject(null);
+
+    void Start() {
+        InitializeSlot();
     }
 
-    public SmallHoldableObject getObject()
+    public void InitializeSlot()
+    {;
+        Debug.Log($"Image: {thisSlotImage}");
+    }
+
+    public SmallHoldableObject GetObject()
     {
         return heldObject;
     }
 
-    public void setObject(SmallHoldableObject curObject)
+    public void SetObject(SmallHoldableObject curObject)
     {
         if (curObject == null)
         {
@@ -30,6 +36,7 @@ public class InventorySlot : MonoBehaviour
         } else
         {
             heldObject = curObject;
+            Debug.Log($"Come onnnn workkkkk: {curObject}");
             thisSlotImage.sprite = curObject.icon;
             thisSlotImage.color = opaque;
         }
