@@ -10,27 +10,41 @@ public class Throwable : Behavior
     /**
         Controlling Thing
     **/
-    private Monster _monster;
-    public Monster Monster {
-        get => _monster;
-        set => _monster = value;
+    private SmallHoldableObject _object;
+    public SmallHoldableObject Object {
+        get => _object;
+        set => _object = value;
     }
 
+    ParabolaObject _parabola;
+
+    public ParabolaObject ParabolaObject
+    {
+        get => _parabola;
+        set => _parabola = value;
+    }
+
+    public GameObject thrownObject;
+    
     /**
         Behavior Specific Variables
     **/
-    private int _movement;
+    [SerializeField]
+    private int _throwRange = 5;
 
-    public int Movement {
-        get => _movement;
-        set => _movement = value;
+    public int Range {
+        get => _throwRange;
+        set => _throwRange = value;
     }
+
+    public GridCell startCell;
+    public GridCell targetCell;
 
     /**
         Identifiers
     **/
     public override string Name {
-        get => "Move";
+        get => "Throw";
     }
     public override bool NPCInteract {
         get => false;
@@ -47,26 +61,44 @@ public class Throwable : Behavior
 
     public override BehaviorRoutine CreateRoutine()
     {
-        return new MoveableRoutine();
+        return new ThrowableRoutine();
     }
     public override bool CheckValid()
     {
-        Debug.Log($"Movement Remaining: {_movement}");
-        return _movement > 0;
+        Debug.Log($"Range: {Range}");
+        foreach (GridCell gridCell in Object.OccupiedCell.Neighbors) {
+            if (!gridCell.IsOccupied()) {
+                continue;
+            }
+            if (gridCell.Occupant.Equals(TurnSystem.Instance.ActiveEntity)) {
+                return true;
+            }
+        }
+        return false;
     }
     public override void ResetBehaviorSpecifics()
     {
-        _movement = Monster.Movement;
     }
     public override void GetControllingComponent()
     {
-        throw new System.NotImplementedException();
+        _object = GetComponent<SmallHoldableObject>();
+        _parabola = FindObjectOfType<ParabolaObject>();
     }
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
-        Debug.Log("Executing Moveable Routine");
-        //yield return null;
-        yield return Monster.IterateThroughSpline();
-        SelectStateMachine.Instance.EndRoutine();
+        Outline outline = Object.GetComponent<Outline>();
+        if (outline != null)
+        {
+            outline.enabled = false;
+        }
+        
+        // Set up parabola
+        _parabola.startTransform = startCell.transform;
+        _parabola.endTransform = targetCell.transform;
+        _parabola.thrownObject = thrownObject;
+        
+        Debug.Log("Executing Throwable Routine");
+        yield return _parabola.MoveAlongCurve();
+        SelectStateMachine.Instance.ClearSelectable();
     }
 }

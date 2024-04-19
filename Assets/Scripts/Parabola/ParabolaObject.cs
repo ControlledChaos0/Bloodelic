@@ -11,8 +11,8 @@ public class ParabolaObject : MonoBehaviour
     [Range(0, 10.0f)] public float height;
     [Range(0, 1.0f)] public float interpolation;
 
-    [SerializeField] private Transform startTransform;
-    [SerializeField] private Transform endTransform;
+    [SerializeField] public Transform startTransform;
+    [SerializeField] public Transform endTransform;
 
     Vector3 start => startTransform != null ? startTransform.position : transform.position;
     Vector3 end => endTransform != null ? endTransform.position : transform.position;
