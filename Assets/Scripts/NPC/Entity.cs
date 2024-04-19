@@ -48,6 +48,8 @@ public abstract class Entity : Occupant
     // Start is called before the first frame update
     protected override void Start()
     {
+        stats = GetComponent<Stats>();
+
         base.Start();
         selectable = GetComponent<Selectable>();
 
@@ -56,7 +58,6 @@ public abstract class Entity : Occupant
         move = false;
         
         // Stats reference
-        stats = GetComponent<Stats>();
         
         Debug.Log("End of Entity Start!");
     }
@@ -170,7 +171,9 @@ public abstract class Entity : Occupant
     }
     
     #region Stats
-    protected Stats stats { get; set; }
+    [SerializeField]
+    protected Stats _stats;
+    protected Stats stats { get => _stats; set => _stats = value; }
     private int defaultMovement = 5;
     public int Movement => (stats != null) ? stats.Movement : defaultMovement;
 

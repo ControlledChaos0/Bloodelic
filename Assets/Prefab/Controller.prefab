@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 664502276128300083}
   - component: {fileID: 6770525582405979346}
-  - component: {fileID: 8168126668589730172}
   - component: {fileID: 7098542379979664621}
   - component: {fileID: 1969537848492505053}
   m_Layer: 0
@@ -87,14 +86,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &8168126668589730172
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 640522132528901766}
-  m_Enabled: 1
 --- !u!114 &7098542379979664621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,12 +177,12 @@ MonoBehaviour:
   m_ShowToolkit: 1
   m_ShowCustomSorter: 1
   breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles:
-  - assemblyQualifiedName: VHSPass, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles:
   - assemblyQualifiedName: ExternalLightingPass, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_BeforeStackBundles: []
+  - assemblyQualifiedName: VHSPass, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   m_AfterStackBundles: []
 --- !u!1 &4026089182415644120
 GameObject:
@@ -320,6 +311,7 @@ GameObject:
   - component: {fileID: 8310267104403435852}
   - component: {fileID: 9120427704415219209}
   - component: {fileID: 5804730233657949770}
+  - component: {fileID: 2379455674955765285}
   m_Layer: 0
   m_Name: InputController
   m_TagString: Untagged
@@ -385,6 +377,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: 4281d62d3fd671a408d198adac8dba7f, type: 3}
+--- !u!114 &2379455674955765285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9128983271565544566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 835a5e95e0bf81b4eb12b45ba88e2dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9182916017828003947
 GameObject:
   m_ObjectHideFlags: 0

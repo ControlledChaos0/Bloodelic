@@ -570,8 +570,8 @@ public class LevelGrid : Singleton<LevelGrid>
         foreach (GridCell cell in deleteCell.Keys) {
             //cell.TurnBlue();
             GameObject goO = cell.gameObject;
-            goO.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
-            //DestroyImmediate(goO);
+            //goO.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
+            DestroyImmediate(goO);
         }
     }
 

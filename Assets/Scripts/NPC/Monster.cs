@@ -26,7 +26,6 @@ public class Monster : Entity
     // Start is called before the first frame update
     protected override void Start()
     {
-        _moveable.Monster = this;
         base.Start(); 
     }
 

@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Slot> inventorySlots = new List<Slot>();
+    public List<InventorySlot> inventorySlots = new();
 
 
     public void Start()
     {
-        foreach (Slot uiSlot in inventorySlots) 
+        foreach (InventorySlot uiSlot in inventorySlots) 
         {
             
             uiSlot.initializeSlot();
@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
 
     public void addItemToInventory(SmallHoldableObject newObject)
     {
-        Slot openSlot = null;
+        InventorySlot openSlot = null;
         for (int i = 0; i < inventorySlots.Count; i++)
         {
             if (inventorySlots[i].getObject() == null)
