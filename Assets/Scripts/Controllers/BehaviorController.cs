@@ -33,9 +33,20 @@ public class BehaviorController : MonoBehaviour
         Debug.Log($"Length of Behavior Array: {arr.Length}");
         foreach (Behavior item in arr)
         {
+            item.GetControllingComponent();
             item.InitializeBehavior();
             _behaviors.Add(item);
             Debug.Log(item);
+        }
+    }
+
+    public void CheckValid() {
+        foreach (Behavior item in _behaviors) {
+            if (item.CheckValid()) {
+                item.BehaviorButton.interactable = true;
+            } else {
+                item.BehaviorButton.interactable = false;
+            }
         }
     }
 

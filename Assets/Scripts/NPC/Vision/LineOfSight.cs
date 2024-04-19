@@ -14,17 +14,26 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     public enum ItemSpotted {
         NEUTRAL,
         SUSPICION,
-        MONSTER_SEEN
+        PANICKED
     }
 
     public ItemSpotted sightState = ItemSpotted.NEUTRAL;
 
-    [SerializeField]
     private LevelGrid grid;
-
     public DetectionEvent detectionEvent = new DetectionEvent();
+
+    
     //Viewing angle for line-of-sight
-    private const float ANGLE = 45;
+    private const float DEFAULT_ANGLE = 45;
+    [SerializeField]
+    private float _angle = DEFAULT_ANGLE;
+    //For detection of the tiles
+    private const float DEFAULT_OVERLAP_SPHERE_RADIUS = 50;
+    [SerializeField]
+    private float _overlapSphereRadius = DEFAULT_OVERLAP_SPHERE_RADIUS;
+
+    [SerializeField, Range(0, 1)]
+    private float _viewFalloff = .75f;
 
     //Vars for scanning environment for the line-of-sight visual
     private const int scanFreq = 20;
@@ -35,8 +44,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     private GameObject player;
     public bool canSeePlayer;
 
-    //For detection of the tiles
-    private const float OVERLAP_SPHERE_RADIUS = 50;
+    
     private List<GameObject> tileList = new List<GameObject>();
     private List<GridCell> publishers = new List<GridCell>();
 
@@ -46,6 +54,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         REVEALSIGHT,
         HIDESIGHT
     }
+    [SerializeField]
     private SightLineShowState state = SightLineShowState.HIDESIGHT;
     private SightLineShowState prevState = SightLineShowState.HIDESIGHT;
 
@@ -62,6 +71,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     // Start is called before the first frame update
     void Start()
     {
+        grid = LevelGrid.Instance;
         scanInterval = 1.0f / scanFreq;
         //HumanManager.Instance.ClickAction += OnClick;
         if (grid != null) {
@@ -84,14 +94,15 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         if (scanTimer < 0.0f)
         {
             scanTimer += scanInterval;
-            canSeePlayer = DetectEntitySight(player, ANGLE);
+            canSeePlayer = DetectEntitySight(player, _angle);
             if (canSeePlayer) {
-                sightState = ItemSpotted.MONSTER_SEEN;
-                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.MONSTER_SEEN);
+                sightState = ItemSpotted.PANICKED;
+                Publish(player.GetComponent<Monster>().OccupiedCell.Position, ItemSpotted.PANICKED);
             }
             //Debug.Log(canSeePlayer);
             if (state == SightLineShowState.REVEALSIGHT)
             {
+                Debug.Log("REVEALINGGGGGGGGGG");
                 OnRevealSightLine();
                 prevState = SightLineShowState.REVEALSIGHT;
             }
@@ -99,6 +110,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
             {
                 if (prevState != SightLineShowState.HIDESIGHT)
                 {
+                    Debug.Log("Hidings");
                     ClearTiles();
                 }
                 prevState = SightLineShowState.HIDESIGHT;
@@ -117,7 +129,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
      * @param mask selects layers that the Raycast can interact with. By default, interacts with all layers.
      * @return bool representing whether the item is within viewing radius.
      */
-    public bool DetectEntitySight(GameObject entity, float viewAngle = ANGLE, int mask = Physics.AllLayers)
+    public bool DetectEntitySight(GameObject entity, float viewAngle = DEFAULT_ANGLE, int mask = Physics.AllLayers)
     {
         RaycastHit hit;
         if (Physics.Raycast(
@@ -154,7 +166,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     private void OnRevealSightLine()
     {
         Collider[] overlap = null;
-        overlap = Physics.OverlapSphere(transform.position, OVERLAP_SPHERE_RADIUS, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Ignore);
+        overlap = Physics.OverlapSphere(transform.position, _overlapSphereRadius, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Ignore);
         Debug.Log(overlap.Length);
         //tilesInSight.Clear();
         for(int i = tileList.Count - 1; i >= 0; i--)
@@ -162,17 +174,17 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
             if (Array.IndexOf(overlap, tileList[i]) == -1)
             {
                 if (tileList[i].GetComponent<GridCell>() != null)
-                    tileList[i].GetComponent<GridCell>().RevertColor();
+                    tileList[i].GetComponent<GridCell>().HideCell();
                 tileList.RemoveAt(i);
             }
         }
         foreach(Collider c in overlap)
         {
-            if (DetectEntitySight(c.gameObject, ANGLE, LayerMask.GetMask("Grid")) && c.gameObject.GetComponent<GridCell>() != null)
+            if (DetectEntitySight(c.gameObject, _angle, LayerMask.GetMask("Grid")) && c.gameObject.GetComponent<GridCell>() != null)
             {
                 if (!tileList.Contains(c.gameObject))
                 {
-                    c.gameObject.GetComponent<GridCell>().TurnBlue();
+                    c.gameObject.GetComponent<GridCell>().ShowCell();
                     tileList.Add(c.gameObject);
                 }
             }
@@ -189,7 +201,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         for (int i = tileList.Count - 1; i >= 0; i--)
         {
             if (tileList[i].GetComponent<GridCell>() != null)
-                tileList[i].GetComponent<GridCell>().RevertColor();
+                tileList[i].GetComponent<GridCell>().HideCell();
             tileList.RemoveAt(i);
         }
     }
@@ -216,6 +228,17 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
         }
     }
 
+    public void ShowSight() {
+        if (state == SightLineShowState.HIDESIGHT) {
+            state = SightLineShowState.REVEALSIGHT;
+        }
+    }
+    public void HideSight() {
+        if (state == SightLineShowState.REVEALSIGHT) {
+            state = SightLineShowState.HIDESIGHT;
+        }
+    }
+
     /*
      * Implementation of subscriber pattern.
      * Receives messages from GridCells about the current position of an entity.
@@ -230,16 +253,16 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
             return;
         }
         //Debug.Log("Check");
-        if (o.gameObject.Equals(player) && DetectEntitySight(o.gameObject)) {
+        if (o.gameObject.Equals(player) && DetectEntitySight(o.gameObject, _angle)) {
             //Debug.Log("Perhaps there?");
-            sightState = ItemSpotted.MONSTER_SEEN;
+            sightState = ItemSpotted.PANICKED;
             Publish(g.Position, sightState);
         } else if (HasComponent<Human>(g.gameObject)) {
             //Debug.Log("Certainly not");
             return;
         } else {
             //Debug.Log("Are we here?");
-            if (DetectEntitySight(o.gameObject)) {
+            if (DetectEntitySight(o.gameObject, _angle)) {
                 sightState = ItemSpotted.SUSPICION;
                 Publish(g.Position, sightState);
             }

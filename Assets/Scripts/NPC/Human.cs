@@ -8,8 +8,6 @@ using UnityEngine;
 public class Human : DummyNPC
 {
     [SerializeField]
-    private Killable _killable;
-    [SerializeField]
     private RagdollSwitch _ragdollSwitch;
 
     public RagdollSwitch RagdollSwitch {
@@ -18,7 +16,6 @@ public class Human : DummyNPC
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        _killable.Human = this;
         base.Start();
         //HumanManager.Instance.ClickAction += Select;
     }
@@ -93,5 +90,18 @@ public class Human : DummyNPC
         }
         yield return new WaitForSeconds(0.25f);
         TurnSystem.Instance.SwitchTurn();
+    }
+
+    public void Die() {
+        aiBrain.enabled = false;
+        Debug.Log(entityLOS);
+        Debug.Log(selectable);
+        selectable.HoverAction -= entityLOS.ShowSight;
+        selectable.UnhoverAction -= entityLOS.HideSight;
+        entityLOS.ClearTiles();
+
+        _ragdollSwitch.TurnOnRagdoll();
+
+        entityLOS.enabled = false;
     }
 }

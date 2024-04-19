@@ -65,13 +65,13 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: -26
+    value: -17
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 1
-    value: 2.44
+    value: 1.94
   contrast:
     overrideState: 1
     value: -26
@@ -1399,13 +1399,13 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   intensity:
     overrideState: 1
-    value: 1.06
+    value: 0.98
   threshold:
     overrideState: 1
-    value: 0.8
+    value: 1.11
   softKnee:
     overrideState: 0
     value: 0.5
@@ -1450,7 +1450,34 @@ MonoBehaviour:
   - {fileID: 8705591541131013274}
   - {fileID: -2281141984693023311}
   - {fileID: -4544899964670666291}
-  - {fileID: 4897722272412161399}
+--- !u!114 &3128396988491106507
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: VHSPass
+  m_EditorClassIdentifier: Assembly-CSharp::VHSPass
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  VignetteIntensity:
+    overrideState: 1
+    value: 1.47
+  StripesDensity:
+    overrideState: 1
+    value: 5.03
+  TrackingSpeed:
+    overrideState: 1
+    value: 7.4
+  RedBlueoffset:
+    overrideState: 1
+    value: 0.91
 --- !u!114 &4897722272412161399
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1519,7 +1546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65e486e4de6e5448a8fbb43dc8756a0, type: 3}
   m_Name: Grain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1556,7 +1583,7 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 0
+    value: 0.02
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}

@@ -91,6 +91,10 @@ public class SmallHoldable : Behavior
     {
         return;
     }
+    public override void GetControllingComponent()
+    {
+        _object = GetComponent<SmallHoldableObject>();
+    }
     public override void ExecuteBehavior() {
         behaviorRoutine.ExecuteBehaviorRoutine();
         _objPos = _object.transform.position;
@@ -105,7 +109,7 @@ public class SmallHoldable : Behavior
         } else {
             yield return PutDownCoroutine();
         }
-        SelectStateMachine.Instance.EndRoutine();
+        SelectStateMachine.Instance.EndRoutine(true);
     }
 
     private IEnumerator PickUpCoroutine() {

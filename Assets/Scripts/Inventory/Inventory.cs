@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,35 +6,41 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Slot> inventorySlots = new List<Slot>();
+    [SerializeField]
+    private GameObject _uiSlotPrefab;
+    [SerializeField]
+    private GameObject _smallSlots;
+    [SerializeField]
+    private int _maxSmallSlots = 3;
+    [SerializeField]
+    private List<InventorySlot> _inventorySlots;
+    public List<InventorySlot> InventorySlots {
+        get => _inventorySlots;
+    }
+    public bool IsFull {
+        get => _inventorySlots.Count < _maxSmallSlots;
+    }
 
 
     public void Start()
     {
-        foreach (Slot uiSlot in inventorySlots) 
-        {
-            
-            uiSlot.initializeSlot();
+        _inventorySlots = new();
+        if (_smallSlots == null) {
+            throw new Exception("Small Slots gameObject not defined. Pull from InventoryCanvas.");
         }
     }
 
     public void addItemToInventory(SmallHoldableObject newObject)
     {
-        Slot openSlot = null;
-        for (int i = 0; i < inventorySlots.Count; i++)
-        {
-            if (inventorySlots[i].getObject() == null)
-            {
-                openSlot = inventorySlots[i];
-                break;
-            }
+        if (_inventorySlots.Count >= _maxSmallSlots) {
+            Debug.Log("DON'T ADD, INVENTORY FULL");
+            return;
         }
 
-        if (openSlot & newObject != null & newObject.isActiveAndEnabled)
-        {
-            openSlot.setObject(newObject);
-            newObject.gameObject.SetActive(false);
-        }
+        GameObject slot = Instantiate(_uiSlotPrefab, _smallSlots.transform);
+        InventorySlot iSlot = slot.GetComponent<InventorySlot>();
+        
+        iSlot.SetObject(newObject);
     }
 
     private void OnEnable()

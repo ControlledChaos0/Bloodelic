@@ -58,6 +58,10 @@ public class Moveable : Behavior
     {
         _movement = Monster.Movement;
     }
+    public override void GetControllingComponent()
+    {
+        _monster = GetComponent<Monster>();
+    }
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
         Debug.Log("Executing Moveable Routine");

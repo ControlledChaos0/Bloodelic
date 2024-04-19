@@ -9,6 +9,7 @@ using Random = System.Random;
 
 public class AudioController : MonoBehaviour
 {
+    [SerializeField]
     private static List<Tuple<EventInstance, string, PARAMETER_ID>> eventInstances;
     
     private EventInstance eventBackgroundMusic;

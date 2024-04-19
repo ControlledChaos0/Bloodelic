@@ -59,6 +59,9 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
     public void TurnBlue() {
         _renderer.material.color = Color.red;
     }
+    public void ChangeColor(Color color) {
+        _renderer.material.color = color;
+    }
     public void SaveColor() {
         if (_renderer == null) {
             _renderer = gameObject.transform.GetChild(0).GetComponent<Renderer>();
