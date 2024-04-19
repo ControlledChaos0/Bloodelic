@@ -5,9 +5,9 @@ using UnityEngine.UIElements;
 
 public class ThrowSelect : BehaviorState {
     private LayerMask _prevLayerMask;
-    private Moveable _moveable;
+    private Throwable _throwable;
     private List<GridCell> _gridCells;
-    private MoveableRoutine _moveableRoutine;
+    private ThrowableRoutine _throwableRoutine;
 
     public override void EnterState()
     {
@@ -23,15 +23,16 @@ public class ThrowSelect : BehaviorState {
     }
 
     public void Activate() {
-        _moveable = behaviorRoutine.Behavior as Moveable;
-        _moveableRoutine = behaviorRoutine as MoveableRoutine;
+        _throwable = behaviorRoutine.Behavior as Throwable;
+        _throwableRoutine = behaviorRoutine as ThrowableRoutine;
         _prevLayerMask = CameraController.Instance.HitMask;
         CameraController.Instance.HitMask = ConstantValues.GridMask;
         GridManager.Instance.Activate();
-        _gridCells = Pathfinder.ActivateCells(_moveable.Monster.OccupiedCell, _moveableRoutine.TempMovement);
+        SmallObject smallObj = _throwable.GetComponent<SmallObject>();
+        _gridCells = Pathfinder.ActivateCells(smallObj.OccupiedCell, _throwableRoutine.SearchRange);
         // Debug.Log(_moveable.Monster);
         GridManager.Instance.HoverAction += ShowPath;
-        GridManager.Instance.ClickAction += ChoosePath;
+        GridManager.Instance.ClickAction += ChooseTarget;
     }
     public void Deactivate() {
         CameraController.Instance.HitMask = _prevLayerMask;
@@ -40,17 +41,52 @@ public class ThrowSelect : BehaviorState {
             cell.HideCell();
         }
         GridManager.Instance.HoverAction -= ShowPath;
-        GridManager.Instance.ClickAction -= ChoosePath;
+        GridManager.Instance.ClickAction -= ChooseTarget;
+        stateMachine.CurrUI.gameObject.SetActive(false);
     }
 
-    private void ShowPath(GridCell cell) {
-        _moveable.Monster.ShowPath(cell);
+    public virtual GridPath FindPathWithThrowRange(GridCell target, GridCell start, int range)
+    {
+        Pathfinder.moveLimit = range;
+        Pathfinder.entity = null;
+        return Pathfinder.FindPath(start, target, true);
+    }
+    
+    private GridPath currPosPath;
+
+    
+    private void ShowPath(GridCell cell)
+    {
+        SmallObject smallObj = _throwable.GetComponent<SmallObject>();
+        if (smallObj == null)
+        {
+            return;
+        }
+        
+        if (cell.Equals(smallObj.OccupiedCell)) {
+            return;
+        }
+        
+        // Find next path and store to temporary
+        GridPath nextPath = FindPathWithThrowRange(cell, smallObj.OccupiedCell, _throwable.Range);
+        // Skip here so we maintain visuals of the previous path
+        if (nextPath == null)
+        {
+            return;
+        }    
+        
+        //currPosPath?.HidePath();
+        currPosPath?.RevertColor();
+        currPosPath = nextPath;
+        currPosPath.TurnBlue();
     }
 
-    private void ChoosePath(GridCell cell) {
-        _moveableRoutine.TempMovement -= _moveable.Monster.LengthOfPath;
-        _moveable.Monster.ChoosePath(cell);
+    private void ChooseTarget(GridCell cell) {
+        // Set up throw curve cells
+        _throwable.startCell = _throwable.Object.OccupiedCell;
+        _throwable.targetCell = cell;
+        
         Deactivate();
-        _moveable.ExecuteBehavior();
+        _throwable.ExecuteBehavior();
     }
 }
