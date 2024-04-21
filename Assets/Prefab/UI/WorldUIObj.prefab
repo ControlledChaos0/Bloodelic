@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 6472543963168146843, guid: ccd3fa069d7f6e141891dba364b12452, type: 3}
   _sizeCanvas: {x: 100, y: 150}
+  m_OptionsTransform: {fileID: 9141963538716413547}
 --- !u!1 &8201069221774807699
 GameObject:
   m_ObjectHideFlags: 0

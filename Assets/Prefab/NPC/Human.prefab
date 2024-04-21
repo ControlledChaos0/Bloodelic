@@ -91,6 +91,7 @@ MonoBehaviour:
   - rid: 3129491726785576962
   - rid: 3129491726785576963
   mapExits: []
+  _killable: {fileID: 273219750934382877}
   _ragdollSwitch: {fileID: 585824809558968315}
   references:
     version: 2

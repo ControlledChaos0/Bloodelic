@@ -52,7 +52,7 @@ public abstract class Entity : Occupant
 
         base.Start();
         selectable = GetComponent<Selectable>();
-        behaviorController = selectable.GetBehaviorController;
+        behaviorController = GetComponent<BehaviorController>();
 
         height = collider.bounds.size.z;
         offset = new Vector3(0, -height / 2, 0);
