@@ -13,6 +13,10 @@ public abstract class SmallHoldableObject : SmallObject
     [SerializeField]
     protected SmallHoldable smallHoldable;
 
+    public SmallHoldable SmallHoldable {
+        get => smallHoldable;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {

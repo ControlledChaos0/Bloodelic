@@ -16,6 +16,7 @@ public class WorldUI : MonoBehaviour
     private GameObject m_Canvas;
     private GameObject m_OptionsContainer;
     private RectTransform m_CanvasTransform;
+    [SerializeField]
     private RectTransform m_OptionsTransform;
     private BoxCollider m_CanvasCollider;
     private Selectable m_Selectable;
@@ -39,7 +40,7 @@ public class WorldUI : MonoBehaviour
         m_CanvasTransform.sizeDelta = _sizeCanvas;
         m_Parent = transform.parent.gameObject;
         m_OptionsContainer = m_Canvas.transform.GetChild(0).gameObject;
-        m_OptionsTransform = m_OptionsContainer.GetComponent<RectTransform>();
+        //m_OptionsTransform = m_OptionsContainer.GetComponent<RectTransform>();
 
         gameObject.SetActive(false);
         //World UI needs to operate without worrying about rotation of parent gameobject
@@ -105,15 +106,15 @@ public class WorldUI : MonoBehaviour
         }
     }
 
-    public void DestroyButtons(List<Behavior> behaviors) {
-        if (behaviors == null) {
-            return;
-        }
-        foreach (Behavior behavior in behaviors) {
-            Button button = behavior.BehaviorButton;
-            if (button != null) {
-                Destroy(button.gameObject);
-            }
-        }
-    }
+    // public void DestroyButtons(List<Behavior> behaviors) {
+    //     if (behaviors == null) {
+    //         return;
+    //     }
+    //     foreach (Behavior behavior in behaviors) {
+    //         Button button = behavior.BehaviorButton;
+    //         if (button != null) {
+    //             Destroy(button.gameObject);
+    //         }
+    //     }
+    // }
 }

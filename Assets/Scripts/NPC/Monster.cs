@@ -26,6 +26,7 @@ public class Monster : Entity
     // Start is called before the first frame update
     protected override void Start()
     {
+        StartMonster();
         base.Start(); 
     }
 
@@ -33,7 +34,6 @@ public class Monster : Entity
     protected override void Update()
     {
         base.Update();
-        StartMonster();
     }
 
     private void StartMonster() {

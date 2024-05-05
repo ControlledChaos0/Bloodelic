@@ -182,7 +182,7 @@ public class AIBrain : MonoBehaviour, ISubscriber<GridCellPosition, LineOfSight.
                 break;
             case AIState.Default:
             default:
-                npc.Selectable?.ChangeOutlineColor();
+                //npc.Selectable?.ChangeOutlineColor();
                 break;
         }
     }

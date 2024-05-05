@@ -1450,6 +1450,7 @@ MonoBehaviour:
   - {fileID: 8705591541131013274}
   - {fileID: -2281141984693023311}
   - {fileID: -4544899964670666291}
+  - {fileID: 4721673065691665150}
 --- !u!114 &3128396988491106507
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1478,6 +1479,34 @@ MonoBehaviour:
   RedBlueoffset:
     overrideState: 1
     value: 0.91
+--- !u!114 &4721673065691665150
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: VHSPass
+  m_EditorClassIdentifier: Assembly-CSharp::VHSPass
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  VignetteIntensity:
+    overrideState: 0
+    value: 2
+  StripesDensity:
+    overrideState: 0
+    value: 2
+  TrackingSpeed:
+    overrideState: 0
+    value: 2
+  RedBlueoffset:
+    overrideState: 0
+    value: 2
 --- !u!114 &4897722272412161399
 MonoBehaviour:
   m_ObjectHideFlags: 3

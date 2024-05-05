@@ -102,7 +102,9 @@ public class Throwable : Behavior
         
         Debug.Log("Executing Throwable Routine");
         yield return _parabola.MoveAlongCurve();
-        SelectStateMachine.Instance.ClearSelectable();
+        _object.transform.position = targetCell.transform.position;
+        SelectStateMachine.Instance.EndRoutine(true);
+        _object.Selectable.enabled = false;
         
         // Put any npc within noise range into distressed
         List<Human> humans = FindObjectsOfType<Human>().ToList();
@@ -114,5 +116,6 @@ public class Throwable : Behavior
                 ai.ChangeState(AIState.Distressed);
             }
         }
+        Destroy(_object.gameObject);
     }
 }
