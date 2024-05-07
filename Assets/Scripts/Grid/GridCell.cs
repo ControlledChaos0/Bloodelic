@@ -10,8 +10,6 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
 {
     //Most of these are serialized explicitly so that these values will be saved when grid is created in editor
     [SerializeField]
-    private GameObject _objectInThisGridSpace = null;
-    [SerializeField]
     private Collider _collider;
     [SerializeField]
     private GridCellPosition _position;
@@ -104,11 +102,19 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
     #region Occupant
 
     [SerializeField]
-    private Occupant _occupant;
-    public Occupant Occupant => _occupant;
+    private Occupant _blockOccupant;
+    [SerializeField]
+    private Occupant[] _nonblockOccupants = new Occupant[4];
+    public Occupant BlockOccupant => _blockOccupant;
+    public Occupant[] NoBlockOccupants => _nonblockOccupants;
     
     public void SetOccupant(Occupant occupant)
     {
+        if (occupant.BlockCells) {
+
+        } else {
+
+        }
         Debug.Log("SetOccupant called");
         // Log error if cell is occupied
         if (_occupant != null)
@@ -181,7 +187,7 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
             if (IsOccupied())
             {
                 Handles.color = Color.red;
-                string debugString = string.Format("Occupant: {0}", _occupant.name);
+                string debugString = string.Format("Occupant: {0}", _blockOccupant.name);
                 Handles.Label(transform.position + Vector3.up * 0.5f, debugString);
                 Handles.color = Color.white;
             }

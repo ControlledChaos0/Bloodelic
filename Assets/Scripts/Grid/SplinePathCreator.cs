@@ -35,7 +35,7 @@ public class SplinePathCreator : MonoBehaviour
 
     private static void EditSplineContainer(SplineContainer splineContainer, GridPath path) {
         Spline prevSpline = splineContainer.Spline;
-        Spline currSpline = splineContainer.AddSpline();
+        Spline currSpline = null;
         GridCell currCell = path.PopFront();
         GridCell prevCell = currCell;
         Vector3 worldPos = currCell.transform.position;
@@ -54,16 +54,14 @@ public class SplinePathCreator : MonoBehaviour
 
             prevSpline.SetKnot(0, prevKnot);
             prevSpline.Add(currKnot);
-            if (path.Count != 0) {
-                currSpline.Add(currKnot);
-            }
 
             prevKnot = currKnot;
             prevCell = currCell;
 
-            prevSpline = currSpline;
-            if (path.Count > 1) {
+            if (path.Count != 0) {
                 currSpline = splineContainer.AddSpline();
+                currSpline.Add(currKnot);
+                prevSpline = currSpline;
             }
         }
     }

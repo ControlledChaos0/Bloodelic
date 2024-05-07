@@ -38,6 +38,8 @@ public class Throwable : Behavior
         set => _throwRange = value;
     }
 
+    [SerializeField] float torque = 15f;
+
     public GridCell startCell;
     public GridCell targetCell;
 
@@ -89,15 +91,22 @@ public class Throwable : Behavior
     }
     public override IEnumerator ExecuteBehaviorCoroutine()
     {
-        Outline outline = Object.GetComponent<Outline>();
+        Outline outline = thrownObject.GetComponent<Outline>();
         if (outline != null)
         {
             outline.enabled = false;
+        }
+
+        Rigidbody rb = thrownObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddTorque(rb.transform.right * torque);
         }
         
         // Set up parabola
         _parabola.startTransform = startCell.transform;
         _parabola.endTransform = targetCell.transform;
+        _parabola.endTransform.position += targetCell.transform.up * 0.1f;
         _parabola.thrownObject = thrownObject;
         
         Debug.Log("Executing Throwable Routine");
