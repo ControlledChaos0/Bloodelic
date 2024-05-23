@@ -84,10 +84,10 @@ public class SmallHoldable : Behavior
             return false;
         } else {
             foreach (GridCell gridCell in Object.OccupiedCell.Neighbors) {
-                if (!gridCell.IsOccupied()) {
+                if (gridCell.BlockOccupant == null) {
                     continue;
                 }
-                if (gridCell.Occupant.Equals(TurnSystem.Instance.ActiveEntity)) {
+                if (gridCell.BlockOccupant.Equals(TurnSystem.Instance.ActiveEntity)) {
                     return true;
                 }
             }
@@ -114,7 +114,7 @@ public class SmallHoldable : Behavior
         Debug.Log("Executing Small Holdable Routine");
         if (IsHeld) {
             _track = false;
-            _object.OccupiedCell.Unoccupy();
+            _object.OccupiedCell.Unoccupy(_object);
             yield return PickUpCoroutine();
             _track = true;
             Object.Selectable.ModelObject.SetActive(false);

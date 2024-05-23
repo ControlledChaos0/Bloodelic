@@ -21,27 +21,37 @@ public class Pathfinder
     public static Entity entity;
     #endregion
 
-    public static List<GridCell> ActivateCells(GridCell start, int distance) {
-        List<GridCell> list = new();
-        ActivateCellsHelper(start, distance, 0, list);
+    public struct GridCellDist {
+        public GridCell gridCell;
+        public int distance;
+
+        public GridCellDist (GridCell cell, int dis) {
+            gridCell = cell;
+            distance = dis;
+        }
+    }
+
+    public static List<GridCellDist> ActivateCells(GridCell start, int distance) {
+        List<GridCellDist> list = new();
+        ActivateCellsHelper(new GridCellDist(start, 0), distance, 0, list);
         return list;
     }
 
-    public static void ActivateCellsHelper(GridCell curr, int distance, int currDistance, List<GridCell> gridCells) {
-        if (currDistance < distance) {
-            GridCell[] neighbors = curr.Neighbors;
+    public static void ActivateCellsHelper(GridCellDist curr, int distance, int index, List<GridCellDist> gridCells) {
+        if (curr.distance < distance) {
+            GridCell[] neighbors = curr.gridCell.Neighbors;
             foreach (GridCell cell in neighbors) {
-                if (cell == null) {
-                    continue;
-                }
-                gridCells.Add(cell);
-                ActivateCellsHelper(cell, distance, currDistance + 1, gridCells);
-                if (cell.IsShowing() || cell.IsOccupied()) {
+                if (cell == null || cell.IsShowing() || cell.IsOccupied()) {
                      continue;
                 }
-                UnityEngine.Debug.Log($"{cell}: Distance is {currDistance}");
+                UnityEngine.Debug.Log($"{cell}: Distance is {curr.distance}");
                 cell.ShowCell();
+                GridCellDist gridCellDist = new(cell, curr.distance + 1);
+                gridCells.Add(gridCellDist);
             }
+        }
+        if (gridCells.Count > index) {
+            ActivateCellsHelper(gridCells[index], distance, index + 1, gridCells);
         }
     }
     
@@ -76,7 +86,7 @@ public class Pathfinder
                     continue;
                 }
                 // If cell is occupied
-                if (cell.IsOccupied() && cell.Occupant.BlockCells)
+                if (cell.IsOccupied() && cell.BlockOccupant != null)
                 {
                     continue;
                 }

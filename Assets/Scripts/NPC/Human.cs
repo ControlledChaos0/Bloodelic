@@ -39,7 +39,7 @@ public class Human : DummyNPC
             //Debug.Log(name + " escaped using Exit at " + occupiedCell.name);
             // Game Over...
             
-            OccupiedCell.Unoccupy();
+            OccupiedCell.Unoccupy(this);
             StopAllCoroutines();
             gameObject.SetActive(false);
             TurnSystem.Instance.RemoveEntity(this);

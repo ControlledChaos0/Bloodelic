@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class ThrowSelect : BehaviorState {
     private LayerMask _prevLayerMask;
     private Throwable _throwable;
-    private List<GridCell> _gridCells;
+    private List<Pathfinder.GridCellDist> _gridCells;
     private ThrowableRoutine _throwableRoutine;
 
     public override void EnterState()
@@ -37,8 +37,8 @@ public class ThrowSelect : BehaviorState {
     public void Deactivate() {
         CameraController.Instance.HitMask = _prevLayerMask;
         GridManager.Instance.Deactivate();
-        foreach(GridCell cell in _gridCells) {
-            cell.HideCell();
+        foreach(Pathfinder.GridCellDist cell in _gridCells) {
+            cell.gridCell.HideCell();
         }
         GridManager.Instance.HoverAction -= ShowPath;
         GridManager.Instance.ClickAction -= ChooseTarget;

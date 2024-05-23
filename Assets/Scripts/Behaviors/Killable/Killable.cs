@@ -64,7 +64,7 @@ public class Killable : Behavior
             return false;
         }
         foreach (GridCell gridCell in TurnSystem.Instance.ActiveEntity.OccupiedCell.Neighbors) {
-            if (gridCell.IsOccupied() && gridCell.Occupant.Equals(_human)) {
+            if (gridCell.BlockOccupant != null && gridCell.BlockOccupant.Equals(_human)) {
                 return true;
             }
         }

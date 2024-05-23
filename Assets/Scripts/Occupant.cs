@@ -45,7 +45,7 @@ public abstract class Occupant : MonoBehaviour
     public void SetOccupation(GridCell cell)
     {
         if (cell == null) { return; }
-        occupiedCell.Unoccupy();
+        occupiedCell.Unoccupy(this);
         occupiedCell = cell;
         // Set occupant for occupied cell
         occupiedCell.SetOccupant(this);

@@ -38,7 +38,6 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
     private GridCell _pathTo;
     private Renderer _renderer;
     private Color _savedColor;
-    private bool _isOccupied;
     
     public MovementEvent ItemMoved = new MovementEvent();
 
@@ -107,45 +106,77 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
     private Occupant[] _nonblockOccupants = new Occupant[4];
     public Occupant BlockOccupant => _blockOccupant;
     public Occupant[] NoBlockOccupants => _nonblockOccupants;
+    private int _nonblockCount = 0;
     
     public void SetOccupant(Occupant occupant)
     {
-        if (occupant.BlockCells) {
-
-        } else {
-
-        }
         Debug.Log("SetOccupant called");
-        // Log error if cell is occupied
-        if (_occupant != null)
-        {
-            Debug.LogError("Attempting to occupy cell " + name + " occupied by " + _occupant.name);
-            return;
-        }
+        if (occupant.BlockCells) {
+            if (_blockOccupant != null)
+            {
+                Debug.LogError("Attempting to occupy cell " + name + " occupied by " + _blockOccupant.name);
+                return;
+            }
+            _blockOccupant = occupant;
 
-        _occupant = occupant;
-
-        Publish(_occupant, this);
-        
-        // For human occupants, also set wall neighbors to occupied
-        List<GridCell> wallNeighbors = GetWallNeighbors();
-        foreach (var n in wallNeighbors)
-        {
-            n._occupant = occupant;
-        }
-    }
-    
-    public void Unoccupy(bool alsoUnoccupyWallNeighbors = true)
-    {
-        if (alsoUnoccupyWallNeighbors)
-        {
+            Publish(_blockOccupant, this);
+            
+            // For human occupants, also set wall neighbors to occupied
             List<GridCell> wallNeighbors = GetWallNeighbors();
             foreach (var n in wallNeighbors)
             {
-                n.Unoccupy(false);
+                n._blockOccupant = occupant;
+            }
+        } else {
+            if (_nonblockCount >= _nonblockOccupants.Length) {
+                Debug.LogError("Attempting to occupy cell " + name + " occupied by too many nonblock occupants");
+                return;
+            }
+            int index = 0;
+            while (_nonblockOccupants[index] != null) {
+                index++;
+            }
+            _nonblockOccupants[index] = occupant;
+            _nonblockCount++;
+        }
+    }
+    
+    public void Unoccupy(Occupant occupant, bool alsoUnoccupyWallNeighbors = true)
+    {
+        if (occupant.BlockCells) {
+            if (_blockOccupant == null) {
+                Debug.LogError("Cant unoccupy already unoccupied cell");
+                return;
+            }
+            if (alsoUnoccupyWallNeighbors)
+            {
+                List<GridCell> wallNeighbors = GetWallNeighbors();
+                foreach (var n in wallNeighbors)
+                {
+                    n.Unoccupy(occupant, false);
+                }
+            }
+            _blockOccupant = null;
+        } else {
+            if (_nonblockCount == 0) {
+                Debug.LogError("Cant unoccupy already unoccupied cell");
+                return;
+            }
+            int index = 0;
+            while (index < _nonblockOccupants.Length) {
+                if (_nonblockOccupants[index] == null || !_nonblockOccupants[index].Equals(occupant)) {
+                    index++;
+                    continue;
+                }
+                _nonblockOccupants[index] = null;
+                _nonblockCount--;
+                break;
+            }
+            if (index >= _nonblockOccupants.Length) {
+                Debug.LogError($"Occupant not found in {name}, and therefore, cannot unoccupy");
+                return;
             }
         }
-        _occupant = null;
     }
     
 
@@ -155,7 +186,7 @@ public class GridCell : MonoBehaviour, IPublisher<Occupant, GridCell>
     public bool IsOccupied()
     {
         // @Add objects stuff
-        return _occupant != null;
+        return _blockOccupant != null || _nonblockCount >= _nonblockOccupants.Length;
     }
     
     public List<GridCell> GetWallNeighbors()

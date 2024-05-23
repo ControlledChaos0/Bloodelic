@@ -72,10 +72,7 @@ public class Throwable : Behavior
     {
         Debug.Log($"Range: {Range}");
         foreach (GridCell gridCell in Object.OccupiedCell.Neighbors) {
-            if (!gridCell.IsOccupied()) {
-                continue;
-            }
-            if (gridCell.Occupant.Equals(TurnSystem.Instance.ActiveEntity)) {
+            if (gridCell.BlockOccupant != null && gridCell.BlockOccupant.Equals(TurnSystem.Instance.ActiveEntity)) {
                 return true;
             }
         }

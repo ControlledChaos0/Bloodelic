@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class MoveGridSelect : BehaviorState {
     private LayerMask _prevLayerMask;
     private Moveable _moveable;
-    private List<GridCell> _gridCells;
+    private List<Pathfinder.GridCellDist> _gridCells;
     private MoveableRoutine _moveableRoutine;
 
     public override void EnterState()
@@ -36,8 +36,8 @@ public class MoveGridSelect : BehaviorState {
     public void Deactivate() {
         CameraController.Instance.HitMask = _prevLayerMask;
         GridManager.Instance.Deactivate();
-        foreach(GridCell cell in _gridCells) {
-            cell.HideCell();
+        foreach(Pathfinder.GridCellDist cell in _gridCells) {
+            cell.gridCell.HideCell();
         }
         GridManager.Instance.HoverAction -= ShowPath;
         GridManager.Instance.ClickAction -= ChoosePath;
