@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using Cinemachine;
 using Unity.Collections;
 
@@ -11,6 +12,7 @@ using Unity.Collections;
 using Unity.Burst;
 using Unity.Jobs;
 using Unity.Mathematics;
+using static Unity.Mathematics.math;
 using UnityEngine.Jobs;
 
 #pragma warning disable CS3009
@@ -51,6 +53,9 @@ public class KingShaderDriver : MonoBehaviour
 
     [SerializeField, SaveDuringPlay, Range(0.0f, 3.0f), Tooltip("Higher value = puffier spikes")]
     private float spikeShapeStylizationFactor;
+    
+    [SerializeField, SaveDuringPlay, Range(0.0f, 3.0f), Tooltip("Higher value = bendable spikes")]
+    private float spikeDroopStylizationFactor;
 
     [SerializeField, SaveDuringPlay, Range(0.0f, 1.0f), Tooltip("Higher value = smoother lighting on spikes")]
     private float spikeShadowSmoothnessFactor;
@@ -64,7 +69,7 @@ public class KingShaderDriver : MonoBehaviour
     //[SerializeField, SaveDuringPlay, Range(0.0f, 10.0f)]
     //private float thickness = 1.0f;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 0.01f)]
+    [SerializeField, SaveDuringPlay, Range(0.0f, 0.1f)]
     private float shellDroop = 1.0f;
 
     [SerializeField, SaveDuringPlay, Range(0.0f, 100.0f)]
@@ -96,15 +101,15 @@ public class KingShaderDriver : MonoBehaviour
 #endregion
 
 #region Shell Animation Parameters
-    [Header("Shell Animation Parameters")]
 
-    [SerializeField, SaveDuringPlay, Range(0.1f, 300.0f)]
+    [Header("Shell Animation Parameters")] [SerializeField, SaveDuringPlay]
+    private int animationNormalizedLayerCount = 10;
+    private int shellCountPerNormalizedLayer => shellCount / animationNormalizedLayerCount;
+    
+    [SerializeField, SaveDuringPlay, Range(0.1f, 100.0f)]
     private float positionResponsiveness;
 
-    [SerializeField, SaveDuringPlay, Range(0.0f, 0.25f), Tooltip("Smaller = stiffer swinging animation")]
-    private float positionMaxDelta;
-
-    [SerializeField, SaveDuringPlay, Range(0.1f, 300.0f)]
+    [SerializeField, SaveDuringPlay, Range(0.1f, 100.0f)]
     private float rotationResponsiveness;
     
     private TransformAccessArray shellTransformAccesses; // NativeArray that optimizes Transform object access, see animation job definition below
@@ -116,8 +121,9 @@ public class KingShaderDriver : MonoBehaviour
     private JobHandle currentAnimationJob;
     private JobHandle currentBufferSyncJob;
 
-    NativeArray<Vector3> shellPositions;
-    NativeArray<Quaternion> shellRotations;
+    NativeArray<int> animationIndices;
+    NativeArray<float3> shellPositions;
+    NativeArray<quaternion> shellRotations;
 
     void OnEnable() {
         shellMaterial = new Material(shellMaterialPrototype);
@@ -125,14 +131,13 @@ public class KingShaderDriver : MonoBehaviour
         shellRenderers = new MeshRenderer[shellCount];
 
         bodyMesh.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-
+        
         for (int i = 0; i < shellCount; ++i) {
             GameObject currShell = new("__shell_temp_obj_" + i.ToString(), typeof(MeshFilter), typeof(MeshRenderer));
             shellTransforms[i] = currShell.transform;
 
             currShell.transform.position = bodyMesh.position;
             currShell.transform.rotation = bodyMesh.rotation;
-
             currShell.GetComponent<MeshFilter>().mesh = bodyMesh.GetComponent<MeshFilter>().mesh;
 
             MeshRenderer currRend = currShell.GetComponent<MeshRenderer>();
@@ -145,8 +150,24 @@ public class KingShaderDriver : MonoBehaviour
         shellTransformAccesses = new TransformAccessArray(shellTransforms);
 
         // memory management taken from https://catlikecoding.com/unity/tutorials/basics/jobs/
-        shellPositions = new NativeArray<Vector3>(shellCount, Allocator.Persistent);
-        shellRotations = new NativeArray<Quaternion>(shellCount, Allocator.Persistent);
+        shellPositions = new NativeArray<float3>(shellCount, Allocator.Persistent);
+        shellRotations = new NativeArray<quaternion>(shellCount, Allocator.Persistent);
+        animationIndices = new NativeArray<int>(shellCount, Allocator.Persistent);
+
+        for (int i = 0; i < shellCount; ++i)
+        {
+            int excess = i % shellCountPerNormalizedLayer;
+            if (excess == 0)
+            {
+                animationIndices[i] = max(0, i - shellCountPerNormalizedLayer);
+            }
+            else
+            {
+                animationIndices[i] = i - excess; // guaranteed >= 0
+            }
+        }
+        
+        // Debug.Log(string.Join(", ", animationIndices));
 
         UpdateStaticParameters();
     }
@@ -155,10 +176,8 @@ public class KingShaderDriver : MonoBehaviour
         if (updateStatics) { 
             UpdateStaticParameters();
         }
-        UpdateDynamicParameters(Time.deltaTime);
-    }
+        UpdateDynamicParameters(Time.fixedDeltaTime);
 
-    private void Update() {
         SyncAnimationBufferJob fetchTransforms = new()
         {
             anchorPos = bodyMesh.transform.position,
@@ -170,25 +189,22 @@ public class KingShaderDriver : MonoBehaviour
 
         ShellAnimationJob anim = new()
         {
+            prevIndices = animationIndices,
             lastPosition = shellPositions,
             lastRotation = shellRotations,
-            positionLerpFactor = positionResponsiveness * Time.deltaTime,
-            rotationLerpFactor = rotationResponsiveness * Time.deltaTime,
-            masDistSquared = positionMaxDelta * positionMaxDelta,
-            scale = bodyMesh.transform.localScale
+            positionLerpFactor = Mathf.Clamp01(positionResponsiveness * Time.fixedDeltaTime),
+            rotationLerpFactor = Mathf.Clamp01(rotationResponsiveness * Time.fixedDeltaTime),
+            scale = bodyMesh.transform.localScale,
         };
 
         currentBufferSyncJob = fetchTransforms.Schedule(shellTransformAccesses);
         currentAnimationJob = anim.Schedule(shellTransformAccesses, currentBufferSyncJob);
-    }
-
-    private void LateUpdate()
-    {
-        currentAnimationJob.Complete(); // give it enough time to complete
+        currentAnimationJob.Complete();
     }
 
     void OnDisable() {
         shellTransformAccesses.Dispose();
+        animationIndices.Dispose();
         shellPositions.Dispose();
         shellRotations.Dispose();
 
@@ -222,6 +238,7 @@ public class KingShaderDriver : MonoBehaviour
                 .SetFloatParam(ShaderIDs.SpikeCutoffMin, spikeCutoffMin)
                 .SetFloatParam(ShaderIDs.SpikeCutoffMax, spikeCutoffMax)
                 .SetFloatParam(ShaderIDs.SpikeShapeStylizationFactor, spikeShapeStylizationFactor)
+                .SetFloatParam(ShaderIDs.SpikeDroopStylizationFactor, spikeDroopStylizationFactor)
                 .SetFloatParam(ShaderIDs.ShellSpecularSharpness, shellSpecularSharpness)
                 .SetFloatParam(ShaderIDs.ShellSpecularAmount, shellSpecularAmount)
                 .SetFloatParam(ShaderIDs.SpikeShadowSmoothnessFactor, spikeShadowSmoothnessFactor)
@@ -250,45 +267,34 @@ public class KingShaderDriver : MonoBehaviour
         });
     }
 
+    [BurstCompile(FloatPrecision.Standard, FloatMode.Fast)]
     struct ShellAnimationJob : IJobParallelForTransform // https://realerichu.medium.com/improve-performance-with-c-job-system-and-burst-compiler-in-unity-eecd2a69dbc8
     {
-        [ReadOnly] public NativeArray<Vector3> lastPosition;
-        [ReadOnly] public NativeArray<Quaternion> lastRotation;
+        [ReadOnly] public NativeArray<int> prevIndices;
+        [ReadOnly] public NativeArray<float3> lastPosition;
+        [ReadOnly] public NativeArray<quaternion> lastRotation;
         [ReadOnly] public float positionLerpFactor;
         [ReadOnly] public float rotationLerpFactor;
-        [ReadOnly] public float masDistSquared;
-
-        [ReadOnly] public Vector3 scale;
-
+        [ReadOnly] public float3 scale;
+        
         public void Execute(int index, TransformAccess transform)
         {
-            int prev = index - 1;
-            if (prev < 0) prev = 0;
-
-            Vector3 thisToLast = (lastPosition[prev] - transform.localPosition);
-            float sqrDist = thisToLast.sqrMagnitude;
-
-            if (sqrDist > masDistSquared)
-            {
-                transform.localPosition = lastPosition[prev] - thisToLast.normalized * masDistSquared;
-            } else
-            {
-                transform.localPosition = (1 - positionLerpFactor) * transform.localPosition + positionLerpFactor * lastPosition[prev];
-            }
-
-            transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, lastRotation[prev], rotationLerpFactor);
-
+            transform.SetPositionAndRotation(
+                lerp(lastPosition[index], lastPosition[prevIndices[index]], positionLerpFactor),
+                slerp(lastRotation[index], lastRotation[prevIndices[index]], rotationLerpFactor)
+            );
             transform.localScale = scale;
         }
     }
     
+    [BurstCompile(FloatPrecision.Medium, FloatMode.Fast)]
     struct SyncAnimationBufferJob : IJobParallelForTransform
     {
-        [ReadOnly] public Vector3 anchorPos;
-        [ReadOnly] public Quaternion anchorRotation;
+        [ReadOnly] public float3 anchorPos;
+        [ReadOnly] public quaternion anchorRotation;
         [ReadOnly] public int Count;
-        [WriteOnly, NativeDisableParallelForRestriction] public NativeArray<Vector3> lastPosition;
-        [WriteOnly, NativeDisableParallelForRestriction] public NativeArray<Quaternion> lastRotation;
+        [WriteOnly, NativeDisableParallelForRestriction] public NativeArray<float3> lastPosition;
+        [WriteOnly, NativeDisableParallelForRestriction] public NativeArray<quaternion> lastRotation;
 
         public void Execute(int index, TransformAccess transform)
         {
@@ -324,6 +330,7 @@ public class KingShaderDriver : MonoBehaviour
         internal static readonly int SpikeCutoffMin = Shader.PropertyToID("_SpikeCutoffMin");
         internal static readonly int SpikeCutoffMax = Shader.PropertyToID("_SpikeCutoffMax");
         internal static readonly int SpikeShapeStylizationFactor = Shader.PropertyToID("_SpikeShapeStylizationFactor");
+        internal static readonly int SpikeDroopStylizationFactor = Shader.PropertyToID("_SpikeDroopStylizationFactor");
         internal static readonly int ShellSpecularSharpness = Shader.PropertyToID("_ShellSpecularSharpness");
         internal static readonly int ShellSpecularAmount = Shader.PropertyToID("_ShellSpecularAmount");
         internal static readonly int SpikeShadowSmoothnessFactor = Shader.PropertyToID("_SpikeShadowSmoothnessFactor");
