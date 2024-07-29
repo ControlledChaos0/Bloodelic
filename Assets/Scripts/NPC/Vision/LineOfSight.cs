@@ -36,7 +36,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
     private float _viewFalloff = .75f;
 
     //Vars for scanning environment for the line-of-sight visual
-    private const int scanFreq = 20;
+    private const int scanFreq = 5;
     private float scanTimer;
     private float scanInterval;
 
@@ -149,7 +149,11 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
                     (entity.transform.position - transform.position).normalized,
                     transform.forward) <= viewAngle)
                 {
-                    return true;
+                    if ((LayerMask.GetMask("Grid") & mask) != 0) {
+                        return Vector3.Dot(entity.transform.up, transform.forward) <= 0;
+                    } else {
+                        return true;
+                    }
                 }
             }
         }
@@ -305,7 +309,7 @@ public class LineOfSight : MonoBehaviour, ISubscriber<Occupant, GridCell>,
      */
     bool HasTransform(Transform currentTransform, Transform targetTransform)
     {
-        if (currentTransform.Equals(targetTransform))
+        if (currentTransform.Equals(targetTransform) || currentTransform.position.Equals(targetTransform.position))
         {
             return true;
         }

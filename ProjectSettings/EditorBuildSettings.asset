@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Anthony/Disco Club (Final).unity
     guid: d5d2bf7875289ba4784bd307ae6f3a86
   - enabled: 1
-    path: Assets/Scenes/Main Scenes/Disco Club (Final) 1.unity
+    path: Assets/Scenes/Main Scenes/DiscoLevel.unity
     guid: b524acc529cc3f2419ff2b4b742f6bdf
   m_configObjects: {}
