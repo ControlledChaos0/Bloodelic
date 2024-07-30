@@ -4,7 +4,6 @@ using UnityEngine;
 using Cinemachine;
 using UnityEditor;
 using System;
-using Unity.VisualScripting;
 
 public class CameraController : Singleton<CameraController>
 {
@@ -12,6 +11,8 @@ public class CameraController : Singleton<CameraController>
     private Camera mainCamera;
     [SerializeField]
     private Camera uiCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera _cinemachineCam;
     [SerializeField]
     private float cameraSensitivity = 0.5f;
     [SerializeField]
@@ -30,7 +31,6 @@ public class CameraController : Singleton<CameraController>
     private GameObject corner2;
 
     private CinemachineBrain _cinemachineBrain;
-    private CinemachineVirtualCamera _cinemachineCam;
     private RaycastHit _closestHit;
     private Transform _lookAt;
     private Transform _cameraTransform;
@@ -72,13 +72,14 @@ public class CameraController : Singleton<CameraController>
     private void Awake()
     {
         InitializeSingleton();
-        _cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
-        SeparateCameraObject();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        _cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
+        SeparateCameraObject();
+
         SetCamera();
         DeactivateCamera();
         ActivateCamera();
@@ -127,7 +128,6 @@ public class CameraController : Singleton<CameraController>
 
     private void SetCamera()
     {
-        _cinemachineCam = _cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         _lookAt = _cinemachineCam.gameObject.transform.parent;
 
         _defaultPos = new Vector3(_lookAt.position.x, _lookAt.position.y, _lookAt.position.z);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ public class Human : DummyNPC
     public RagdollSwitch RagdollSwitch {
         get { return _ragdollSwitch;}
     }
+
+    public static event Action DeathEvent;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -107,5 +111,7 @@ public class Human : DummyNPC
         _ragdollSwitch.TurnOnRagdoll();
 
         entityLOS.enabled = false;
+
+        DeathEvent.Invoke();
     }
 }
