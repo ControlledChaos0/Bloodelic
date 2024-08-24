@@ -58,7 +58,7 @@ public class TurnDisplay : MonoBehaviour
         }
         
         // Update 
-        UpdateDebugText(entityTurnPanels[currentIdx].entityName);
+        //UpdateDebugText(entityTurnPanels[currentIdx].entityName);
     }
 
     public void UpdateEndTurnButton(bool isActive)

@@ -20,6 +20,7 @@ public class WorldUI : MonoBehaviour
     private RectTransform m_OptionsTransform;
     private BoxCollider m_CanvasCollider;
     private Selectable m_Selectable;
+    private bool m_AddButton;
     public GameObject Button {
         get => _button;
     }
@@ -72,12 +73,6 @@ public class WorldUI : MonoBehaviour
         transform.position = parentPos + curPos;
     }
 
-    public void PresentWorldUI(GameObject gameObject)
-    {
-        gameObject.SetActive(true);
-        transform.position = gameObject.transform.position + new Vector3(0, 2f, 0);
-    }
-
     public bool CheckIfUIObject(GameObject gameObject) {
         if (gameObject == null) {
             return false;
@@ -93,28 +88,39 @@ public class WorldUI : MonoBehaviour
     }
 
     public void AddButtons(List<Behavior> behaviors) {
-        foreach (Behavior behavior in behaviors) {
+        if (m_AddButton)
+        {
+            return;
+        }
+
+        foreach (Behavior behavior in behaviors) 
+        {
             if (behavior == null) {
                 continue;
             }
 
-            GameObject buttonRealObj = Instantiate(_button, m_OptionsTransform);
+            WorldUIButtonPool buttonPool = WorldUIButtonPool.Instance;
+            GameObject buttonRealObj = buttonPool.GetButton();
+            buttonRealObj.transform.SetParent(m_OptionsTransform);
+            buttonRealObj.transform.localScale = Vector3.one;
+            buttonRealObj.transform.localRotation = Quaternion.identity;
+            buttonRealObj.transform.localPosition = Vector3.zero;
             buttonRealObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(behavior.Name);
             Button button = buttonRealObj.GetComponent<Button>();
             behavior.BehaviorButton = button;
             button.onClick.AddListener(behavior.StartBehaviorAction);
         }
+
+        m_AddButton = true;
     }
 
-    // public void DestroyButtons(List<Behavior> behaviors) {
-    //     if (behaviors == null) {
-    //         return;
-    //     }
-    //     foreach (Behavior behavior in behaviors) {
-    //         Button button = behavior.BehaviorButton;
-    //         if (button != null) {
-    //             Destroy(button.gameObject);
-    //         }
-    //     }
-    // }
+    public void RemoveButtons() {
+        for (int i = m_OptionsTransform.transform.childCount - 1; i >= 0 ; i-- )
+        {
+            Button button = m_OptionsTransform.transform.GetChild(i).gameObject.GetComponent<Button>(); 
+            button.onClick.RemoveAllListeners();
+            WorldUIButtonPool.Instance.ResetButton(m_OptionsTransform.transform.GetChild(i).gameObject);
+        }
+        m_AddButton = false;
+    }
 }

@@ -65,16 +65,25 @@ public class SearchSelectState : SelectState
             HoverClear();
             return;
         }
+        if (selectable.Equals(_hoveredSelectable))
+        {
+            return;
+        }
+
+        Debug.Log(gO);
         _hoveredObject = gO;
         _hoveredSelectable = selectable;
         _hoveredSelectable.HoverSelect();
 
+        _hoveredSelectable.UIScript.AddButtons(_hoveredSelectable.GetBehaviorController.Behaviors);
         _hoveredSelectable.UIObject.SetActive(true);
         _hoveredSelectable.GetBehaviorController.CheckValid();
     }
 
     private void HoverClear() {
-        if (_hoveredSelectable != null) {
+        if (_hoveredSelectable != null)
+        {
+            _hoveredSelectable.UIScript.RemoveButtons();
             _hoveredSelectable.UIObject.SetActive(false);
             _hoveredSelectable.HoverDeselect();
         }

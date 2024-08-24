@@ -91,8 +91,8 @@ public class Selectable : MonoBehaviour
         ChangeOutlineColor(DefaultOutlineColor);
     }
 
-    private void StartSubobjects() {
+    private void StartSubobjects()
+    {
         _behaviorController.InitializeBehaviors();
-        _uiScript.AddButtons(_behaviorController.Behaviors);
     }
 }
