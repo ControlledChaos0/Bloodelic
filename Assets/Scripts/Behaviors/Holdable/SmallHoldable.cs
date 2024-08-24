@@ -116,13 +116,16 @@ public class SmallHoldable : Behavior
             _track = false;
             _object.OccupiedCell.Unoccupy(_object);
             yield return PickUpCoroutine();
+            _isHeld = false;
             _track = true;
             Object.Selectable.ModelObject.SetActive(false);
             SelectStateMachine.Instance.EndRoutine(true);
         } else {
-            _track = false;;
-            Object.Selectable.ModelObject.SetActive(true);
+            _track = false;
             yield return PutDownCoroutine();
+            _track = true;
+            _isHeld = true;
+            Object.Selectable.ModelObject.SetActive(true);
             SelectStateMachine.Instance.EndRoutine(true);
         }
     }
