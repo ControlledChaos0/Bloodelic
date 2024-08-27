@@ -7,6 +7,7 @@ public class SmallHoldableState : BehaviorState {
     private SmallHoldable _smallHoldable;
     private SmallHoldableRoutine _smallHoldableRoutine;
     private GridCell[] _neighbors;
+    private GridCell _selectedCell;
     private bool _startHeld;
 
     public override void EnterState()
@@ -33,13 +34,18 @@ public class SmallHoldableState : BehaviorState {
         }
     }
     private void ActivatePutDown() {
+        GridManager.Instance.Activate();
         _neighbors = _smallHoldable.HeldEntity.OccupiedCell.Neighbors;
         foreach (GridCell gridCell in _neighbors) {
             gridCell.ShowCell();
         }
+        _smallHoldableRoutine.TempIsHeld = true;
+        _smallHoldableRoutine.TempHeldEntity = TurnSystem.Instance.ActiveEntity;
+        GridManager.Instance.HoverAction -= ShowCell;
+        GridManager.Instance.ClickAction -= ChooseCell;
     }
     private void ActivatePickUp() {
-        _smallHoldableRoutine.TempIsHeld = true;
+        _smallHoldableRoutine.TempIsHeld = false;
         _smallHoldableRoutine.TempHeldEntity = TurnSystem.Instance.ActiveEntity;
         _smallHoldable.ExecuteBehavior();
     }
@@ -55,8 +61,21 @@ public class SmallHoldableState : BehaviorState {
             gridCell.HideCell();
         }
         _neighbors = null;
+        GridManager.Instance.Deactivate();
+        GridManager.Instance.HoverAction -= ShowCell;
+        GridManager.Instance.ClickAction -= ChooseCell;
     }
     private void DeactivatePickUp() {
+
+    }
+
+    private void ShowCell(GridCell cell)
+    {
+        
+    }
+
+    private void ChooseCell(GridCell cell)
+    {
 
     }
 }

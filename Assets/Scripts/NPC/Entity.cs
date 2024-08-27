@@ -160,8 +160,8 @@ public abstract class Entity : Occupant
                     currSpline.Evaluate(t / moveTime, out pos, out tangent, out upward);
                 }
                 transform.position = (Vector3)pos + pathStartPos;
-                transform.up = upward;
-                transform.forward = tangent;
+                Quaternion rotation = Quaternion.LookRotation(tangent, upward);
+                transform.rotation = rotation;
                 t += Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
             }
