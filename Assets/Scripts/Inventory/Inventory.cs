@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
         get => _inventorySlots;
     }
     public bool IsFull {
-        get => _inventorySlots.Count < _maxSmallSlots;
+        get => _inventorySlots.Count == _maxSmallSlots;
     }
 
 
@@ -30,21 +30,47 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void addItemToInventory(SmallHoldableObject newObject)
+    public void AddItemToInventory(SmallHoldableObject newObject)
     {
-        if (_inventorySlots.Count >= _maxSmallSlots) {
+        if (IsFull) {
             Debug.Log("DON'T ADD, INVENTORY FULL");
             return;
         }
 
         GameObject slot = Instantiate(_uiSlotPrefab, _smallSlots.transform);
         InventorySlot iSlot = slot.GetComponent<InventorySlot>();
+        _inventorySlots.Add(iSlot);
         
         iSlot.SetObject(newObject);
     }
 
+    public void RemoveItemFromInventory(SmallHoldableObject newObject) 
+    {
+        if (_inventorySlots.Count == 0)
+        {
+            Debug.Log("DON'T REMOVE, INVENTORY EMPTY");
+            return;
+        }
+
+        if (!newObject)
+        {
+            return;
+        }
+
+        foreach (InventorySlot slot in _inventorySlots)
+        {
+            if (slot.GetObject().Equals(newObject))
+            {
+                _inventorySlots.Remove(slot);
+                Destroy(slot.gameObject);
+                return;
+            }
+        }
+
+    }
+
     private void OnEnable()
     {
-        SmallHoldableObject.pickedUp += addItemToInventory;
+        SmallHoldableObject.pickedUp += AddItemToInventory;
     }
 }

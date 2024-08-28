@@ -26,8 +26,10 @@ public class SmallHoldable : Behavior
 
     private bool _track;
     private Entity _heldEntity;
+    private GridCell _placedCell;
     private Vector3 _objPos;
     private Vector3 _objDir;
+    private Vector3 _targetPos;
 
     public bool IsHeld {
         get => _isHeld;
@@ -36,6 +38,12 @@ public class SmallHoldable : Behavior
     public Entity HeldEntity {
         get => _heldEntity;
         set => _heldEntity = value;
+    }
+
+    public GridCell PlacedCell
+    {
+        get => _placedCell;
+        set => _placedCell = value;
     }
 
     /**
@@ -106,7 +114,8 @@ public class SmallHoldable : Behavior
 
         behaviorRoutine.ExecuteBehaviorRoutine();
         _objPos = _object.transform.position;
-        _objDir = (_heldEntity.transform.position - _objPos).normalized;
+        _targetPos = !_isHeld ? _heldEntity.transform.position : _placedCell.transform.position;
+        _objDir = (_targetPos - _objPos).normalized;
         StartCoroutine(ExecuteBehaviorCoroutine());
     }
     public override IEnumerator ExecuteBehaviorCoroutine()
@@ -122,25 +131,29 @@ public class SmallHoldable : Behavior
             SelectStateMachine.Instance.EndRoutine(true);
         } else {
             _track = false;
+            _object.enabled = true;
             Object.Selectable.ModelObject.SetActive(true);
+            _placedCell.SetOccupant(_object);
             yield return PutDownCoroutine();
-            _track = true;
+            _object.transform.position = _targetPos;
             _isHeld = false;
             SelectStateMachine.Instance.EndRoutine(true);
         }
     }
 
     private IEnumerator PickUpCoroutine() {
-        while (Vector3.Dot(_objDir, (_heldEntity.transform.position - _object.transform.position).normalized) > 0) {
+        while (Vector3.Dot(_objDir, (_targetPos - _object.transform.position).normalized) > 0) {
             _object.transform.position += _objDir * _pickUpSpeed * Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-        (_heldEntity as Monster).Inventory.addItemToInventory(_object);
+        (_heldEntity as Monster).Inventory.AddItemToInventory(_object);
     }
     private IEnumerator PutDownCoroutine() {
-        //if () {
+        (_heldEntity as Monster).Inventory.RemoveItemFromInventory(_object);
+        while (Vector3.Dot(_objDir, (_targetPos - _object.transform.position).normalized) > 0)
+        {
+            _object.transform.position += _objDir * _pickUpSpeed * Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
-        //}
-        _object.enabled = true;
+        }
     }
 }
